@@ -1096,12 +1096,14 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
                                                  name:@"dropboxLinked"
                                                object:nil];
 
-    [DBClientsManager
-        authorizeFromController:[UIApplication sharedApplication]
-                     controller:self
-                        openURL:^(NSURL *url) {
-                          [[UIApplication sharedApplication] openURL:url];
-                        }];
+    [DBClientsManager authorizeFromController:[UIApplication sharedApplication]
+                                   controller:self
+                                      openURL:^(NSURL *url) {
+                                        [[UIApplication sharedApplication]
+                                                      openURL:url
+                                                      options:@{}
+                                            completionHandler:nil];
+                                      }];
   } else {
     DropboxFolderController *dfc =
         [[DropboxFolderController alloc] initWithStyle:UITableViewStyleGrouped];

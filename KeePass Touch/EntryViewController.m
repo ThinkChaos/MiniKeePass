@@ -1044,7 +1044,9 @@ enum {
     [self.navigationController pushViewController:webViewController
                                          animated:YES];
   } else {
-    [[UIApplication sharedApplication] openURL:url];
+    [[UIApplication sharedApplication] openURL:url
+                                       options:@{}
+                             completionHandler:nil];
   }
 }
 
