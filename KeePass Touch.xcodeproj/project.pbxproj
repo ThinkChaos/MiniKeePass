@@ -1358,10 +1358,9 @@
 			};
 			buildConfigurationList = 689DFFCF13A4273F005EBD36 /* Build configuration list for PBXProject "KeePass Touch" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				ja,
 				de,
