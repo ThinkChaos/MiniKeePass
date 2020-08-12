@@ -12,7 +12,7 @@ def main_pods
   # use_frameworks!
   
   # Pods for KeePass Touch
-  pod 'ObjectiveDropboxOfficial'
+  pod 'ObjectiveDropboxOfficial', '~> 3.3.5'
   pod 'TWMessageBarManager'
   
   pod 'GCDWebServer', '~> 3.0'

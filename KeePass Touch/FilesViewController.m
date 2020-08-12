@@ -1170,8 +1170,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
           autorename:@(YES)
       clientModified:nil
                 mute:@(NO)
-      propertyGroups:nil
-      strictConflict:nil
             inputUrl:[[KeePassTouchAppDelegate documentsDirectory]
                          stringByAppendingPathComponent:localFileName]]
       setResponseBlock:^(DBFILESFileMetadata *_Nullable result,

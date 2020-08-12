@@ -643,7 +643,6 @@
 		B6A036A3FDD3AEF3D6CC2C73 /* Pods-KeePass Touch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch.debug.xcconfig"; path = "Target Support Files/Pods-KeePass Touch/Pods-KeePass Touch.debug.xcconfig"; sourceTree = "<group>"; };
 		B934E86493ED6B5F24875737 /* Pods-KeePass Touch Autofill.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch Autofill.release.xcconfig"; path = "Target Support Files/Pods-KeePass Touch Autofill/Pods-KeePass Touch Autofill.release.xcconfig"; sourceTree = "<group>"; };
 		BDB0FF5F194C7C6F00C44DEF /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F92C49943434A3A41C012446 /* Pods-KeePass Touch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch.release.xcconfig"; path = "Target Support Files/Pods-KeePass Touch/Pods-KeePass Touch.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1466,8 +1465,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-KeePass Touch/Pods-KeePass Touch-resources.sh",
 				"${PODS_ROOT}/GCDWebServer/GCDWebUploader/GCDWebUploader.bundle",
@@ -1479,8 +1476,6 @@
 				"${PODS_ROOT}/TWMessageBarManager/Classes/Icons/icon-success@2x.png",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GCDWebUploader.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/icon-error.png",

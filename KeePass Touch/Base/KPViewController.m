@@ -59,7 +59,7 @@
         hud.label.numberOfLines = 0;
         hud.bezelView.color = [UIColor colorWithRed:27/255.0 green:27/255.0 blue:28/255.0 alpha:1];
         hud.label.textColor = [UIColor whiteColor];
-        hud.activityIndicatorColor = [UIColor whiteColor];
+        [UIActivityIndicatorView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]].color = [UIColor whiteColor];
     }
     else
         if(subtitle != nil)
