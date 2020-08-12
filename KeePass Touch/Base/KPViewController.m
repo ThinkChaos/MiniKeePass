@@ -68,8 +68,8 @@
     hud.square = YES;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view addSubview:hud];
-        [hud showAnimated:YES];
+        [self.view addSubview:self.hud];
+        [self.hud showAnimated:YES];
     });
 }
 
@@ -89,9 +89,9 @@
     hud.square = YES;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view addSubview:hud];
-        [hud showAnimated:YES];
-        [hud hideAnimated:YES afterDelay:seconds];
+        [self.view addSubview:self.hud];
+        [self.hud showAnimated:YES];
+        [self.hud hideAnimated:YES afterDelay:seconds];
     });
     
 }
@@ -99,9 +99,9 @@
 -(void)removeLoadingAnimation
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [hud showAnimated:NO];
-        [hud removeFromSuperview];
-        hud = nil;
+        [self.hud showAnimated:NO];
+        [self.hud removeFromSuperview];
+        self.hud = nil;
     });
 }
 

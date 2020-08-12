@@ -49,7 +49,7 @@
                 if ([entry isKindOfClass:[DBFILESFileMetadata class]]) {
                     DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)entry;
                     if([fileMetadata.name hasSuffix:@"kdb"] || [fileMetadata.name hasSuffix:@"kdbx"])
-                        _kpFiles = [_kpFiles arrayByAddingObject:fileMetadata];
+                        self->_kpFiles = [self->_kpFiles arrayByAddingObject:fileMetadata];
                 }
             }
             
@@ -84,7 +84,7 @@
                  if ([entry isKindOfClass:[DBFILESFileMetadata class]]) {
                      DBFILESFileMetadata *fileMetadata = (DBFILESFileMetadata *)entry;
                      if([fileMetadata.name hasSuffix:@"kdb"] || [fileMetadata.name hasSuffix:@"kdbx"])
-                        _kpFiles = [_kpFiles arrayByAddingObject:fileMetadata];
+                         self->_kpFiles = [self->_kpFiles arrayByAddingObject:fileMetadata];
                      
                      if (hasMore) {
                          NSLog(@"Folder is large enough where we need to call `listFolderContinue:`");

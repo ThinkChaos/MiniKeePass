@@ -148,7 +148,7 @@ enum {
     
     if([SKPaymentQueue canMakePayments]){
         [[RMStore defaultStore] requestProducts:[NSSet setWithObject:kRemoveAdsProductIdentifier] success:^(NSArray *products, NSArray *invalidProductIdentifiers) {
-            _product = products.firstObject;
+            self->_product = products.firstObject;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SECTION_PURCHASE] withRowAnimation:UITableViewRowAnimationNone];
             });
@@ -726,11 +726,11 @@ enum {
             NSString *localizedBiometryText = NSLocalizedString(@"Deactivating biometry requires you to remember your master password to your database. Please make sure you do before you continue.", nil);
             UIAlertController *alertCon = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Warning", nil) message:localizedBiometryText preferredStyle:UIAlertControllerStyleAlert];
             [alertCon addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Deactivate", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                [appSettings setTouchIDEnabled:biometryEnabledCell.switchControl.on];
+                [self->appSettings setTouchIDEnabled:self->biometryEnabledCell.switchControl.on];
                 [self updateEnabledControls];
             }]];
             [alertCon addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                [biometryEnabledCell.switchControl setOn:YES];
+                [self->biometryEnabledCell.switchControl setOn:YES];
             }]];
             [self presentViewController:alertCon animated:YES completion:nil];
             return;

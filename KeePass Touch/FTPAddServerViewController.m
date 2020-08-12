@@ -132,10 +132,10 @@
         [KeychainUtils setString:fullHost
                           forKey:KPT_FTP_KEY_HOST
                   andServiceName:KPT_FTP_SERVICE];
-        [KeychainUtils setString:_username.text
+        [KeychainUtils setString:self->_username.text
                           forKey:KPT_FTP_KEY_USER
                   andServiceName:KPT_FTP_SERVICE];
-        [KeychainUtils setString:_password.text
+        [KeychainUtils setString:self->_password.text
                           forKey:KPT_FTP_KEY_PASSWD
                   andServiceName:KPT_FTP_SERVICE];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -143,8 +143,8 @@
 
           [self dismissViewControllerAnimated:YES
                                    completion:^{
-                                     if (_doneCompletion)
-                                       _doneCompletion();
+                                     if (self->_doneCompletion)
+                                       self->_doneCompletion();
                                    }];
         });
       }
