@@ -36,8 +36,8 @@
 
 enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 
-@interface FilesViewController () <
-    DropboxManagerDelegate, UIDocumentMenuDelegate, UIDocumentPickerDelegate> {
+@interface FilesViewController () <DropboxManagerDelegate,
+                                   UIDocumentPickerDelegate> {
   unsigned long currentFile;
   unsigned long allFiles;
 
@@ -632,19 +632,19 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
       actionWithTitle:NSLocalizedString(@"Import", nil)
                 style:UIAlertActionStyleDefault
               handler:^(UIAlertAction *action) {
-                UIDocumentMenuViewController *documentMenuSelectCon =
-                    [[UIDocumentMenuViewController alloc]
+                UIDocumentPickerViewController *documentPickerViewCon =
+                    [[UIDocumentPickerViewController alloc]
                         initWithDocumentTypes:@[
                           @"com.kptouch.kdbx", @"com.kptouch.kdb",
                           @"com.kptouch.key", @"com.apple.keynote.key"
                         ]
                                        inMode:UIDocumentPickerModeImport];
-                documentMenuSelectCon.modalPresentationStyle =
+                documentPickerViewCon.modalPresentationStyle =
                     UIModalPresentationPopover;
-                documentMenuSelectCon.popoverPresentationController
-                    .barButtonItem = addButton;
-                documentMenuSelectCon.delegate = self;
-                [self presentViewController:documentMenuSelectCon
+                documentPickerViewCon.popoverPresentationController
+                    .barButtonItem = self->addButton;
+                documentPickerViewCon.delegate = self;
+                [self presentViewController:documentPickerViewCon
                                    animated:YES
                                  completion:nil];
               }];
@@ -662,30 +662,26 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 
 #pragma mark - New Document Picker
 
-- (void)documentMenu:(UIDocumentMenuViewController *)documentMenu
-    didPickDocumentPicker:(UIDocumentPickerViewController *)documentPicker {
-  documentPicker.delegate = self;
-  [self presentViewController:documentPicker animated:YES completion:nil];
-}
-
 - (void)documentPicker:(UIDocumentPickerViewController *)controller
-    didPickDocumentAtURL:(NSURL *)url {
+    didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSError *error;
-  NSString *localFilePath = [[KeePassTouchAppDelegate documentsDirectory]
-      stringByAppendingPathComponent:url.lastPathComponent];
-  if ([fileManager fileExistsAtPath:localFilePath]) {
-    [fileManager removeItemAtPath:localFilePath error:&error];
-    if (error) {
-      // remove file at path error
-      [self showErrorMessageOnHud:error.localizedDescription];
+  for (NSURL *url in urls) {
+    NSString *localFilePath = [[KeePassTouchAppDelegate documentsDirectory]
+        stringByAppendingPathComponent:url.lastPathComponent];
+    if ([fileManager fileExistsAtPath:localFilePath]) {
+      [fileManager removeItemAtPath:localFilePath error:&error];
+      if (error) {
+        // remove file at path error
+        [self showErrorMessageOnHud:error.localizedDescription];
+      }
     }
+    [fileManager copyItemAtPath:url.path toPath:localFilePath error:&error];
+    if (error) {
+      [self showErrorMessageOnHud:error.localizedDescription];
+    } else
+      [self reloadTableViewData];
   }
-  [fileManager copyItemAtPath:url.path toPath:localFilePath error:&error];
-  if (error) {
-    [self showErrorMessageOnHud:error.localizedDescription];
-  } else
-    [self reloadTableViewData];
 }
 
 - (void)helpPressed {
