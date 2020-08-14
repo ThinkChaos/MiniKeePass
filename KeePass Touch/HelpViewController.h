@@ -16,10 +16,10 @@
  */
 
 #import <MessageUI/MessageUI.h>
-#import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 @interface HelpViewController
-    : UITableViewController <UIWebViewDelegate,
+    : UITableViewController <WKNavigationDelegate,
                              MFMailComposeViewControllerDelegate> {
 }
 

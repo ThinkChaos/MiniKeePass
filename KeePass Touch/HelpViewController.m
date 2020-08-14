@@ -199,9 +199,9 @@
     NSURL *url = [NSURL fileURLWithPath:path];
 
     // Create a web view to display the help page
-    UIWebView *webView = [[UIWebView alloc] init];
+    WKWebView *webView = [[WKWebView alloc] init];
     webView.backgroundColor = [UIColor whiteColor];
-    webView.delegate = self;
+    webView.navigationDelegate = self;
     [webView loadRequest:[NSURLRequest requestWithURL:url]];
 
     UIViewController *viewController = [[UIViewController alloc] init];
@@ -219,10 +219,16 @@
   [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (BOOL)webView:(UIWebView *)webView
-    shouldStartLoadWithRequest:(NSURLRequest *)request
-                navigationType:(UIWebViewNavigationType)navigationType {
-  if ([[[request URL] scheme] isEqual:@"mailto"]) {
+#pragma mark - WKNavigationDelegate
+- (void)webView:(WKWebView *)webView
+    decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+                    decisionHandler:
+                        (void (^)(WKNavigationActionPolicy))decisionHandler {
+  WKNavigationActionPolicy decision = WKNavigationActionPolicyAllow;
+
+  if ([[[[navigationAction request] URL] scheme] isEqual:@"mailto"]) {
+    decision = WKNavigationActionPolicyCancel;
+
     if ([MFMailComposeViewController canSendMail]) {
       MFMailComposeViewController *mcvc =
           [[MFMailComposeViewController alloc] init];
@@ -234,10 +240,9 @@
                                               animated:YES
                                             completion:nil];
     }
-
-    return NO;
   }
-  return YES;
+
+  decisionHandler(decision);
 }
 
 @end

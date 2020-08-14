@@ -19,12 +19,13 @@
 #import "Kdb.h"
 
 #import "UIView+Layout.h"
+#import <WebKit/WebKit.h>
 
 #import "KeePassTouchAppDelegate.h"
 
 @protocol MKPWebViewDelegate;
 
-@interface MKPWebView : UIWebView
+@interface MKPWebView : WKWebView
 @property(nonatomic, assign) id<MKPWebViewDelegate> mkpDelegate;
 @end
 
@@ -67,7 +68,7 @@
 
 @end
 
-@interface WebViewController () <UIWebViewDelegate, UITextFieldDelegate,
+@interface WebViewController () <WKNavigationDelegate, UITextFieldDelegate,
                                  MKPWebViewDelegate>
 @property(nonatomic, strong) UITextField *urlTextField;
 @property(nonatomic, assign) CGRect originalUrlFrame;
@@ -123,8 +124,7 @@
   self.webView.autoresizingMask =
       UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
   self.webView.backgroundColor = [UIColor whiteColor];
-  self.webView.scalesPageToFit = YES;
-  self.webView.delegate = self;
+  self.webView.navigationDelegate = self;
   self.webView.mkpDelegate = self;
   [self.view addSubview:self.webView];
 
@@ -317,7 +317,9 @@
 }
 
 - (void)openInPressed {
-  [[UIApplication sharedApplication] openURL:self.webView.request.URL];
+  [[UIApplication sharedApplication] openURL:self.webView.URL
+                                     options:@{}
+                           completionHandler:nil];
 }
 
 - (void)autotypeString:(NSString *)string {
@@ -332,7 +334,7 @@
       [NSString stringWithFormat:@"if (document.activeElement) { "
                                  @"document.activeElement.value = '%@'; }",
                                  escapedString];
-  [self.webView stringByEvaluatingJavaScriptFromString:script];
+  [self.webView evaluateJavaScript:script completionHandler:nil];
 }
 
 - (void)autotypePressed:(UISegmentedControl *)segmentedControl {
@@ -358,25 +360,29 @@
   [self autotypeString:self.entry.password];
 }
 
-#pragma mark - WebView delegate methods
+#pragma mark - WKNavigationDelegate delegate methods
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
+- (void)webView:(WKWebView *)webView
+    didStartProvisionalNavigation:(WKNavigation *)navigation {
   [self updateButtons];
 
   // Start the network activity indicator
   [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
+- (void)webView:(WKWebView *)webView
+    didFinishNavigation:(WKNavigation *)navigation {
   [self updateButtons];
 
   // Stop the network activity indicator
   [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 
-  self.urlTextField.text = [webView.request.URL absoluteString];
+  self.urlTextField.text = [webView.URL absoluteString];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+- (void)webView:(WKWebView *)webView
+    didFailNavigation:(WKNavigation *)navigation
+            withError:(NSError *)error {
   [self updateButtons];
 
   // Stop the network activity indicator
