@@ -69,8 +69,7 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
   if (self) {
     _group = group;
 
-    BOOL purchased = [AppSettings sharedInstance].purchased;
-    if (purchased && _group.parent == nil) {
+    if (_group.parent == nil) {
       dispatch_async(
           dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
           ^(void) {

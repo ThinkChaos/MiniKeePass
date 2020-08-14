@@ -20,8 +20,6 @@ def main_pods
   
   pod 'FTPKit', :git => 'https://github.com/aljlue/FTPKit.git'
   
-  pod 'Google-Mobile-Ads-SDK', '~> 7.31.0'
-  
   pod 'RMStore', '~> 0.7'
 end
 

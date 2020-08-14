@@ -41,7 +41,6 @@
 #define WEB_BROWSER_INTEGRATED      @"webBrowserIntegrated"
 #define PW_GEN_LENGTH               @"pwGenLength"
 #define PW_GEN_CHAR_SETS            @"pwGenCharSets"
-#define PURCHASED_KEY               @"adsRemoved"
 
 @interface AppSettings () {
     NSUserDefaults *userDefaults;
@@ -315,21 +314,6 @@ static AppSettings *sharedInstance;
 
 - (void)setAutoSyncEnabled:(BOOL)autoSyncEnabled {
     [userDefaults setBool:autoSyncEnabled forKey:DROPBOX_AUTOSYNC];
-}
-
-- (BOOL)purchased {
-#ifdef DEBUG
-    return NO;
-#endif
-    BOOL purchased = [[NSUserDefaults standardUserDefaults] boolForKey:PURCHASED_KEY];
-    BOOL groupPurchased = [[[NSUserDefaults alloc] initWithSuiteName:@"group.keepass-touch"] boolForKey:PURCHASED_KEY];
-    return purchased ||  groupPurchased;
-}
-
-- (void)setPurchased:(BOOL)purchased {
-    [[NSUserDefaults standardUserDefaults] setBool:purchased forKey:PURCHASED_KEY];
-    [[[NSUserDefaults alloc] initWithSuiteName:@"group.keepass-touch"] setBool:purchased forKey:PURCHASED_KEY];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

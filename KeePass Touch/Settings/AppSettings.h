@@ -85,6 +85,5 @@
 - (void)setPwGenCharSets:(NSInteger)pwGenCharSets;
 
 @property (nonatomic) BOOL autoSyncEnabled;
-@property (nonatomic) BOOL purchased;
 
 @end

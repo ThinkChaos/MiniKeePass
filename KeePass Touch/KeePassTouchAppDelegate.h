@@ -18,19 +18,13 @@
 #import "DatabaseDocument.h"
 #import "FilesViewController.h"
 #import <UIKit/UIKit.h>
-@import GoogleMobileAds;
 
 @interface KeePassTouchAppDelegate
-    : NSObject <UIApplicationDelegate, GADBannerViewDelegate,
-                UINavigationControllerDelegate>
+    : NSObject <UIApplicationDelegate, UINavigationControllerDelegate>
 
 @property(nonatomic, strong) UIWindow *window;
 @property(nonatomic, strong) DatabaseDocument *databaseDocument;
 @property(nonatomic, assign) BOOL locked;
-
-@property(nonatomic, assign) BOOL bannerIsVisible;
-@property(nonatomic, strong) GADBannerView *bannerView;
-@property(nonatomic, strong) UIView *currentAd;
 
 @property(nonatomic, strong) UINavigationController *navigationController;
 @property(nonatomic, strong) FilesViewController *filesViewController;
@@ -45,7 +39,5 @@
 - (void)showSettingsView;
 - (void)dismissSettingsView;
 - (UINavigationController *)currentNavigationController;
-
-- (void)clearAds;
 
 @end

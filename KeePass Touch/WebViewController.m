@@ -172,20 +172,6 @@
 
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
-  KeePassTouchAppDelegate *appDelegate =
-      (KeePassTouchAppDelegate *)[UIApplication sharedApplication].delegate;
-  if (appDelegate.currentAd != nil) {
-    CGFloat bottom = 50.0f;
-    if (@available(iOS 11.0, *)) {
-      UIEdgeInsets insets = self.view.safeAreaInsets;
-      bottom += insets.bottom;
-    } else {
-      // Fallback on earlier versions
-    }
-    self.webView.height = self.view.height - bottom;
-    appDelegate.currentAd.yOrigin = self.view.height - bottom;
-    appDelegate.currentAd.width = self.view.width;
-  }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

@@ -29,30 +29,6 @@
 #import "KeePassTouchAppDelegate.h"
 #import "KeychainUtils.h"
 #import "KPBiometrics.h"
-// Purchase
-#import "RMStore.h"
-#import <StoreKit/StoreKit.h>
-
-#define kRemoveAdsProductIdentifier @"KeePassTouch.RemoveAds"
-
-@interface SKProduct (priceAsString)
-@property (nonatomic, readonly) NSString *priceAsString;
-@end
-@implementation SKProduct (priceAsString)
-
-- (NSString *)priceAsString
-{
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-    [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-    [formatter setLocale:[self priceLocale]];
-    
-    NSString *str = [formatter stringFromNumber:[self price]];
-    
-    return [NSString stringWithFormat:@" (%@)", str];
-}
-
-@end
 
 enum {
     SECTION_TOUCHID,
@@ -66,7 +42,6 @@ enum {
     SECTION_CLEAR_CLIPBOARD,
     SECTION_WEB_BROWSER,
     SECTION_FTP,
-    SECTION_PURCHASE,
     SECTION_NUMBER
 };
 
@@ -114,7 +89,6 @@ enum {
 
 @interface SettingsViewController ()  <PinViewControllerDelegate, SelectionListViewControllerDelegate> {
     AppSettings *appSettings;
-    SKProduct *_product;
     
     SwitchCell *pinEnabledCell;
     SwitchCell *biometryEnabledCell;
@@ -145,19 +119,6 @@ enum {
     appSettings = [AppSettings sharedInstance];
 
     self.title = NSLocalizedString(@"Settings", nil);
-    
-    if([SKPaymentQueue canMakePayments]){
-        [[RMStore defaultStore] requestProducts:[NSSet setWithObject:kRemoveAdsProductIdentifier] success:^(NSArray *products, NSArray *invalidProductIdentifiers) {
-            self->_product = products.firstObject;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SECTION_PURCHASE] withRowAnimation:UITableViewRowAnimationNone];
-            });
-            
-        } failure:^(NSError *error) {
-            [self showAlertFromError:error];
-        }];
-    }
-    
     
     pinEnabledCell = [[SwitchCell alloc] initWithLabel:NSLocalizedString(@"PIN Enabled", nil)];
     [pinEnabledCell.switchControl addTarget:self
@@ -380,8 +341,6 @@ enum {
             return ROW_CLEAR_CLIPBOARD_NUMBER;
         case SECTION_FTP:
             return ROW_FTP_COUNT;
-        case SECTION_PURCHASE:
-            return _product ? ROW_PURCHASE_COUNT : 0;
     }
     return 0;
 }
@@ -418,8 +377,6 @@ enum {
             return @"FTP & Dropbox";
         case SECTION_TOUCHID:
             return biometryEnabledCell != nil ? [[KPBiometrics supportFaceID] ? @"Face ID & " : @"Touch ID & " stringByAppendingString:NSLocalizedString(@"Default Database", nil)] : NSLocalizedString(@"Default Database", nil);
-        case SECTION_PURCHASE:
-            return NSLocalizedString(@"In-App-Purchase", nil);
     }
     return nil;
 }
@@ -461,10 +418,6 @@ enum {
             
         case SECTION_WEB_BROWSER:
             return NSLocalizedString(@"Switch between an integrated web browser and Safari.", nil);
-            
-        case SECTION_PURCHASE:
-            return NSLocalizedString(@"Restore or buy AutoFill & the removal of ads. \nThat way you will support our cause to bring more features to KeePass Touch", nil);
-        
     }
     return nil;
 }
@@ -560,25 +513,6 @@ enum {
             }
         }
             break;
-        case SECTION_PURCHASE:
-        {
-            UITableViewCellStyle rowStyle = indexPath.row == ROW_PURCHASE_BUY ? UITableViewCellStyleSubtitle : UITableViewCellStyleDefault;
-            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:rowStyle reuseIdentifier:nil];
-            
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.text = indexPath.row == ROW_PURCHASE_BUY ? NSLocalizedString(@"Autofill & Remove Ads", nil) : NSLocalizedString(@"Restore Purchase", nil);
-            if(appSettings.purchased) {
-                cell.textLabel.textColor = cell.detailTextLabel.textColor = UIColor.lightGrayColor;
-                cell.detailTextLabel.text = NSLocalizedString(@"(Purchased)", nil);
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            else {
-                cell.detailTextLabel.textColor = UIColor.grayColor;
-                cell.detailTextLabel.text = _product.priceAsString;
-            }
-            return cell;
-        }
-            break;
     }
     
     return nil;
@@ -630,55 +564,6 @@ enum {
         [hud hideAnimated:YES afterDelay:1.5f];
         
         
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
-    else if(indexPath.section == SECTION_PURCHASE) {
-        switch (indexPath.row) {
-            case ROW_PURCHASE_BUY:
-            {
-                [[RMStore defaultStore] addPayment:kRemoveAdsProductIdentifier success:^(SKPaymentTransaction *transaction) {
-                    if(transaction.transactionState == SKPaymentTransactionStateRestored ||
-                       transaction.transactionState == SKPaymentTransactionStatePurchased)
-                    {
-                        [[KeePassTouchAppDelegate appDelegate] clearAds];
-                    }
-                } failure:^(SKPaymentTransaction *transaction, NSError *error) {
-                    if(error != nil)
-                        [self showAlertWithTitle:NSLocalizedString(@"Error", nil) message:error.localizedDescription];
-                    else {
-                        if(transaction.transactionState == SKPaymentTransactionStateRestored ||
-                           transaction.transactionState == SKPaymentTransactionStatePurchased)
-                        {
-                            [[KeePassTouchAppDelegate appDelegate] clearAds];
-                        }
-                        else
-                            [self showAlertWithTitle:NSLocalizedString(@"Error", nil) message:@"Purchase failed for unknown reason"];
-                    }
-                }];
-            }
-                break;
-            case ROW_PURCHASE_RESTORE:
-            {
-                [[RMStore defaultStore] restoreTransactionsOnSuccess:^(NSArray *transactions){
-                    if(transactions.count == 0) {
-                        [self showAlertWithTitle:NSLocalizedString(@"Error", nil) message:NSLocalizedString(@"No restorable transactions found", nil)];
-                    }
-                    else {
-                        for (SKPaymentTransaction *transaction in transactions) {
-                            if(transaction.transactionState == SKPaymentTransactionStatePurchased ||
-                               transaction.transactionState == SKPaymentTransactionStateRestored) {
-                                [[KeePassTouchAppDelegate appDelegate] clearAds];
-                            }
-                        }
-                    }
-                } failure:^(NSError *error) {
-                    [self showAlertWithTitle:NSLocalizedString(@"Error", nil) message:error.localizedDescription];
-                }];
-            }
-                break;
-            default:
-                break;
-        }
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }

@@ -60,32 +60,6 @@
       initWithRootViewController:self.filesViewController];
   self.navigationController.toolbarHidden = NO;
 
-  if (!appSettings.purchased) {
-    self.navigationController.delegate = self;
-
-    // GAD Setup
-    [GADMobileAds
-        configureWithApplicationID:@"ca-app-pub-8840610438188927~1485403893"];
-    self.bannerView =
-        [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
-    self.bannerView.adUnitID = @"ca-app-pub-8840610438188927/4438870292";
-    self.bannerView.hidden = YES;
-    self.bannerView.rootViewController = self.navigationController;
-    self.bannerView.delegate = self;
-    GADRequest *request = [GADRequest request];
-    // Make the request for a test ad. Put in an identifier for
-    // the simulator as well as any devices you want to receive test ads.
-    // Initiate a generic request to load it with an ad.
-    [self.bannerView loadRequest:request];
-
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"LaunchOne"]) {
-      [DBClientsManager unlinkAndResetClients];
-    }
-  } else {
-    // set again, to get both values to be purchased = YES
-    appSettings.purchased = YES;
-  }
-
   BOOL willPerformMigration = [DBClientsManager
       checkAndPerformV1TokenMigration:^(
           BOOL shouldRetry, BOOL invalidAppKeyOrSecret,
@@ -124,8 +98,6 @@
   if (!willPerformMigration) {
     [DBClientsManager setupWithAppKey:APP_KEY];
   }
-
-  self.currentAd = nil;
 
   // Create the window
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -287,26 +259,6 @@
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                        NSUserDomainMask, YES);
   return [paths objectAtIndex:0];
-}
-
-- (void)clearAds {
-  self.bannerView.delegate = nil;
-  [self.bannerView removeFromSuperview];
-  self.bannerView = nil;
-  [self.currentAd removeFromSuperview];
-  self.currentAd = nil;
-
-  appSettings.purchased = YES;
-
-  if ([self.navigationController.topViewController
-          isKindOfClass:[UITableViewController class]]) {
-    UITableViewController *tvc =
-        (UITableViewController *)self.navigationController.topViewController;
-    tvc.tableView.tableFooterView = nil;
-    [tvc.tableView performSelector:@selector(reloadData)
-                        withObject:nil
-                        afterDelay:0.5f];
-  }
 }
 
 - (void)setDatabaseDocument:(DatabaseDocument *)newDatabaseDocument {
@@ -482,71 +434,11 @@
                                                      completion:nil];
 }
 
-#pragma mark - GADDelegate
-
-- (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
-  bannerView.hidden = NO;
-  if (self.currentAd == nil) {
-    self.currentAd = bannerView;
-  }
-  if ([self.navigationController.topViewController
-          isKindOfClass:[UITableViewController class]]) {
-    UITableViewController *tvc =
-        (UITableViewController *)self.navigationController.topViewController;
-    tvc.tableView.tableFooterView = self.currentAd;
-    [tvc.tableView performSelector:@selector(reloadData)
-                        withObject:nil
-                        afterDelay:2.0f];
-  }
-}
-
-- (void)adView:(GADBannerView *)bannerView
-    didFailToReceiveAdWithError:(GADRequestError *)error {
-  static int try
-    = 0;
-  self.currentAd = nil;
-  if (try < 5) {
-    GADRequest *request = [GADRequest request];
-    // Make the request for a test ad. Put in an identifier for
-    // the simulator as well as any devices you want to receive test ads.
-    // Initiate a generic request to load it with an ad.
-    [self.bannerView performSelector:@selector(loadRequest:)
-                          withObject:request
-                          afterDelay:30.0];
-  }
-  try
-    ++;
-}
-
 #pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController
        didShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
-  if (self.currentAd != nil) {
-    if ([viewController isKindOfClass:[UITableViewController class]]) {
-      UITableViewController *tvc = (UITableViewController *)viewController;
-      tvc.tableView.tableFooterView = nil;
-      tvc.tableView.tableFooterView = self.currentAd;
-      [tvc.tableView performSelector:@selector(reloadData)
-                          withObject:nil
-                          afterDelay:1.0f];
-    } else if ([viewController isKindOfClass:[WebViewController class]]) {
-      CGFloat bottom = 50.0f;
-      if (@available(iOS 11.0, *)) {
-        UIEdgeInsets insets = viewController.view.safeAreaInsets;
-        bottom = MAX(insets.bottom, 50);
-      } else {
-        // Fallback on earlier versions
-      }
-      self.currentAd.frame = CGRectMake(
-          0,
-          viewController.view.bounds.size.height -
-              self.navigationController.toolbar.frame.size.height - bottom,
-          viewController.view.bounds.size.width, 50);
-      [viewController.view addSubview:self.currentAd];
-    }
-  }
 }
 
 @end
