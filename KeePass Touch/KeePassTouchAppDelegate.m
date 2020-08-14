@@ -22,6 +22,7 @@
 #import "KeychainUtils.h"
 #import "LockScreenController.h"
 #import "SettingsViewController.h"
+#import "UIView+Layout.h"
 #import "WebViewController.h"
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
@@ -259,19 +260,21 @@
       // ignore, user cancelled manually
     } else if ([authResult isError]) {
 #warning self.filesviewcontroller showerror needed here (show AlertController) not showErrorMessage (TWMessageBar)
-      UIAlertView *errorAlert = [[UIAlertView alloc]
-              initWithTitle:NSLocalizedString(@"Error", nil)
-                    message:[NSString
-                                stringWithFormat:@"Dropbox Error: %@",
-                                                 authResult.errorDescription]
-                   delegate:nil
-          cancelButtonTitle:@"OK"
-          otherButtonTitles:nil];
-      [errorAlert show];
+      UIAlertController *errorAlert = [UIAlertController
+          alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                           message:[NSString
+                                       stringWithFormat:@"Dropbox Error: %@",
+                                                        authResult
+                                                            .errorDescription]
+                    preferredStyle:IS_IPAD ? UIAlertControllerStyleAlert
+                                           : UIAlertControllerStyleActionSheet];
+
+      [self.filesViewController presentViewController:errorAlert
+                                             animated:YES
+                                           completion:nil];
     }
     return YES;
   }
-
   return YES;
 }
 

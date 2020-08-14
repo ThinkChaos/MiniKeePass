@@ -63,12 +63,18 @@
   if (self.keyTextField.text.length == 0) {
     NSString *title = NSLocalizedString(@"Name cannot be empty", nil);
     NSString *ok = NSLocalizedString(@"OK", nil);
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:nil
-                                                   delegate:nil
-                                          cancelButtonTitle:ok
-                                          otherButtonTitles:nil];
-    [alert show];
+
+    UIAlertController *alert = [UIAlertController
+        alertControllerWithTitle:title
+                         message:nil
+                  preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *action =
+        [UIAlertAction actionWithTitle:ok
+                                 style:UIAlertActionStyleDefault
+                               handler:nil];
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
     return;
   }
 
