@@ -14,11 +14,6 @@ def main_pods
   # Pods for KeePass Touch
   pod 'ObjectiveDropboxOfficial', '~> 3.3.5'
   pod 'TWMessageBarManager'
-  
-  pod 'GCDWebServer', '~> 3.0'
-  pod 'GCDWebServer/WebUploader', '~> 3.0'
-  
-  pod 'RMStore', '~> 0.7'
 end
 
 target 'KeePass Touch' do

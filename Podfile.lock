@@ -30,11 +30,6 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/UserDefaults (~> 6.7)
     - PromisesObjC (~> 1.2)
-  - GCDWebServer (3.5.4):
-    - GCDWebServer/Core (= 3.5.4)
-  - GCDWebServer/Core (3.5.4)
-  - GCDWebServer/WebUploader (3.5.4):
-    - GCDWebServer/Core
   - GoogleAppMeasurement (6.7.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
     - GoogleUtilities/MethodSwizzler (~> 6.7)
@@ -70,20 +65,14 @@ PODS:
   - nanopb/encode (1.30905.0)
   - ObjectiveDropboxOfficial (3.3.5)
   - PromisesObjC (1.2.10)
-  - RMStore (0.7.1):
-    - RMStore/Core (= 0.7.1)
-  - RMStore/Core (0.7.1)
   - TWMessageBarManager (1.8.1)
 
 DEPENDENCIES:
   - Crashlytics
   - Fabric
   - Firebase/Core
-  - GCDWebServer (~> 3.0)
-  - GCDWebServer/WebUploader (~> 3.0)
   - MBProgressHUD
   - ObjectiveDropboxOfficial (~> 3.3.5)
-  - RMStore (~> 0.7)
   - TWMessageBarManager
 
 SPEC REPOS:
@@ -95,7 +84,6 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseInstallations
-    - GCDWebServer
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
@@ -103,7 +91,6 @@ SPEC REPOS:
     - nanopb
     - ObjectiveDropboxOfficial
     - PromisesObjC
-    - RMStore
     - TWMessageBarManager
 
 SPEC CHECKSUMS:
@@ -114,7 +101,6 @@ SPEC CHECKSUMS:
   FirebaseCore: 9a41e2de78fef10f63cee30ab10e2945266bc1fc
   FirebaseCoreDiagnostics: 7535fe695737f8c5b350584292a70b7f8ff0357b
   FirebaseInstallations: 45f9d44d3a8d6f780fa337ee8987dad87210fcbc
-  GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   GoogleAppMeasurement: 3def7652b1f5b5a576178dc332e2a36a260fbef6
   GoogleDataTransport: 672fb0ce96fe7f7f31d43672fca62ad2c9c86f7b
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
@@ -122,9 +108,8 @@ SPEC CHECKSUMS:
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   ObjectiveDropboxOfficial: f5f3b1099817ad319f3a72614b4d1cc082022d24
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
-  RMStore: 64ba13a9c040e3b7572765d169f77175cd3243e5
   TWMessageBarManager: fd84e7948ba7968a2b5d9454859135761214ec56
 
-PODFILE CHECKSUM: 41452a18ff3ec51d1aeba81442ce5eb388d0b9b5
+PODFILE CHECKSUM: 44798d68ae11477fa4505fcb9352a3bfb847d753
 
 COCOAPODS: 1.9.3

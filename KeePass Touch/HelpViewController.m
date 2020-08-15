@@ -64,8 +64,6 @@
       [HelpTopic helpTopicWithTitle:@"Create New Database"
                         andResource:@"createdb"],
       [HelpTopic helpTopicWithTitle:@"Key Files" andResource:@"keyfiles"],
-      [HelpTopic helpTopicWithTitle:@"WiFi / WLAN Local Syncing"
-                        andResource:@"wifi"],
       [HelpTopic helpTopicWithTitle:@"Touch ID / Face ID"
                         andResource:@"touchid"],
       [HelpTopic helpTopicWithTitle:@"Autofill" andResource:@"autofill"],

@@ -45,11 +45,9 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 
   FilesInfoView *filesInfoView;
   KeePassTouchAppDelegate *appDelegate;
-  GCDWebUploader *webUploader;
   UIBarButtonItem *syncButton;
   UIBarButtonItem *addButton;
   UILabel *footerLabel;
-  BOOL isUploading;
   BOOL initialOpen;
 }
 @end
@@ -123,12 +121,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
       initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                            target:nil
                            action:nil];
-  NSString *documentsDirectory = [KeePassTouchAppDelegate documentsDirectory];
-  webUploader =
-      [[GCDWebUploader alloc] initWithUploadDirectory:documentsDirectory];
-  webUploader.delegate = self;
-  webUploader.allowedFileExtensions =
-      [NSArray arrayWithObjects:@"kdbx", @"kdb", @"key", nil];
 
   self.toolbarItems =
       [NSArray arrayWithObjects:settingsButton, spacer, syncButton, spacer,
@@ -249,7 +241,7 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 
 #pragma mark - Other methods
 
-// Local, FTP Dropbox Syncing
+// Dropbox Syncing
 - (void)syncPressed {
   UIAlertController *alertCon = [UIAlertController
       alertControllerWithTitle:NSLocalizedString(@"Synchronisation", nil)
@@ -258,14 +250,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
                 preferredStyle:UIAlertControllerStyleActionSheet];
   alertCon.modalPresentationStyle = UIModalPresentationPopover;
   alertCon.popoverPresentationController.barButtonItem = syncButton;
-  UIAlertAction *firstAA =
-      [UIAlertAction actionWithTitle:@"Local Sync"
-                               style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction *action) {
-                               [self localPressed];
-                             }];
-  [firstAA setValue:[UIImage imageNamed:@"local"] forKey:@"image"];
-  [alertCon addAction:firstAA];
 
   UIAlertAction *dropboxAlertAction =
       [UIAlertAction actionWithTitle:@"Dropbox Sync"
@@ -283,43 +267,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
   [alertCon addAction:cancelAlertAction];
 
   [self presentViewController:alertCon animated:YES completion:nil];
-}
-
-- (void)localPressed {
-  if (isUploading) {
-    isUploading = NO;
-    [footerLabel removeFromSuperview];
-  }
-  if ([webUploader isRunning]) {
-    UIImage *newImage = [UIImage imageNamed:@"sync"];
-    [syncButton setImage:newImage];
-    [webUploader stop];
-    [footerLabel removeFromSuperview];
-  } else {
-    [webUploader start];
-    if (webUploader.serverURL == nil) {
-      UIAlertController *noWifiAlert = [UIAlertController
-          alertControllerWithTitle:NSLocalizedString(@"No WiFi Available", nil)
-                           message:NSLocalizedString(
-                                       @"Local Syncing needs WiFi to work", nil)
-                    preferredStyle:UIAlertControllerStyleAlert];
-      UIAlertAction *okAction =
-          [UIAlertAction actionWithTitle:@"OK"
-                                   style:UIAlertActionStyleCancel
-                                 handler:^(UIAlertAction *_Nonnull action) {
-                                   [self->webUploader stop];
-                                 }];
-      [noWifiAlert addAction:okAction];
-      [self presentViewController:noWifiAlert animated:YES completion:nil];
-    } else {
-      UIImage *newImage = [UIImage imageNamed:@"sync_selected"];
-      [syncButton setImage:[newImage imageWithRenderingMode:
-                                         UIImageRenderingModeAlwaysOriginal]];
-      [self.view addSubview:footerLabel];
-      footerLabel.text = [@"Local Syncing enabled: \n Connect via "
-          stringByAppendingString:[webUploader.serverURL absoluteString]];
-    }
-  }
 }
 
 - (void)displayInfoPage {
@@ -700,31 +647,7 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 }
 
 - (void)showSettingsView {
-  if ([webUploader isRunning]) {
-    UIImage *newImage = [UIImage imageNamed:@"sync"];
-    [syncButton setImage:newImage];
-    [webUploader stop];
-    [footerLabel removeFromSuperview];
-  }
   [appDelegate showSettingsView];
-}
-
-#pragma mark - GCDWebUploaderDelegate
-
-- (void)webUploader:(GCDWebUploader *)uploader
-    didUploadFileAtPath:(NSString *)path {
-  [self reloadTableViewData];
-}
-
-- (void)webUploader:(GCDWebUploader *)uploader
-    didMoveItemFromPath:(NSString *)fromPath
-                 toPath:(NSString *)toPath {
-  [self reloadTableViewData];
-}
-
-- (void)webUploader:(GCDWebUploader *)uploader
-    didDeleteItemAtPath:(NSString *)path {
-  [self reloadTableViewData];
 }
 
 - (void)reloadTableViewData {
@@ -846,16 +769,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (isUploading) {
-    return;
-  }
-  if ([webUploader isRunning]) {
-    UIImage *newImage = [UIImage imageNamed:@"sync"];
-    [syncButton setImage:newImage];
-    [webUploader stop];
-    [footerLabel removeFromSuperview];
-  }
-
   switch (indexPath.section) {
     // Database file section
   case SECTION_DATABASE:

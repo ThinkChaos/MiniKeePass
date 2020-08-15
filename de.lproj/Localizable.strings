@@ -131,8 +131,6 @@
 // Settings Page
 "Settings" = "Einstellungen";
 "PIN Enabled" = "PIN aktiviert";
-"LocalOverwrite Enabled" = "Dateien überschreiben";
-"Automatically overwrite database on local sync if file already exists" = "Überschreibt die Datenbank, sollte diese bereits auf dem Gerät vorhanden sein";
 "Lock Timeout" = "Sperrzeit";
 "Immediately" = "Sofort";
 "30 Seconds" = "30 Sekunden";

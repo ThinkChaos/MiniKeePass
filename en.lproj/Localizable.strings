@@ -126,8 +126,6 @@
 // Settings Page
 "Settings" = "Settings";
 "PIN Enabled" = "PIN Enabled";
-"LocalOverwrite Enabled" = "Enable overwrite";
-"Automatically overwrite database on local sync if file already exists" = "Automatically overwrite database on local sync if file already exists";
 "Lock Timeout" = "Lock Timeout";
 "Immediately" = "Immediately";
 "30 Seconds" = "30 Seconds";

@@ -26,8 +26,7 @@
 @class KeePassTouchAppDelegate;
 
 @interface FilesViewController
-    : UITableViewController <GCDWebUploaderDelegate,
-                             UIPopoverPresentationControllerDelegate>
+    : UITableViewController <UIPopoverPresentationControllerDelegate>
 
 - (void)updateFiles;
 - (void)reloadTableViewData;

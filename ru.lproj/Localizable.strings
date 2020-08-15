@@ -83,7 +83,6 @@
 
 // Synchronisation
 "Synchronisation" = "Синхронизация";
-"Local Sync" = "По Wi-Fi";
 
 // Touch ID and Default Database
 "No Touch ID enabled" = "Touch ID не включён. Пожалуйста, включите Touch ID в настройках приложения.";
@@ -126,8 +125,6 @@
 // Settings Page
 "Settings" = "Настройки";
 "PIN Enabled" = "PIN-код включён";
-"LocalOverwrite Enabled" = "Включено";
-"Automatically overwrite database on local sync if file already exists" = "Автоматически перезаписывать базу данных на устройстве, если файл уже существует.";
 "Lock Timeout" = "Тайм-аут блокировки";
 "Immediately" = "Сразу";
 "30 Seconds" = "30 сек.";

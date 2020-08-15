@@ -34,10 +34,6 @@ iOS should backup and restore the files KeePass Touch uses automatically, (KeePa
 
 If you backup to iTunes, you can usually retrieve your KeePass files stored in the backup file using a tool that can open iOS backup files (iExplorer, iBackup Extractor, etc).  The file should be located in the KeePass Touch Documents folder.  Once you find the file, you can use one of the available methods for copying your KeePass files to get it back into KeePass Touch.
 
-### KeePass Local / Web syncing ###
-
-See more in the help section inside the app. It's pretty much self explanatory.
-
 License
 -------
 
