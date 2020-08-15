@@ -18,8 +18,6 @@ def main_pods
   pod 'GCDWebServer', '~> 3.0'
   pod 'GCDWebServer/WebUploader', '~> 3.0'
   
-  pod 'FTPKit', :git => 'https://github.com/aljlue/FTPKit.git'
-  
   pod 'RMStore', '~> 0.7'
 end
 

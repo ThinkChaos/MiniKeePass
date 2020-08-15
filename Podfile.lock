@@ -30,7 +30,6 @@ PODS:
     - GoogleUtilities/Environment (~> 6.7)
     - GoogleUtilities/UserDefaults (~> 6.7)
     - PromisesObjC (~> 1.2)
-  - FTPKit (1.3.6)
   - GCDWebServer (3.5.4):
     - GCDWebServer/Core (= 3.5.4)
   - GCDWebServer/Core (3.5.4)
@@ -80,7 +79,6 @@ DEPENDENCIES:
   - Crashlytics
   - Fabric
   - Firebase/Core
-  - FTPKit (from `https://github.com/aljlue/FTPKit.git`)
   - GCDWebServer (~> 3.0)
   - GCDWebServer/WebUploader (~> 3.0)
   - MBProgressHUD
@@ -108,15 +106,6 @@ SPEC REPOS:
     - RMStore
     - TWMessageBarManager
 
-EXTERNAL SOURCES:
-  FTPKit:
-    :git: https://github.com/aljlue/FTPKit.git
-
-CHECKOUT OPTIONS:
-  FTPKit:
-    :commit: 88f63f54d3fd3c8577f2a11d4a2070459b6631ed
-    :git: https://github.com/aljlue/FTPKit.git
-
 SPEC CHECKSUMS:
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
@@ -125,7 +114,6 @@ SPEC CHECKSUMS:
   FirebaseCore: 9a41e2de78fef10f63cee30ab10e2945266bc1fc
   FirebaseCoreDiagnostics: 7535fe695737f8c5b350584292a70b7f8ff0357b
   FirebaseInstallations: 45f9d44d3a8d6f780fa337ee8987dad87210fcbc
-  FTPKit: 1fe77c77e9da544d5dbc68245308c0411e7d8e13
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   GoogleAppMeasurement: 3def7652b1f5b5a576178dc332e2a36a260fbef6
   GoogleDataTransport: 672fb0ce96fe7f7f31d43672fca62ad2c9c86f7b
@@ -137,6 +125,6 @@ SPEC CHECKSUMS:
   RMStore: 64ba13a9c040e3b7572765d169f77175cd3243e5
   TWMessageBarManager: fd84e7948ba7968a2b5d9454859135761214ec56
 
-PODFILE CHECKSUM: f8845da4c33ed11ff6fe7059bf9ca8f12b890f56
+PODFILE CHECKSUM: 41452a18ff3ec51d1aeba81442ce5eb388d0b9b5
 
 COCOAPODS: 1.9.3
