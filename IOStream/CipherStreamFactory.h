@@ -15,15 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import "UUID.h"
 #import "InputStream.h"
 #import "OutputStream.h"
+#import "UUID.h"
+#import <Foundation/Foundation.h>
 
 @interface CipherStreamFactory : NSObject {
 }
 
-+ (InputStream *)getInputStream:(KdbUUID *)uuid stream:(InputStream*)s key:(NSData *)key iv:(NSData *)iv;
-+ (OutputStream *)getOutputStream:(KdbUUID *)uuid stream:(OutputStream*)s key:(NSData *)key iv:(NSData *)iv;
++ (InputStream *)getInputStream:(KdbUUID *)uuid
+                         stream:(InputStream *)s
+                            key:(NSData *)key
+                             iv:(NSData *)iv;
++ (OutputStream *)getOutputStream:(KdbUUID *)uuid
+                           stream:(OutputStream *)s
+                              key:(NSData *)key
+                               iv:(NSData *)iv;
 
 @end

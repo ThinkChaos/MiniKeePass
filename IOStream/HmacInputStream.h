@@ -15,20 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "InputStream.h"
+#import <Foundation/Foundation.h>
 
 @interface HmacInputStream : InputStream {
-    InputStream *inputStream;
-    NSData *hmacKey;
-    uint64_t blockIndex;
-    uint8_t *buffer;
-    uint32_t bufferOffset;
-    uint32_t bufferLength;
-    BOOL eof;
+  InputStream *inputStream;
+  NSData *hmacKey;
+  uint64_t blockIndex;
+  uint8_t *buffer;
+  uint32_t bufferOffset;
+  uint32_t bufferLength;
+  BOOL eof;
 }
 
-- (id)initWithInputStream:(InputStream *)stream key:(NSData*)key;
-+ (NSData*)getHMACKey:(uint8_t*)key keylen:(size_t)keylen blockIndex:(uint64_t)bidx;
+- (id)initWithInputStream:(InputStream *)stream key:(NSData *)key;
++ (NSData *)getHMACKey:(uint8_t *)key
+                keylen:(size_t)keylen
+            blockIndex:(uint64_t)bidx;
 
 @end

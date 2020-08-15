@@ -15,21 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "InputStream.h"
+#import <Foundation/Foundation.h>
 
 @interface HashedInputStream : InputStream {
-    InputStream *inputStream;
-    
-    uint32_t blockIndex;
-    
-    uint8_t *buffer;
-    uint32_t bufferOffset;
-    uint32_t bufferLength;
-    
-    BOOL eof;
+  InputStream *inputStream;
+
+  uint32_t blockIndex;
+
+  uint8_t *buffer;
+  uint32_t bufferOffset;
+  uint32_t bufferLength;
+
+  BOOL eof;
 }
 
-- (id)initWithInputStream:(InputStream*)stream;
+- (id)initWithInputStream:(InputStream *)stream;
 
 @end

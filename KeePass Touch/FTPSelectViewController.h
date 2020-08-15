@@ -10,20 +10,15 @@
 
 @interface FTPSelectViewController : KPViewController
 
-typedef enum {
-    FTP_MODE_UPLOAD,
-    FTP_MODE_DOWNLOAD
-} FTP_Mode;
+typedef enum { FTP_MODE_UPLOAD, FTP_MODE_DOWNLOAD } FTP_Mode;
 
-@property (nonatomic, strong) NSArray *filesList;
-@property (nonatomic, strong) NSArray *foldersList;
-@property (nonatomic, strong) NSString *path;
+@property(nonatomic, strong) NSArray *filesList;
+@property(nonatomic, strong) NSArray *foldersList;
+@property(nonatomic, strong) NSString *path;
 
-@property (nonatomic, strong) NSString *loadFilename;
+@property(nonatomic, strong) NSString *loadFilename;
 
-
-@property (nonatomic) FTP_Mode mode;
-
+@property(nonatomic) FTP_Mode mode;
 
 - (id)initWithMode:(FTP_Mode)mode;
 - (id)initWithUploadFile:(NSString *)filename;

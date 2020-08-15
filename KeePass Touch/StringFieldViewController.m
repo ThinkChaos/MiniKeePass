@@ -20,58 +20,63 @@
 @implementation StringFieldViewController
 
 - (id)initWithStringField:(StringField *)stringField {
-    self = [super init];
-    if (self) {
-        _stringField = stringField;
+  self = [super init];
+  if (self) {
+    _stringField = stringField;
 
-        self.title = NSLocalizedString(@"Custom Field", nil);
+    self.title = NSLocalizedString(@"Custom Field", nil);
 
-        _keyTextField = [[UITextField alloc] init];
-        _keyTextField.placeholder = NSLocalizedString(@"Name", nil);
-        _keyTextField.returnKeyType = UIReturnKeyNext;
-        _keyTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _keyTextField.delegate = self;
-        _keyTextField.text = stringField.key;
+    _keyTextField = [[UITextField alloc] init];
+    _keyTextField.placeholder = NSLocalizedString(@"Name", nil);
+    _keyTextField.returnKeyType = UIReturnKeyNext;
+    _keyTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _keyTextField.delegate = self;
+    _keyTextField.text = stringField.key;
 
-        _valueTextField = [[UITextField alloc] init];
-        _valueTextField.placeholder = NSLocalizedString(@"Value", nil);
-        _valueTextField.returnKeyType = UIReturnKeyDone;
-        _valueTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _valueTextField.delegate = self;
-        _valueTextField.text = stringField.value;
+    _valueTextField = [[UITextField alloc] init];
+    _valueTextField.placeholder = NSLocalizedString(@"Value", nil);
+    _valueTextField.returnKeyType = UIReturnKeyDone;
+    _valueTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _valueTextField.delegate = self;
+    _valueTextField.text = stringField.value;
 
-        _protectedSwitchCell = [[SwitchCell alloc] initWithLabel:NSLocalizedString(@"In Memory Protection", nil)];
-        _protectedSwitchCell.switchControl.on = stringField.protected;
+    _protectedSwitchCell = [[SwitchCell alloc]
+        initWithLabel:NSLocalizedString(@"In Memory Protection", nil)];
+    _protectedSwitchCell.switchControl.on = stringField.protected;
 
-        self.controls = @[_keyTextField, _valueTextField, _protectedSwitchCell];
-    }
-    return self;
+    self.controls = @[ _keyTextField, _valueTextField, _protectedSwitchCell ];
+  }
+  return self;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if (textField == _keyTextField) {
-        [_valueTextField becomeFirstResponder];
-    } else if (textField == _valueTextField) {
-        [self donePressed:nil];
-    }
+  if (textField == _keyTextField) {
+    [_valueTextField becomeFirstResponder];
+  } else if (textField == _valueTextField) {
+    [self donePressed:nil];
+  }
 
-    return YES;
+  return YES;
 }
 
 - (void)donePressed:(id)sender {
-    if (self.keyTextField.text.length == 0) {
-        NSString *title = NSLocalizedString(@"Name cannot be empty", nil);
-        NSString *ok = NSLocalizedString(@"OK", nil);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:ok otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
+  if (self.keyTextField.text.length == 0) {
+    NSString *title = NSLocalizedString(@"Name cannot be empty", nil);
+    NSString *ok = NSLocalizedString(@"OK", nil);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                    message:nil
+                                                   delegate:nil
+                                          cancelButtonTitle:ok
+                                          otherButtonTitles:nil];
+    [alert show];
+    return;
+  }
 
-    _stringField.key = _keyTextField.text;
-    _stringField.value = _valueTextField.text;
-    _stringField.protected = _protectedSwitchCell.switchControl.on;
+  _stringField.key = _keyTextField.text;
+  _stringField.value = _valueTextField.text;
+  _stringField.protected = _protectedSwitchCell.switchControl.on;
 
-    [super donePressed:sender];
+  [super donePressed:sender];
 }
 
 @end

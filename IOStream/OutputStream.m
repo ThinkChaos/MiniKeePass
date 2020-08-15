@@ -19,33 +19,32 @@
 
 @implementation OutputStream
 
-- (NSUInteger)write:(const void*)bytes length:(NSUInteger)bytesLength {
-    [self doesNotRecognizeSelector:_cmd];
-    return 0;
+- (NSUInteger)write:(const void *)bytes length:(NSUInteger)bytesLength {
+  [self doesNotRecognizeSelector:_cmd];
+  return 0;
 }
 
-- (NSUInteger)write:(NSData*)data {
-    return [self write:[data bytes] length:[data length]];
+- (NSUInteger)write:(NSData *)data {
+  return [self write:[data bytes] length:[data length]];
 }
 
 - (void)writeInt8:(uint8_t)value {
-    [self write:&value length:1];
+  [self write:&value length:1];
 }
 
 - (void)writeInt16:(uint16_t)value {
-    [self write:&value length:2];
+  [self write:&value length:2];
 }
 
 - (void)writeInt32:(uint32_t)value {
-    [self write:&value length:4];
+  [self write:&value length:4];
 }
 
 - (void)writeInt64:(uint64_t)value {
-    [self write:&value length:8];
+  [self write:&value length:8];
 }
 
 - (void)close {
-    
 }
 
 @end

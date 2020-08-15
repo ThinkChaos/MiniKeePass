@@ -10,9 +10,8 @@
 
 @interface CredentialProviderViewController : ASCredentialProviderViewController
 
-@property (weak, nonatomic) IBOutlet UITableView *entriesTableView;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UIView *overlayView;
-
+@property(weak, nonatomic) IBOutlet UITableView *entriesTableView;
+@property(weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property(weak, nonatomic) IBOutlet UIView *overlayView;
 
 @end

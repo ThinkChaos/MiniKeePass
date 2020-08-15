@@ -15,25 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonCryptor.h>
-#import "InputStream.h"
 #import "BlockCipher.h"
+#import "InputStream.h"
+#import <CommonCrypto/CommonCryptor.h>
+#import <Foundation/Foundation.h>
 
-#define BLOCK_BUFFERSIZE (512*1024)
+#define BLOCK_BUFFERSIZE (512 * 1024)
 
 @interface ChaCha20InputStream : InputStream {
 
-    InputStream *inputStream;
-    
-    BlockCipher *cipher;
-    
-    uint8_t buffer[BLOCK_BUFFERSIZE];
-    uint32_t bufferOffset;
-    uint32_t bufferSize;
-    BOOL eof;
+  InputStream *inputStream;
+
+  BlockCipher *cipher;
+
+  uint8_t buffer[BLOCK_BUFFERSIZE];
+  uint32_t bufferOffset;
+  uint32_t bufferSize;
+  BOOL eof;
 }
 
-- (id)initWithInputStream:(InputStream *)stream key:(NSData *)key iv:(NSData *)iv;
+- (id)initWithInputStream:(InputStream *)stream
+                      key:(NSData *)key
+                       iv:(NSData *)iv;
 
 @end

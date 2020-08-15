@@ -15,16 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "InputStream.h"
+#import <Foundation/Foundation.h>
 
 @interface TwoFishInputStream : InputStream {
 
-    InputStream *inputStream;
-    
-    BOOL eof;
+  InputStream *inputStream;
+
+  BOOL eof;
 }
 
-- (id)initWithInputStream:(InputStream *)stream key:(NSData *)key iv:(NSData *)iv;
+- (id)initWithInputStream:(InputStream *)stream
+                      key:(NSData *)key
+                       iv:(NSData *)iv;
 
 @end

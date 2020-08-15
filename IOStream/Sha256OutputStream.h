@@ -15,18 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonDigest.h>
 #import "OutputStream.h"
+#import <CommonCrypto/CommonDigest.h>
+#import <Foundation/Foundation.h>
 
 @interface Sha256OutputStream : OutputStream {
-    OutputStream *outputStream;
-    
-    CC_SHA256_CTX shaCtx;
-    uint8_t hash[32];
+  OutputStream *outputStream;
+
+  CC_SHA256_CTX shaCtx;
+  uint8_t hash[32];
 }
 
 - (id)initWithOutputStream:(OutputStream *)stream;
-- (uint8_t*)getHash;
+- (uint8_t *)getHash;
 
 @end

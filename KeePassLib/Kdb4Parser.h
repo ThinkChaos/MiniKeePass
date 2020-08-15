@@ -15,18 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
+#import "InputStream.h"
 #import "Kdb4Node.h"
 #import "RandomStream.h"
-#import "InputStream.h"
+#import <Foundation/Foundation.h>
 
 @interface Kdb4Parser : NSObject {
-    uint32_t dbVersion;
-    RandomStream *randomStream;
-    NSDateFormatter *dateFormatter;
+  uint32_t dbVersion;
+  RandomStream *randomStream;
+  NSDateFormatter *dateFormatter;
 }
 
-- (id)initWithRandomStream:(RandomStream*)cryptoRandomStream;
-- (Kdb4Tree*)parse:(InputStream*)inputStream dbVersion:(uint32_t)dbVersion;
+- (id)initWithRandomStream:(RandomStream *)cryptoRandomStream;
+- (Kdb4Tree *)parse:(InputStream *)inputStream dbVersion:(uint32_t)dbVersion;
 
 @end

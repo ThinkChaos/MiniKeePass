@@ -17,48 +17,54 @@
 
 #import "FilesInfoView.h"
 
-@interface FilesInfoView ()  {
-    UILabel *label;
+@interface FilesInfoView () {
+  UILabel *label;
 }
 @end
 
 @implementation FilesInfoView
 
 - (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        self.backgroundColor = [UIColor whiteColor];
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  self = [super initWithFrame:frame];
+  if (self) {
+    // Initialization code
+    self.backgroundColor = [UIColor whiteColor];
+    self.autoresizingMask =
+        UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
-        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width - 20.0f, 0)];
-        label.backgroundColor = [UIColor clearColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.numberOfLines = 0;
-        label.lineBreakMode = NSLineBreakByWordWrapping;
-        label.textColor = [UIColor grayColor];
-        label.text = NSLocalizedString(@"Tap the + button to add a new KeePass file.", nil);
-        [label sizeToFit];
-        [self addSubview:label];
-    }
-    return self;
+    label = [[UILabel alloc]
+        initWithFrame:CGRectMake(0, 0, self.bounds.size.width - 20.0f, 0)];
+    label.backgroundColor = [UIColor clearColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.textColor = [UIColor grayColor];
+    label.text =
+        NSLocalizedString(@"Tap the + button to add a new KeePass file.", nil);
+    [label sizeToFit];
+    [self addSubview:label];
+  }
+  return self;
 }
 
 - (void)layoutSubviews {
-    [super layoutSubviews];
+  [super layoutSubviews];
 
-    // Resize the label to the width of the screen in case we've rotated
-    label.frame = CGRectMake(0, 0, self.bounds.size.width - 20.0f, 0);
-    [label sizeToFit];
+  // Resize the label to the width of the screen in case we've rotated
+  label.frame = CGRectMake(0, 0, self.bounds.size.width - 20.0f, 0);
+  [label sizeToFit];
 
-    // Center the label, in iOS 7 account for the layout guides
-    if ([self.viewController respondsToSelector:@selector(topLayoutGuide)]) {
-        CGFloat top = self.viewController.topLayoutGuide.length;
-        CGFloat bottom = self.viewController.bottomLayoutGuide.length;
-        label.center = CGPointMake(self.bounds.size.width / 2.0f, (self.bounds.size.height - top - bottom) / 2.0f + top);
-    } else {
-        label.center = CGPointMake(self.bounds.size.width / 2.0f, self.bounds.size.height / 2.0f);
-    }
+  // Center the label, in iOS 7 account for the layout guides
+  if ([self.viewController respondsToSelector:@selector(topLayoutGuide)]) {
+    CGFloat top = self.viewController.topLayoutGuide.length;
+    CGFloat bottom = self.viewController.bottomLayoutGuide.length;
+    label.center =
+        CGPointMake(self.bounds.size.width / 2.0f,
+                    (self.bounds.size.height - top - bottom) / 2.0f + top);
+  } else {
+    label.center = CGPointMake(self.bounds.size.width / 2.0f,
+                               self.bounds.size.height / 2.0f);
+  }
 }
 
 @end

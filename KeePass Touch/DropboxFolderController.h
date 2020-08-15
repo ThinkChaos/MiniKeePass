@@ -6,18 +6,17 @@
 //  Copyright (c) 2015 Self. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
+#import <UIKit/UIKit.h>
 
 @interface DropboxFolderController : UITableViewController
 
-@property (nonatomic, assign) id target;
+@property(nonatomic, assign) id target;
 
+@property(nonatomic, strong) DBUserClient *userClient;
+@property(nonatomic, strong) NSArray<DBFILESFolderMetadata *> *folders;
+@property(nonatomic, strong) NSArray<DBFILESFileMetadata *> *files;
 
-@property (nonatomic, strong) DBUserClient *userClient;
-@property (nonatomic, strong) NSArray <DBFILESFolderMetadata *> *folders;
-@property (nonatomic, strong) NSArray <DBFILESFileMetadata *> *files;
-
-@property (nonatomic, strong) NSString *path;
+@property(nonatomic, strong) NSString *path;
 
 @end

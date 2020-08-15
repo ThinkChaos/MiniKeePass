@@ -17,11 +17,13 @@
 
 #import <Foundation/Foundation.h>
 
-#import "KdbLib.h"
 #import "GroupViewController.h"
+#import "KdbLib.h"
 
-@interface GroupSearchController : NSObject <UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate>
+@interface GroupSearchController
+    : NSObject <UITableViewDataSource, UITableViewDelegate,
+                UISearchDisplayDelegate>
 
-@property (nonatomic, weak) GroupViewController *groupViewController;
+@property(nonatomic, weak) GroupViewController *groupViewController;
 
 @end

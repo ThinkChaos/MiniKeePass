@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Self. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "Kdb.h"
 #import "UUID.h"
+#import <Foundation/Foundation.h>
 
 @interface KDB4CustomIcon : NSObject
 

@@ -20,17 +20,17 @@
 @implementation TextEntryController
 
 - (id)init {
-    self = [super init];
-    if (self) {
-        self.textField = [[UITextField alloc] init];
-        self.textField.delegate = self;
-        self.textField.returnKeyType = UIReturnKeyNext;
-        self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-//        self.textField.nextResponder = next text field;
-        
-        self.controls = [NSArray arrayWithObject:self.textField];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    self.textField = [[UITextField alloc] init];
+    self.textField.delegate = self;
+    self.textField.returnKeyType = UIReturnKeyNext;
+    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    //        self.textField.nextResponder = next text field;
+
+    self.controls = [NSArray arrayWithObject:self.textField];
+  }
+  return self;
 }
 
 @end

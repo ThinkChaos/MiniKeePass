@@ -22,16 +22,16 @@
 @synthesize data;
 
 - (id)init {
-    self = [super init];
-    if (self) {
-        data = [[NSMutableData alloc] init];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    data = [[NSMutableData alloc] init];
+  }
+  return self;
 }
 
 - (NSUInteger)write:(const void *)bytes length:(NSUInteger)bytesLength {
-    [data appendBytes:bytes length:bytesLength];
-    return bytesLength;
+  [data appendBytes:bytes length:bytesLength];
+  return bytesLength;
 }
 
 @end

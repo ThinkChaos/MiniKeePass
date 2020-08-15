@@ -15,65 +15,65 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import "Kdb.h"
 #import "KDB4CustomIcon.h"
+#import "Kdb.h"
 #import "UUID.h"
 #import "VariantDictionary.h"
+#import <Foundation/Foundation.h>
 
 @class Kdb4Entry;
 
-#define KDB4_SIG1              0x9AA2D903
-#define KDB4_SIG2              0xB54BFB67
-#define KDBX31_VERSION         0x00030001
-#define KDBX40_VERSION         0x00040000
+#define KDB4_SIG1 0x9AA2D903
+#define KDB4_SIG2 0xB54BFB67
+#define KDBX31_VERSION 0x00030001
+#define KDBX40_VERSION 0x00040000
 
-#define HEADER_EOH             0
-#define HEADER_COMMENT         1
-#define HEADER_CIPHERID        2
-#define HEADER_COMPRESSION     3
-#define HEADER_MASTERSEED      4
-#define HEADER_TRANSFORMSEED   5
+#define HEADER_EOH 0
+#define HEADER_COMMENT 1
+#define HEADER_CIPHERID 2
+#define HEADER_COMPRESSION 3
+#define HEADER_MASTERSEED 4
+#define HEADER_TRANSFORMSEED 5
 #define HEADER_TRANSFORMROUNDS 6
-#define HEADER_ENCRYPTIONIV    7
-#define HEADER_PROTECTEDKEY    8
-#define HEADER_STARTBYTES      9
-#define HEADER_RANDOMSTREAMID  10
-#define HEADER_KDFPARMETERS    11
-#define HEADER_PUBLICCUSTOM    12
+#define HEADER_ENCRYPTIONIV 7
+#define HEADER_PROTECTEDKEY 8
+#define HEADER_STARTBYTES 9
+#define HEADER_RANDOMSTREAMID 10
+#define HEADER_KDFPARMETERS 11
+#define HEADER_PUBLICCUSTOM 12
 
-#define INNER_HEADER_EOH              0
-#define INNER_HEADER_RANDOMSTREAMID   1
-#define INNER_HEADER_RANDOMSTREAMKEY  2
-#define INNER_HEADER_BINARY           3
+#define INNER_HEADER_EOH 0
+#define INNER_HEADER_RANDOMSTREAMID 1
+#define INNER_HEADER_RANDOMSTREAMKEY 2
+#define INNER_HEADER_BINARY 3
 
-#define KDF_KEY_UUID_BYTES            @"$UUID"
-#define KDF_AES_KEY_SEED              @"S"
-#define KDF_AES_KEY_ROUNDS            @"R" /*uint64*/
+#define KDF_KEY_UUID_BYTES @"$UUID"
+#define KDF_AES_KEY_SEED @"S"
+#define KDF_AES_KEY_ROUNDS @"R" /*uint64*/
 
-#define KDF_ARGON2_KEY_SALT           @"S"
-#define KDF_ARGON2_KEY_PARALLELISM    @"P" /*uint32*/
-#define KDF_ARGON2_KEY_MEMORY         @"M" /*uint64*/
-#define KDF_ARGON2_KEY_ITERATIONS     @"I" /*uint64*/
-#define KDF_ARGON2_KEY_VERSION        @"V" /*uint32*/
-#define KDF_ARGON2_KEY_SECRET_KEY     @"K"
-#define KDF_ARGON2_KEY_ASSOC_DATA     @"A"
+#define KDF_ARGON2_KEY_SALT @"S"
+#define KDF_ARGON2_KEY_PARALLELISM @"P" /*uint32*/
+#define KDF_ARGON2_KEY_MEMORY @"M"      /*uint64*/
+#define KDF_ARGON2_KEY_ITERATIONS @"I"  /*uint64*/
+#define KDF_ARGON2_KEY_VERSION @"V"     /*uint32*/
+#define KDF_ARGON2_KEY_SECRET_KEY @"K"
+#define KDF_ARGON2_KEY_ASSOC_DATA @"A"
 
-#define COMPRESSION_NONE       0
-#define COMPRESSION_GZIP       1
-#define COMPRESSION_COUNT      2
+#define COMPRESSION_NONE 0
+#define COMPRESSION_GZIP 1
+#define COMPRESSION_COUNT 2
 
-#define CSR_NONE               0
-#define CSR_ARC4VARIANT        1
-#define CSR_SALSA20            2
-#define CSR_CHACHA20           3
-#define CSR_COUNT              4
+#define CSR_NONE 0
+#define CSR_ARC4VARIANT 1
+#define CSR_SALSA20 2
+#define CSR_CHACHA20 3
+#define CSR_COUNT 4
 
-#define FIELD_TITLE            @"Title"
-#define FIELD_USER_NAME        @"UserName"
-#define FIELD_PASSWORD         @"Password"
-#define FIELD_URL              @"URL"
-#define FIELD_NOTES            @"Notes"
+#define FIELD_TITLE @"Title"
+#define FIELD_USER_NAME @"UserName"
+#define FIELD_PASSWORD @"Password"
+#define FIELD_URL @"URL"
+#define FIELD_NOTES @"Notes"
 
 @interface Kdb4Group : KdbGroup
 
@@ -93,7 +93,6 @@
 
 @end
 
-
 @interface StringField : NSObject <NSCopying>
 
 @property(nonatomic, copy) NSString *key;
@@ -102,7 +101,9 @@
 @property(nonatomic, assign) BOOL protected;
 
 - (id)initWithKey:(NSString *)key andValue:(NSString *)value;
-- (id)initWithKey:(NSString *)key andValue:(NSString *)value andProtected:(BOOL)protected;
+- (id)initWithKey:(NSString *)key
+         andValue:(NSString *)value
+     andProtected:(BOOL)protected;
 
 + (id)stringFieldWithKey:(NSString *)key andValue:(NSString *)value;
 
@@ -110,14 +111,12 @@
 
 @end
 
-
 @interface CustomItem : NSObject
 
 @property(nonatomic, copy) NSString *key;
 @property(nonatomic, copy) NSString *value;
 
 @end
-
 
 @interface Binary : NSObject
 
@@ -127,7 +126,6 @@
 
 @end
 
-
 @interface BinaryRef : NSObject
 
 @property(nonatomic, strong) NSString *key;
@@ -135,14 +133,12 @@
 
 @end
 
-
 @interface Association : NSObject
 
 @property(nonatomic, copy) NSString *window;
 @property(nonatomic, copy) NSString *keystrokeSequence;
 
 @end
-
 
 @interface AutoType : NSObject
 
@@ -153,14 +149,12 @@
 
 @end
 
-
 @interface DeletedObject : NSObject
 
 @property(nonatomic, strong) KdbUUID *uuid;
 @property(nonatomic, strong) NSDate *deletionTime;
 
 @end
-
 
 @interface Kdb4Entry : KdbEntry
 
@@ -187,7 +181,6 @@
 @property NSMutableArray *customData;
 
 @end
-
 
 @interface Kdb4Tree : KdbTree
 

@@ -21,12 +21,12 @@
 
 @interface StringFieldViewController : FormViewController
 
-@property (nonatomic, strong) StringField *stringField;
-@property (nonatomic, readonly) UITextField *keyTextField;
-@property (nonatomic, readonly) UITextField *valueTextField;
-@property (nonatomic, readonly) SwitchCell *protectedSwitchCell;
+@property(nonatomic, strong) StringField *stringField;
+@property(nonatomic, readonly) UITextField *keyTextField;
+@property(nonatomic, readonly) UITextField *valueTextField;
+@property(nonatomic, readonly) SwitchCell *protectedSwitchCell;
 
-@property (nonatomic, strong) id object;
+@property(nonatomic, strong) id object;
 
 - (id)initWithStringField:(StringField *)stringField;
 

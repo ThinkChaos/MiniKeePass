@@ -6,15 +6,15 @@
 //  Copyright 2010 Qiang Yu. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "RandomStream.h"
 #import "BlockCipher.h"
+#import "RandomStream.h"
+#import <Foundation/Foundation.h>
 
 @interface Salsa20RandomStream : RandomStream {
-    BlockCipher *cipher;
+  BlockCipher *cipher;
 }
 
 - (id)init;
-- (id)init:(NSData*)key;
+- (id)init:(NSData *)key;
 
 @end

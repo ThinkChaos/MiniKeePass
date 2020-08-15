@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <UIKit/UIKit.h>
 #import "FormViewController.h"
+#import <UIKit/UIKit.h>
 
 @interface NewKdbViewController : FormViewController <UITextFieldDelegate> {
-    UITextField *nameTextField;
-    UITextField *passwordTextField1;
-    UITextField *passwordTextField2;
-    UISegmentedControl *versionSegmentedControl;
+  UITextField *nameTextField;
+  UITextField *passwordTextField1;
+  UITextField *passwordTextField2;
+  UISegmentedControl *versionSegmentedControl;
 }
 
-@property (nonatomic, readonly) UITextField *nameTextField;
-@property (nonatomic, readonly) UITextField *passwordTextField1;
-@property (nonatomic, readonly) UITextField *passwordTextField2;
-@property (nonatomic, readonly) UISegmentedControl *versionSegmentedControl;
+@property(nonatomic, readonly) UITextField *nameTextField;
+@property(nonatomic, readonly) UITextField *passwordTextField1;
+@property(nonatomic, readonly) UITextField *passwordTextField2;
+@property(nonatomic, readonly) UISegmentedControl *versionSegmentedControl;
 
 @end

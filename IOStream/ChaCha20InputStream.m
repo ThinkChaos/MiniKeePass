@@ -24,65 +24,67 @@
 
 @implementation ChaCha20InputStream
 
-- (id)initWithInputStream:(InputStream *)stream key:(NSData *)key iv:(NSData *)iv {
-    self = [super init];
-    if (self) {
-        inputStream = stream;
-        
-        cipher = [[ChaCha20Cipher alloc] init:key iv:iv];
-        
-        bufferOffset = 0;
-        bufferSize = 0;
-        eof = NO;
-    }
-    return self;
+- (id)initWithInputStream:(InputStream *)stream
+                      key:(NSData *)key
+                       iv:(NSData *)iv {
+  self = [super init];
+  if (self) {
+    inputStream = stream;
+
+    cipher = [[ChaCha20Cipher alloc] init:key iv:iv];
+
+    bufferOffset = 0;
+    bufferSize = 0;
+    eof = NO;
+  }
+  return self;
 }
 
 - (NSUInteger)read:(void *)bytes length:(NSUInteger)bytesLength {
-    NSUInteger remaining = bytesLength;
-    NSUInteger offset = 0;
-    NSUInteger n;
-    
-    while (remaining > 0) {
-        if (bufferOffset >= bufferSize) {
-            if (![self decrypt]) {
-                return bytesLength - remaining;
-            }
-        }
+  NSUInteger remaining = bytesLength;
+  NSUInteger offset = 0;
+  NSUInteger n;
 
-        n = MIN(remaining, bufferSize - bufferOffset);       
-        memcpy(((uint8_t *)bytes) + offset, buffer + bufferOffset, n);
-        
-        bufferOffset += n;
-        
-        offset += n;
-        remaining -= n;
+  while (remaining > 0) {
+    if (bufferOffset >= bufferSize) {
+      if (![self decrypt]) {
+        return bytesLength - remaining;
+      }
     }
-    
-    return bytesLength;
+
+    n = MIN(remaining, bufferSize - bufferOffset);
+    memcpy(((uint8_t *)bytes) + offset, buffer + bufferOffset, n);
+
+    bufferOffset += n;
+
+    offset += n;
+    remaining -= n;
+  }
+
+  return bytesLength;
 }
 
 - (BOOL)decrypt {
-    NSUInteger n;
-    
-    if (eof) {
-        return NO;
-    }
-    
-    bufferOffset = 0;
-    bufferSize = 0;
+  NSUInteger n;
 
-    n = [inputStream read:buffer length:BLOCK_BUFFERSIZE];
-    if (n > 0) {
-        [cipher Decrypt:buffer iOffset:0 count:n];
-        bufferSize += n;
-    }
+  if (eof) {
+    return NO;
+  }
 
-    if (n < BLOCK_BUFFERSIZE) {
-        eof = YES;
-    }
+  bufferOffset = 0;
+  bufferSize = 0;
 
-    return YES;
+  n = [inputStream read:buffer length:BLOCK_BUFFERSIZE];
+  if (n > 0) {
+    [cipher Decrypt:buffer iOffset:0 count:n];
+    bufferSize += n;
+  }
+
+  if (n < BLOCK_BUFFERSIZE) {
+    eof = YES;
+  }
+
+  return YES;
 }
 
 @end

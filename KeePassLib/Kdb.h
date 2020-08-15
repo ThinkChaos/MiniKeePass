@@ -15,19 +15,19 @@
 #pragma mark - KDBGroup
 
 @interface KdbGroup : NSObject {
-    KdbGroup *__unsafe_unretained parent;
+  KdbGroup *__unsafe_unretained parent;
 
-    NSInteger image;
-    NSString *name;
-    NSMutableArray *groups;
-    NSMutableArray *entries;
+  NSInteger image;
+  NSString *name;
+  NSMutableArray *groups;
+  NSMutableArray *entries;
 
-    NSDate *creationTime;
-    NSDate *lastModificationTime;
-    NSDate *lastAccessTime;
-    NSDate *expiryTime;
+  NSDate *creationTime;
+  NSDate *lastModificationTime;
+  NSDate *lastAccessTime;
+  NSDate *expiryTime;
 
-    BOOL canAddEntries;
+  BOOL canAddEntries;
 }
 
 @property(nonatomic, unsafe_unretained) KdbGroup *parent;
@@ -40,7 +40,7 @@
 /** Delivers all entries including subgroups entries recursively
  @note (KDB4) delivers stringfields as well
  */
-@property (nonatomic, readonly) NSArray *allEntries;
+@property(nonatomic, readonly) NSArray *allEntries;
 
 @property(nonatomic, strong) NSDate *creationTime;
 @property(nonatomic, strong) NSDate *lastModificationTime;
@@ -57,19 +57,19 @@
 - (void)removeEntry:(KdbEntry *)entry;
 - (void)moveEntry:(KdbEntry *)entry toGroup:(KdbGroup *)toGroup;
 
-- (BOOL)containsGroup:(KdbGroup*)group;
+- (BOOL)containsGroup:(KdbGroup *)group;
 
 @end
 
 #pragma mark - KDBEntry
 
 @interface KdbEntry : NSObject {
-    KdbGroup *__unsafe_unretained parent;
-    NSInteger image;
-    NSDate *creationTime;
-    NSDate *lastModificationTime;
-    NSDate *lastAccessTime;
-    NSDate *expiryTime;
+  KdbGroup *__unsafe_unretained parent;
+  NSInteger image;
+  NSDate *creationTime;
+  NSDate *lastModificationTime;
+  NSDate *lastAccessTime;
+  NSDate *expiryTime;
 }
 
 @property(nonatomic, unsafe_unretained) KdbGroup *parent;
@@ -101,7 +101,7 @@
 - (NSInteger)rankForSearchString:(NSString *)searchString;
 
 /// returns the recordIdentifier for Auto Fill
-@property (nonatomic, readonly) NSString *recordIdentifier;
+@property(nonatomic, readonly) NSString *recordIdentifier;
 
 #pragma mark -
 
@@ -110,12 +110,12 @@
 #pragma mark KDBTree
 
 @interface KdbTree : NSObject {
-    KdbGroup *root;
+  KdbGroup *root;
 }
 
 @property(nonatomic, strong) KdbGroup *root;
 
-- (KdbGroup*)createGroup:(KdbGroup*)parent;
-- (KdbEntry*)createEntry:(KdbGroup*)parent;
+- (KdbGroup *)createGroup:(KdbGroup *)parent;
+- (KdbEntry *)createEntry:(KdbGroup *)parent;
 
 @end

@@ -15,23 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <UIKit/UIKit.h>
 #import "Kdb.h"
+#import <UIKit/UIKit.h>
 
 @protocol SelectGroupDelegate;
 
 @interface SelectGroupViewController : UITableViewController
 
-@property (nonatomic, strong) KdbGroup *group;
-@property (nonatomic, unsafe_unretained) id<SelectGroupDelegate> delegate;
+@property(nonatomic, strong) KdbGroup *group;
+@property(nonatomic, unsafe_unretained) id<SelectGroupDelegate> delegate;
 
 @end
 
 @protocol SelectGroupDelegate <NSObject>
 
-- (BOOL)selectGroupViewController:(SelectGroupViewController *)selectGroupViewController
+- (BOOL)selectGroupViewController:
+            (SelectGroupViewController *)selectGroupViewController
                    canSelectGroup:(KdbGroup *)group;
-- (void)selectGroupViewController:(SelectGroupViewController *)selectGroupViewController
+- (void)selectGroupViewController:
+            (SelectGroupViewController *)selectGroupViewController
                     selectedGroup:(KdbGroup *)selectedGroup;
 
 @end

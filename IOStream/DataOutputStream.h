@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "OutputStream.h"
+#import <Foundation/Foundation.h>
 
 @interface DataOutputStream : OutputStream {
-    NSMutableData *data;
+  NSMutableData *data;
 }
 
-@property (nonatomic, readonly) NSMutableData *data;
+@property(nonatomic, readonly) NSMutableData *data;
 
 @end

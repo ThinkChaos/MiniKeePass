@@ -24,32 +24,44 @@
 
 @implementation CipherStreamFactory
 
-+ (InputStream *)getInputStream:(KdbUUID *)uuid stream:(InputStream*)s key:(NSData *)key iv:(NSData *)iv {
-    InputStream *stream = nil;
-    
-    if ([uuid isEqual:[KdbUUID getAESUUID]]) {
-        stream = [[AesInputStream alloc] initWithInputStream:s key:key iv:iv];
-    } else if ([uuid isEqual:[KdbUUID getChaCha20UUID]]) {
-        stream = [[ChaCha20InputStream alloc] initWithInputStream:s key:key iv:iv];
-    } else {
-        @throw [NSException exceptionWithName:@"CryptoException" reason:@"Unknown cipher" userInfo:nil];
-    }
-    
-    return stream;
++ (InputStream *)getInputStream:(KdbUUID *)uuid
+                         stream:(InputStream *)s
+                            key:(NSData *)key
+                             iv:(NSData *)iv {
+  InputStream *stream = nil;
+
+  if ([uuid isEqual:[KdbUUID getAESUUID]]) {
+    stream = [[AesInputStream alloc] initWithInputStream:s key:key iv:iv];
+  } else if ([uuid isEqual:[KdbUUID getChaCha20UUID]]) {
+    stream = [[ChaCha20InputStream alloc] initWithInputStream:s key:key iv:iv];
+  } else {
+    @throw [NSException exceptionWithName:@"CryptoException"
+                                   reason:@"Unknown cipher"
+                                 userInfo:nil];
+  }
+
+  return stream;
 }
 
-+ (OutputStream *)getOutputStream:(KdbUUID *)uuid stream:(OutputStream*)s key:(NSData *)key iv:(NSData *)iv {
-    OutputStream *stream = nil;
-    
-    if ([uuid isEqual:[KdbUUID getAESUUID]]) {
-        stream = [[AesOutputStream alloc] initWithOutputStream:s key:key iv:iv];
-    } else if ([uuid isEqual:[KdbUUID getChaCha20UUID]]) {
-        stream = [[ChaCha20OutputStream alloc] initWithOutputStream:s key:key iv:iv];
-    } else {
-        @throw [NSException exceptionWithName:@"CryptoException" reason:@"Unknown cipher" userInfo:nil];
-    }
-    
-    return stream;
++ (OutputStream *)getOutputStream:(KdbUUID *)uuid
+                           stream:(OutputStream *)s
+                              key:(NSData *)key
+                               iv:(NSData *)iv {
+  OutputStream *stream = nil;
+
+  if ([uuid isEqual:[KdbUUID getAESUUID]]) {
+    stream = [[AesOutputStream alloc] initWithOutputStream:s key:key iv:iv];
+  } else if ([uuid isEqual:[KdbUUID getChaCha20UUID]]) {
+    stream = [[ChaCha20OutputStream alloc] initWithOutputStream:s
+                                                            key:key
+                                                             iv:iv];
+  } else {
+    @throw [NSException exceptionWithName:@"CryptoException"
+                                   reason:@"Unknown cipher"
+                                 userInfo:nil];
+  }
+
+  return stream;
 }
 
 @end

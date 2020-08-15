@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <UIKit/UIKit.h>
 #import "Kdb.h"
+#import <UIKit/UIKit.h>
 
 @interface WebViewController : UIViewController
 
-@property (nonatomic, retain) KdbEntry *entry;
+@property(nonatomic, retain) KdbEntry *entry;
 
 @end

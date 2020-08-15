@@ -27,176 +27,215 @@ static KdbUUID *ARGON2_UUID;
 @synthesize uuid;
 
 - (id)init {
-    self = [super init];
-	if (self) {
-		uuid = CFUUIDCreate(kCFAllocatorDefault);
-	}
-	return self;
+  self = [super init];
+  if (self) {
+    uuid = CFUUIDCreate(kCFAllocatorDefault);
+  }
+  return self;
 }
 
 - (id)initWithBytes:(uint8_t *)bytes {
-    self = [super init];
-	if (self) {
-		uuid = CFUUIDCreateWithBytes(kCFAllocatorDefault, bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7], bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
-	}
-	return self;
+  self = [super init];
+  if (self) {
+    uuid = CFUUIDCreateWithBytes(
+        kCFAllocatorDefault, bytes[0], bytes[1], bytes[2], bytes[3], bytes[4],
+        bytes[5], bytes[6], bytes[7], bytes[8], bytes[9], bytes[10], bytes[11],
+        bytes[12], bytes[13], bytes[14], bytes[15]);
+  }
+  return self;
 }
 
 - (id)initWithData:(NSData *)data {
-    self = [super init];
-	if (self) {
-        uint8_t bytes[16];
-        [data getBytes:bytes length:sizeof(bytes)];
+  self = [super init];
+  if (self) {
+    uint8_t bytes[16];
+    [data getBytes:bytes length:sizeof(bytes)];
 
-		uuid = CFUUIDCreateWithBytes(kCFAllocatorDefault, bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7], bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
-	}
-	return self;
+    uuid = CFUUIDCreateWithBytes(
+        kCFAllocatorDefault, bytes[0], bytes[1], bytes[2], bytes[3], bytes[4],
+        bytes[5], bytes[6], bytes[7], bytes[8], bytes[9], bytes[10], bytes[11],
+        bytes[12], bytes[13], bytes[14], bytes[15]);
+  }
+  return self;
 }
 
 - (id)initWithString:(NSString *)string {
-    self = [super init];
-	if (self) {
-        uuid = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)string);
-	}
-	return self;
+  self = [super init];
+  if (self) {
+    uuid = CFUUIDCreateFromString(kCFAllocatorDefault, (CFStringRef)string);
+  }
+  return self;
 }
 
 - (void)dealloc {
-    CFRelease(uuid);
+  CFRelease(uuid);
 }
 
-- (void)getBytes:(uint8_t*)bytes length:(NSUInteger)length {
-    if (length < 16) {
-        @throw [NSException exceptionWithName:@"IllegalArgumentException" reason:@"Length is less then 16 bytes" userInfo:nil];
-    }
-    
-    CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
-    memcpy(bytes, &uuidBytes, 16);
+- (void)getBytes:(uint8_t *)bytes length:(NSUInteger)length {
+  if (length < 16) {
+    @throw [NSException exceptionWithName:@"IllegalArgumentException"
+                                   reason:@"Length is less then 16 bytes"
+                                 userInfo:nil];
+  }
+
+  CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
+  memcpy(bytes, &uuidBytes, 16);
 }
 
 - (NSData *)getData {
-    uint8_t bytes[16];
+  uint8_t bytes[16];
 
-    CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
-    memcpy(bytes, &uuidBytes, 16);
+  CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
+  memcpy(bytes, &uuidBytes, 16);
 
-    return [NSData dataWithBytes:bytes length:sizeof(bytes)];
+  return [NSData dataWithBytes:bytes length:sizeof(bytes)];
 }
 
 - (BOOL)isEqual:(id)object {
-    if (self == object) {
-        return YES;
-    }
-    
-    if ([object isKindOfClass:[KdbUUID class]]) {
-        CFUUIDBytes uuidBytes1 = CFUUIDGetUUIDBytes(uuid);
-        CFUUIDBytes uuidBytes2 = CFUUIDGetUUIDBytes(((KdbUUID*)object).uuid);
-        return memcmp(&uuidBytes1, &uuidBytes2, sizeof(CFUUIDBytes)) == 0;
-    }
-    
-    return NO;
+  if (self == object) {
+    return YES;
+  }
+
+  if ([object isKindOfClass:[KdbUUID class]]) {
+    CFUUIDBytes uuidBytes1 = CFUUIDGetUUIDBytes(uuid);
+    CFUUIDBytes uuidBytes2 = CFUUIDGetUUIDBytes(((KdbUUID *)object).uuid);
+    return memcmp(&uuidBytes1, &uuidBytes2, sizeof(CFUUIDBytes)) == 0;
+  }
+
+  return NO;
 }
 
-- (NSString*)description {
-    NSString *uuidString = (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, uuid)); // FIXME Double check CFBridgingRelease
-    return uuidString;
+- (NSString *)description {
+  NSString *uuidString = (NSString *)CFBridgingRelease(
+      CFUUIDCreateString(NULL, uuid)); // FIXME Double check CFBridgingRelease
+  return uuidString;
 }
 
 + (KdbUUID *)uuid {
-    return [[KdbUUID alloc] init];
+  return [[KdbUUID alloc] init];
 }
 
 + (KdbUUID *)nullUuid {
-    uint8_t bytes[16] = {0};
-    return [[KdbUUID alloc] initWithBytes:bytes];
+  uint8_t bytes[16] = {0};
+  return [[KdbUUID alloc] initWithBytes:bytes];
 }
 
-+ (KdbUUID*)getAESUUID {
-    @synchronized(self) {
-        if (!AES_UUID) {
-            uint8_t bytes[16];
-            bytes[0]=0x31; bytes[1]=0xC1;
-            bytes[2]=0xF2; bytes[3]=0xE6;
-            bytes[4]=0xBF; bytes[5]=0x71;
-            bytes[6]=0x43; bytes[7]=0x50;
-            bytes[8]=0xBE; bytes[9]=0x58;
-            bytes[10]=0x05; bytes[11]=0x21;
-            bytes[12]=0x6A; bytes[13]=0xFC;
-            bytes[14]=0x5A; bytes[15]=0xFF;
++ (KdbUUID *)getAESUUID {
+  @synchronized(self) {
+    if (!AES_UUID) {
+      uint8_t bytes[16];
+      bytes[0] = 0x31;
+      bytes[1] = 0xC1;
+      bytes[2] = 0xF2;
+      bytes[3] = 0xE6;
+      bytes[4] = 0xBF;
+      bytes[5] = 0x71;
+      bytes[6] = 0x43;
+      bytes[7] = 0x50;
+      bytes[8] = 0xBE;
+      bytes[9] = 0x58;
+      bytes[10] = 0x05;
+      bytes[11] = 0x21;
+      bytes[12] = 0x6A;
+      bytes[13] = 0xFC;
+      bytes[14] = 0x5A;
+      bytes[15] = 0xFF;
 
-            AES_UUID = [[KdbUUID alloc] initWithBytes:bytes];
-        }
+      AES_UUID = [[KdbUUID alloc] initWithBytes:bytes];
     }
-    return AES_UUID;
+  }
+  return AES_UUID;
 }
-+ (KdbUUID*)getAES_KDFUUID {
-    @synchronized(self) {
-        if (!AES_KDF_UUID) {
-            uint8_t bytes[16];
-            bytes[0]=0xC9; bytes[1]=0xD9;
-            bytes[2]=0xF3; bytes[3]=0x9A;
-            bytes[4]=0x62; bytes[5]=0x8A;
-            bytes[6]=0x44; bytes[7]=0x60;
-            bytes[8]=0xBF; bytes[9]=0x74;
-            bytes[10]=0x0D; bytes[11]=0x08;
-            bytes[12]=0xC1; bytes[13]=0x8A;
-            bytes[14]=0x4F; bytes[15]=0xEA;
++ (KdbUUID *)getAES_KDFUUID {
+  @synchronized(self) {
+    if (!AES_KDF_UUID) {
+      uint8_t bytes[16];
+      bytes[0] = 0xC9;
+      bytes[1] = 0xD9;
+      bytes[2] = 0xF3;
+      bytes[3] = 0x9A;
+      bytes[4] = 0x62;
+      bytes[5] = 0x8A;
+      bytes[6] = 0x44;
+      bytes[7] = 0x60;
+      bytes[8] = 0xBF;
+      bytes[9] = 0x74;
+      bytes[10] = 0x0D;
+      bytes[11] = 0x08;
+      bytes[12] = 0xC1;
+      bytes[13] = 0x8A;
+      bytes[14] = 0x4F;
+      bytes[15] = 0xEA;
 
-            AES_KDF_UUID = [[KdbUUID alloc] initWithBytes:bytes];
-        }
+      AES_KDF_UUID = [[KdbUUID alloc] initWithBytes:bytes];
     }
-    return AES_KDF_UUID;
+  }
+  return AES_KDF_UUID;
 }
 
-+ (KdbUUID*)getChaCha20UUID {
-    @synchronized(self) {
-        if (!CHACHA20_UUID) {
-            uint8_t bytes[16];
-            bytes[0]=0xD6; bytes[1]=0x03;
-            bytes[2]=0x8A; bytes[3]=0x2B;
-            bytes[4]=0x8B; bytes[5]=0x6F;
-            bytes[6]=0x4C; bytes[7]=0xB5;
-            bytes[8]=0xA5; bytes[9]=0x24;
-            bytes[10]=0x33; bytes[11]=0x9A;
-            bytes[12]=0x31; bytes[13]=0xDB;
-            bytes[14]=0xB5; bytes[15]=0x9A;
-            
-            CHACHA20_UUID = [[KdbUUID alloc] initWithBytes:bytes];
-        }
++ (KdbUUID *)getChaCha20UUID {
+  @synchronized(self) {
+    if (!CHACHA20_UUID) {
+      uint8_t bytes[16];
+      bytes[0] = 0xD6;
+      bytes[1] = 0x03;
+      bytes[2] = 0x8A;
+      bytes[3] = 0x2B;
+      bytes[4] = 0x8B;
+      bytes[5] = 0x6F;
+      bytes[6] = 0x4C;
+      bytes[7] = 0xB5;
+      bytes[8] = 0xA5;
+      bytes[9] = 0x24;
+      bytes[10] = 0x33;
+      bytes[11] = 0x9A;
+      bytes[12] = 0x31;
+      bytes[13] = 0xDB;
+      bytes[14] = 0xB5;
+      bytes[15] = 0x9A;
+
+      CHACHA20_UUID = [[KdbUUID alloc] initWithBytes:bytes];
     }
-    return CHACHA20_UUID;
+  }
+  return CHACHA20_UUID;
 }
 
-+ (KdbUUID*)getArgon2UUID {
-    @synchronized(self) {
-        if (!ARGON2_UUID) {
-            uint8_t bytes[16];
-            bytes[0]=0xEF; bytes[1]=0x63;
-            bytes[2]=0x6D; bytes[3]=0xDF;
-            bytes[4]=0x8C; bytes[5]=0x29;
-            bytes[6]=0x44; bytes[7]=0x4B;
-            bytes[8]=0x91; bytes[9]=0xF7;
-            bytes[10]=0xA9; bytes[11]=0xA4;
-            bytes[12]=0x03; bytes[13]=0xE3;
-            bytes[14]=0x0A; bytes[15]=0x0C;
-            
-            ARGON2_UUID = [[KdbUUID alloc] initWithBytes:bytes];
-        }
++ (KdbUUID *)getArgon2UUID {
+  @synchronized(self) {
+    if (!ARGON2_UUID) {
+      uint8_t bytes[16];
+      bytes[0] = 0xEF;
+      bytes[1] = 0x63;
+      bytes[2] = 0x6D;
+      bytes[3] = 0xDF;
+      bytes[4] = 0x8C;
+      bytes[5] = 0x29;
+      bytes[6] = 0x44;
+      bytes[7] = 0x4B;
+      bytes[8] = 0x91;
+      bytes[9] = 0xF7;
+      bytes[10] = 0xA9;
+      bytes[11] = 0xA4;
+      bytes[12] = 0x03;
+      bytes[13] = 0xE3;
+      bytes[14] = 0x0A;
+      bytes[15] = 0x0C;
+
+      ARGON2_UUID = [[KdbUUID alloc] initWithBytes:bytes];
     }
-    return ARGON2_UUID;
+  }
+  return ARGON2_UUID;
 }
 
-+ (NSData *)stringToData:(NSString *)string
-{
-    NSMutableData *searchKeyData = [NSMutableData data];
-    for(int c = 0; c < [string length]; c++){
-        int number = [string characterAtIndex:c];
-        unsigned char c[1];
-        c[0] = (unsigned char)number;
-        [searchKeyData appendBytes:&c length:1];
-    }
-    return searchKeyData;
++ (NSData *)stringToData:(NSString *)string {
+  NSMutableData *searchKeyData = [NSMutableData data];
+  for (int c = 0; c < [string length]; c++) {
+    int number = [string characterAtIndex:c];
+    unsigned char c[1];
+    c[0] = (unsigned char)number;
+    [searchKeyData appendBytes:&c length:1];
+  }
+  return searchKeyData;
 }
-
 
 @end

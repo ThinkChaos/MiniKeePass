@@ -18,10 +18,10 @@
 #import <Foundation/Foundation.h>
 
 @interface KdbUUID : NSObject {
-    CFUUIDRef uuid;
+  CFUUIDRef uuid;
 }
 
-@property (nonatomic, assign) CFUUIDRef uuid;
+@property(nonatomic, assign) CFUUIDRef uuid;
 
 - (id)initWithBytes:(uint8_t *)bytes;
 - (id)initWithData:(NSData *)data;

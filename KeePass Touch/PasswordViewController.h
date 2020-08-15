@@ -15,18 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "FormViewController.h"
 #import "ChoiceCell.h"
+#import "FormViewController.h"
 #import "MasterPasswordFieldCell.h"
 
-@interface PasswordViewController : FormViewController <SelectionListViewControllerDelegate> {
-    MasterPasswordFieldCell *masterPasswordFieldCell;
-    ChoiceCell *keyFileCell;
+@interface PasswordViewController
+    : FormViewController <SelectionListViewControllerDelegate> {
+  MasterPasswordFieldCell *masterPasswordFieldCell;
+  ChoiceCell *keyFileCell;
 }
 
-@property (nonatomic, readonly) MasterPasswordFieldCell *masterPasswordFieldCell;
-@property (nonatomic, readonly) ChoiceCell *keyFileCell;
+@property(nonatomic, readonly) MasterPasswordFieldCell *masterPasswordFieldCell;
+@property(nonatomic, readonly) ChoiceCell *keyFileCell;
 
-- (id)initWithFilename:(NSString*)filename;
+- (id)initWithFilename:(NSString *)filename;
 
 @end

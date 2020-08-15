@@ -24,52 +24,55 @@
 
 @implementation ChaCha20OutputStream
 
-- (id)initWithOutputStream:(OutputStream *)stream key:(NSData *)key iv:(NSData *)iv {
-    self = [super init];
-    if (self) {
-        outputStream = stream;
-        
-        cipher = [[ChaCha20Cipher alloc] init:key iv:iv];
-        
-        bufferCapacity = 1024*1024;
-        buffer = malloc(bufferCapacity);
-    }
-    return self;
+- (id)initWithOutputStream:(OutputStream *)stream
+                       key:(NSData *)key
+                        iv:(NSData *)iv {
+  self = [super init];
+  if (self) {
+    outputStream = stream;
+
+    cipher = [[ChaCha20Cipher alloc] init:key iv:iv];
+
+    bufferCapacity = 1024 * 1024;
+    buffer = malloc(bufferCapacity);
+  }
+  return self;
 }
 
 - (void)dealloc {
-    free(buffer);
+  free(buffer);
 }
 
 - (NSUInteger)write:(const void *)bytes length:(NSUInteger)bytesLength {
-    // Ensure the buffer has enough space to store the encrypted data
-    [self ensureBufferCapacity:bytesLength];
-    if (buffer == nil) {
-        @throw [NSException exceptionWithName:@"MallocException" reason:@"Failed allocate memory" userInfo:nil];
-        
-    }
-    
-    memcpy(buffer, bytes, bytesLength);
-    
-    // Encrypt the data
-    [cipher Encrypt:buffer iOffset:0 count:bytesLength];
-    
-    // Write the encrypted data
-    return [outputStream write:buffer length:bytesLength];
+  // Ensure the buffer has enough space to store the encrypted data
+  [self ensureBufferCapacity:bytesLength];
+  if (buffer == nil) {
+    @throw [NSException exceptionWithName:@"MallocException"
+                                   reason:@"Failed allocate memory"
+                                 userInfo:nil];
+  }
+
+  memcpy(buffer, bytes, bytesLength);
+
+  // Encrypt the data
+  [cipher Encrypt:buffer iOffset:0 count:bytesLength];
+
+  // Write the encrypted data
+  return [outputStream write:buffer length:bytesLength];
 }
 
 - (void)close {
-    [outputStream close];
+  [outputStream close];
 }
 
 - (void)ensureBufferCapacity:(size_t)capacity {
-    // Check if we need to resize the internal buffer
-    if (capacity > bufferCapacity) {
-        free(buffer);
-        
-        bufferCapacity = capacity;
-        buffer = malloc(bufferCapacity);
-    }
+  // Check if we need to resize the internal buffer
+  if (capacity > bufferCapacity) {
+    free(buffer);
+
+    bufferCapacity = capacity;
+    buffer = malloc(bufferCapacity);
+  }
 }
 
 @end

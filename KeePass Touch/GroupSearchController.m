@@ -19,50 +19,54 @@
 #import "KeePassTouchAppDelegate.h"
 
 @interface GroupSearchController ()
-@property (nonatomic, weak) KeePassTouchAppDelegate *appDelegate;
-@property (nonatomic, strong) NSMutableArray *results;
+@property(nonatomic, weak) KeePassTouchAppDelegate *appDelegate;
+@property(nonatomic, strong) NSMutableArray *results;
 @end
 
 @implementation GroupSearchController
 
 - (id)init {
-    self = [super init];
-    if (self) {
-        self.appDelegate = [KeePassTouchAppDelegate appDelegate];
-        self.results = [[NSMutableArray alloc] init];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    self.appDelegate = [KeePassTouchAppDelegate appDelegate];
+    self.results = [[NSMutableArray alloc] init];
+  }
+  return self;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.results count];
+- (NSInteger)tableView:(UITableView *)tableView
+    numberOfRowsInSection:(NSInteger)section {
+  return [self.results count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Configure the cell
-    KdbEntry *entry = [_results objectAtIndex:indexPath.row];
-    return [self.groupViewController tableView:tableView cellForEntry:entry];
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  // Configure the cell
+  KdbEntry *entry = [_results objectAtIndex:indexPath.row];
+  return [self.groupViewController tableView:tableView cellForEntry:entry];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    KdbEntry *entry = [_results objectAtIndex:indexPath.row];
-    [self.groupViewController pushViewControllerForEntry:entry];
+- (void)tableView:(UITableView *)tableView
+    didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  KdbEntry *entry = [_results objectAtIndex:indexPath.row];
+  [self.groupViewController pushViewControllerForEntry:entry];
 }
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    [self.results removeAllObjects];
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller
+    shouldReloadTableForSearchString:(NSString *)searchString {
+  [self.results removeAllObjects];
 
-    // Perform the search
-    [DatabaseDocument searchGroup:self.groupViewController.group
-                       searchText:searchString
-                          results:self.results];
+  // Perform the search
+  [DatabaseDocument searchGroup:self.groupViewController.group
+                     searchText:searchString
+                        results:self.results];
 
-    // Sort the results
-    [self.results sortUsingComparator:^(id a, id b) {
-        return [((KdbEntry*)a).title localizedCompare:((KdbEntry*)b).title];
-    }];
+  // Sort the results
+  [self.results sortUsingComparator:^(id a, id b) {
+    return [((KdbEntry *)a).title localizedCompare:((KdbEntry *)b).title];
+  }];
 
-    return YES;
+  return YES;
 }
 
 @end

@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "InputStream.h"
+#import <Foundation/Foundation.h>
 
 @interface FileInputStream : InputStream {
-    int fd;
+  int fd;
 }
 
-- (id)initWithFilename:(NSString*)filename;
+- (id)initWithFilename:(NSString *)filename;
 - (off_t)seek:(NSUInteger)offset;
 - (off_t)getpos;
 

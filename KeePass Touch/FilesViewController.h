@@ -15,27 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "FilesInfoView.h"
-#import "TextEntryController.h"
-#import "NewKdbViewController.h"
-#import "GCDWebUploader.h"
 #import "FilesUploadDelegate.h"
+#import "GCDWebUploader.h"
+#import "NewKdbViewController.h"
+#import "TextEntryController.h"
+#import <Foundation/Foundation.h>
 #import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 @class KeePassTouchAppDelegate;
 
-@interface FilesViewController : UITableViewController<GCDWebUploaderDelegate, UIPopoverPresentationControllerDelegate>
+@interface FilesViewController
+    : UITableViewController <GCDWebUploaderDelegate,
+                             UIPopoverPresentationControllerDelegate>
 
 - (void)updateFiles;
 - (void)reloadTableViewData;
 - (void)openDatabaseWithFilename:(NSString *)filename;
 - (void)syncDropbox;
 
-@property (nonatomic, strong) DBUserClient *userClient;
-@property (nonatomic, strong) NSArray <DBFILESFileMetadata *> *collisionArray;
-@property (nonatomic, strong) NSMutableArray *databaseFiles;
-@property (nonatomic,readonly) void (^showError) (NSError * error);
-
+@property(nonatomic, strong) DBUserClient *userClient;
+@property(nonatomic, strong) NSArray<DBFILESFileMetadata *> *collisionArray;
+@property(nonatomic, strong) NSMutableArray *databaseFiles;
+@property(nonatomic, readonly) void (^showError)(NSError *error);
 
 @end

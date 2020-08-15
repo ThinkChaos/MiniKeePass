@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface Kdb3Date : NSObject {
-    
 }
 
-+ (NSDate*)fromPacked:(uint8_t *)buffer;
-+ (void)toPacked:(NSDate*)date bytes:(uint8_t*)bytes;
++ (NSDate *)fromPacked:(uint8_t *)buffer;
++ (void)toPacked:(NSDate *)date bytes:(uint8_t *)bytes;
 
 @end

@@ -17,11 +17,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Base64 : NSObject  {
-
+@interface Base64 : NSObject {
 }
 
-+ (NSMutableData*)encode:(NSData*)inputData;
-+ (NSMutableData*)decode:(NSData*)inputData;
++ (NSMutableData *)encode:(NSData *)inputData;
++ (NSMutableData *)decode:(NSData *)inputData;
 
 @end

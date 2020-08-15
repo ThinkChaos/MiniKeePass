@@ -15,23 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "OutputStream.h"
+#import <Foundation/Foundation.h>
 
 @interface HmacOutputStream : OutputStream {
-    OutputStream *outputStream;
-    
-    NSData *hmacKey;
-    
-    uint64_t blockIndex;
-    
-    uint8_t *buffer;
-    uint32_t bufferOffset;
-    uint32_t bufferLength;
-    
-    BOOL eof;
+  OutputStream *outputStream;
+
+  NSData *hmacKey;
+
+  uint64_t blockIndex;
+
+  uint8_t *buffer;
+  uint32_t bufferOffset;
+  uint32_t bufferLength;
+
+  BOOL eof;
 }
 
-- (id)initWithOutputStream:(OutputStream *)stream key:(NSData*)key;
+- (id)initWithOutputStream:(OutputStream *)stream key:(NSData *)key;
 
 @end

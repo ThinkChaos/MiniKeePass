@@ -15,19 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "Kdb.h"
 #import "KdbPassword.h"
+#import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, DBVersion) {
-    DBVersion1x = 0,
-    DBVersion2x = 1,
-    DBVersionKdbx4 = 2
+  DBVersion1x = 0,
+  DBVersion2x = 1,
+  DBVersionKdbx4 = 2
 };
 
-@protocol KdbWriter<NSObject>
+@protocol KdbWriter <NSObject>
 
-- (void)persist:(KdbTree*)tree file:(NSString*)filename withPassword:(KdbPassword*)kdbPassword;
-- (void)newFile:(NSString*)fileName withPassword:(KdbPassword*)kdbPassword withDBVersion:(DBVersion)dbVersion;
+- (void)persist:(KdbTree *)tree
+            file:(NSString *)filename
+    withPassword:(KdbPassword *)kdbPassword;
+- (void)newFile:(NSString *)fileName
+     withPassword:(KdbPassword *)kdbPassword
+    withDBVersion:(DBVersion)dbVersion;
 
 @end

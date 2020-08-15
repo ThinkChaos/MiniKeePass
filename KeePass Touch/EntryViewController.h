@@ -17,23 +17,27 @@
 
 #import <Foundation/Foundation.h>
 
-#import "TextFieldCell.h"
-#import "TitleFieldCell.h"
-#import "UrlFieldCell.h"
-#import "TextViewCell.h"
-#import "PasswordFieldCell.h"
 #import "ImageSelectionViewController.h"
 #import "KdbLib.h"
 #import "KeePassTouchAppDelegate.h"
+#import "PasswordFieldCell.h"
 #import "PasswordGeneratorViewController.h"
 #import "StringFieldViewController.h"
+#import "TextFieldCell.h"
+#import "TextViewCell.h"
+#import "TitleFieldCell.h"
+#import "UrlFieldCell.h"
 
-@interface EntryViewController : UITableViewController <UIGestureRecognizerDelegate, ImageSelectionViewDelegate, PasswordGeneratorDelegate, TitleFieldCellDelegate, TextFieldCellDelegate, UIDocumentInteractionControllerDelegate>
+@interface EntryViewController
+    : UITableViewController <
+          UIGestureRecognizerDelegate, ImageSelectionViewDelegate,
+          PasswordGeneratorDelegate, TitleFieldCellDelegate,
+          TextFieldCellDelegate, UIDocumentInteractionControllerDelegate>
 
-@property (nonatomic, assign) NSUInteger selectedImageIndex;
-@property (nonatomic, strong) KdbEntry *entry;
-@property (nonatomic, strong) NSString *temporaryFileAttachmentPath;
-@property (nonatomic) BOOL isNewEntry;
-@property (nonatomic) NSString *searchKey;
+@property(nonatomic, assign) NSUInteger selectedImageIndex;
+@property(nonatomic, strong) KdbEntry *entry;
+@property(nonatomic, strong) NSString *temporaryFileAttachmentPath;
+@property(nonatomic) BOOL isNewEntry;
+@property(nonatomic) NSString *searchKey;
 
 @end

@@ -17,24 +17,24 @@
 
 #import <Foundation/Foundation.h>
 
-#import "KdbReader.h"
 #import "Kdb4Node.h"
+#import "KdbReader.h"
 #import "UUID.h"
 #import "Utils.h"
 
-@interface Kdb4Reader : NSObject<KdbReader> {
-    uint32_t dbVersion;
-    NSData *comment;
-    KdbUUID *cipherUuid;
-    uint32_t compressionAlgorithm;
-    NSData *masterSeed;
-    NSData *encryptionIv;
-    NSData *protectedStreamKey;
-    NSData *streamStartBytes;
-    uint32_t randomStreamID;
-    VariantDictionary *kdfParams;
-    VariantDictionary *customPluginData;
-    NSMutableArray *binaryData;
+@interface Kdb4Reader : NSObject <KdbReader> {
+  uint32_t dbVersion;
+  NSData *comment;
+  KdbUUID *cipherUuid;
+  uint32_t compressionAlgorithm;
+  NSData *masterSeed;
+  NSData *encryptionIv;
+  NSData *protectedStreamKey;
+  NSData *streamStartBytes;
+  uint32_t randomStreamID;
+  VariantDictionary *kdfParams;
+  VariantDictionary *customPluginData;
+  NSMutableArray *binaryData;
 }
 
 @end

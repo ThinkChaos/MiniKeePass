@@ -15,14 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "Kdb.h"
 #import "KdbPassword.h"
+#import <Foundation/Foundation.h>
 
 @interface KdbWriterFactory : NSObject {
-    
 }
 
-+ (void)persist:(KdbTree*)tree file:(NSString*)filename withPassword:(KdbPassword*)kdbPassword;
++ (void)persist:(KdbTree *)tree
+            file:(NSString *)filename
+    withPassword:(KdbPassword *)kdbPassword;
 
 @end

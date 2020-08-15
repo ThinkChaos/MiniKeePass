@@ -15,16 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import "OutputStream.h"
 #import "BlockCipher.h"
+#import "OutputStream.h"
+#import <Foundation/Foundation.h>
 
 @interface TwoFishOutputStream : OutputStream {
-    OutputStream *outputStream;
-    
-    BlockCipher *cipher;
+  OutputStream *outputStream;
+
+  BlockCipher *cipher;
 }
 
-- (id)initWithOutputStream:(OutputStream *)stream key:(NSData *)key iv:(NSData *)iv;
+- (id)initWithOutputStream:(OutputStream *)stream
+                       key:(NSData *)key
+                        iv:(NSData *)iv;
 
 @end

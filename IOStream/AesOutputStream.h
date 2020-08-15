@@ -15,19 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonCryptor.h>
 #import "OutputStream.h"
+#import <CommonCrypto/CommonCryptor.h>
+#import <Foundation/Foundation.h>
 
 @interface AesOutputStream : OutputStream {
-    OutputStream *outputStream;
-    
-    CCCryptorRef cryptorRef;
-    
-    size_t bufferCapacity;
-    uint8_t *buffer;
+  OutputStream *outputStream;
+
+  CCCryptorRef cryptorRef;
+
+  size_t bufferCapacity;
+  uint8_t *buffer;
 }
 
-- (id)initWithOutputStream:(OutputStream*)stream key:(NSData*)key iv:(NSData*)iv;
+- (id)initWithOutputStream:(OutputStream *)stream
+                       key:(NSData *)key
+                        iv:(NSData *)iv;
 
 @end

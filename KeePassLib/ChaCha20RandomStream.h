@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import "RandomStream.h"
 #import "BlockCipher.h"
+#import "RandomStream.h"
+#import <Foundation/Foundation.h>
 
 @interface ChaCha20RandomStream : RandomStream {
-    BlockCipher *cipher;
+  BlockCipher *cipher;
 }
 
-- (id)init:(NSData*)key;
+- (id)init:(NSData *)key;
 
 @end

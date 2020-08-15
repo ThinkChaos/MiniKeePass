@@ -31,9 +31,13 @@
 
 @interface KeychainUtils : NSObject
 
-+ (NSString *)stringForKey:(NSString *)key andServiceName:(NSString *)serviceName;
-+ (BOOL)setString:(NSString *)string forKey:(NSString *)key andServiceName:(NSString *)serviceName;
-+ (BOOL)deleteStringForKey:(NSString *)key andServiceName:(NSString *)serviceName;
++ (NSString *)stringForKey:(NSString *)key
+            andServiceName:(NSString *)serviceName;
++ (BOOL)setString:(NSString *)string
+            forKey:(NSString *)key
+    andServiceName:(NSString *)serviceName;
++ (BOOL)deleteStringForKey:(NSString *)key
+            andServiceName:(NSString *)serviceName;
 + (BOOL)deleteAllForServiceName:(NSString *)serviceName;
 
 @end

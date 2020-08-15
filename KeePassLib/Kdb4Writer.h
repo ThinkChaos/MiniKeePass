@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import "KdbWriter.h"
 #import "Kdb4Node.h"
+#import "KdbWriter.h"
+#import <Foundation/Foundation.h>
 
-@interface Kdb4Writer : NSObject<KdbWriter> {
-    NSData *masterSeed;
-    NSData *encryptionIv;
-    NSData *protectedStreamKey;
-    NSData *streamStartBytes;
-    uint32_t dbVersion;
+@interface Kdb4Writer : NSObject <KdbWriter> {
+  NSData *masterSeed;
+  NSData *encryptionIv;
+  NSData *protectedStreamKey;
+  NSData *streamStartBytes;
+  uint32_t dbVersion;
 }
 
 @end

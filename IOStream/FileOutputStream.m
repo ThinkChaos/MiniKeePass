@@ -19,35 +19,37 @@
 
 @implementation FileOutputStream
 
-- (id)initWithFilename:(NSString*)filename flags:(int)flags mode:(mode_t)mode {
-    self = [super init];
-    if (self) {
-        fd = open([filename UTF8String], flags, mode);
-        if (fd == -1) {
-            @throw [NSException exceptionWithName:@"IOException" reason:@"Failed to open file" userInfo:nil];
-        }
+- (id)initWithFilename:(NSString *)filename flags:(int)flags mode:(mode_t)mode {
+  self = [super init];
+  if (self) {
+    fd = open([filename UTF8String], flags, mode);
+    if (fd == -1) {
+      @throw [NSException exceptionWithName:@"IOException"
+                                     reason:@"Failed to open file"
+                                   userInfo:nil];
     }
-    return self;
+  }
+  return self;
 }
 
 - (void)dealloc {
-    [self close];
+  [self close];
 }
 
 - (NSUInteger)write:(const void *)bytes length:(NSUInteger)bytesLength {
-    return write(fd, bytes, bytesLength);
+  return write(fd, bytes, bytesLength);
 }
 
 - (long long)seek:(NSUInteger)offset {
-    return lseek(fd, offset, SEEK_SET);
+  return lseek(fd, offset, SEEK_SET);
 }
 
 - (void)close {
-    if (fd == -1) {
-        return;
-    }
-    close(fd);
-    fd = -1;
+  if (fd == -1) {
+    return;
+  }
+  close(fd);
+  fd = -1;
 }
 
 @end

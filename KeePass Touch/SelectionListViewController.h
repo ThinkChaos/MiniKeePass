@@ -20,19 +20,21 @@
 @protocol SelectionListViewControllerDelegate;
 
 @interface SelectionListViewController : UITableViewController {
-    NSArray *items;
-    NSInteger selectedIndex;
-    id<SelectionListViewControllerDelegate> delegate;
-    id<NSObject> reference;
+  NSArray *items;
+  NSInteger selectedIndex;
+  id<SelectionListViewControllerDelegate> delegate;
+  id<NSObject> reference;
 }
 
-@property (nonatomic, strong) NSArray *items;
-@property (nonatomic) NSInteger selectedIndex;
-@property (nonatomic, strong) id<SelectionListViewControllerDelegate> delegate;
-@property (nonatomic, strong) id<NSObject> reference;
+@property(nonatomic, strong) NSArray *items;
+@property(nonatomic) NSInteger selectedIndex;
+@property(nonatomic, strong) id<SelectionListViewControllerDelegate> delegate;
+@property(nonatomic, strong) id<NSObject> reference;
 
 @end
 
 @protocol SelectionListViewControllerDelegate <NSObject>
-- (void)selectionListViewController:(SelectionListViewController*)controller selectedIndex:(NSInteger)selectedIndex withReference:(id<NSObject>)reference;
+- (void)selectionListViewController:(SelectionListViewController *)controller
+                      selectedIndex:(NSInteger)selectedIndex
+                      withReference:(id<NSObject>)reference;
 @end

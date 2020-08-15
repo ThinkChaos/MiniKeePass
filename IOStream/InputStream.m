@@ -19,94 +19,95 @@
 
 @implementation InputStream
 
-- (NSUInteger)read:(void*)bytes length:(NSUInteger)bytesLength {
-    [self doesNotRecognizeSelector:_cmd];
-    return 0;
+- (NSUInteger)read:(void *)bytes length:(NSUInteger)bytesLength {
+  [self doesNotRecognizeSelector:_cmd];
+  return 0;
 }
 
-- (NSData*)readData:(NSUInteger)length {
-    uint8_t *bytes = calloc(sizeof(uint8_t), length);
-    
-    [self read:bytes length:length];
-    NSData *data = [NSData dataWithBytes:bytes length:length];
-    free(bytes);
+- (NSData *)readData:(NSUInteger)length {
+  uint8_t *bytes = calloc(sizeof(uint8_t), length);
 
-    return data;
+  [self read:bytes length:length];
+  NSData *data = [NSData dataWithBytes:bytes length:length];
+  free(bytes);
+
+  return data;
 }
 
 - (uint8_t)readInt8 {
-    uint8_t value = 0;
-    
-    [self read:&value length:1];
-    
-    return value;
+  uint8_t value = 0;
+
+  [self read:&value length:1];
+
+  return value;
 }
 
 - (uint16_t)readInt16 {
-    uint16_t value = 0;
-    
-    [self read:&value length:2];
-    
-    return value;
+  uint16_t value = 0;
+
+  [self read:&value length:2];
+
+  return value;
 }
 
 - (uint32_t)readInt32 {
-    uint32_t value = 0;
-    
-    [self read:&value length:4];
-    
-    return value;
+  uint32_t value = 0;
+
+  [self read:&value length:4];
+
+  return value;
 }
 
 - (uint64_t)readInt64 {
-    uint64_t value = 0;
-    
-    [self read:&value length:8];
-    
-    return value;
+  uint64_t value = 0;
+
+  [self read:&value length:8];
+
+  return value;
 }
 
-- (NSString*)readString:(NSUInteger)length encoding:(NSStringEncoding)encoding {
-    uint8_t bytes[length];
-    
-    [self read:bytes length:length];
-    
-    return [[NSString alloc] initWithBytes:bytes length:length encoding:encoding];
+- (NSString *)readString:(NSUInteger)length
+                encoding:(NSStringEncoding)encoding {
+  uint8_t bytes[length];
+
+  [self read:bytes length:length];
+
+  return [[NSString alloc] initWithBytes:bytes length:length encoding:encoding];
 }
 
-- (NSString*)readCString:(NSUInteger)length encoding:(NSStringEncoding)encoding {
-    char str[length];
-    
-    [self read:str length:length];
-    
-    return [NSString stringWithCString:str encoding:encoding];
+- (NSString *)readCString:(NSUInteger)length
+                 encoding:(NSStringEncoding)encoding {
+  char str[length];
+
+  [self read:str length:length];
+
+  return [NSString stringWithCString:str encoding:encoding];
 }
 
 - (NSUInteger)skip:(NSUInteger)length {
-    NSUInteger n = length;
-    NSInteger ret;
+  NSUInteger n = length;
+  NSInteger ret;
 
-    if (length == 0) {
-        return 0;
+  if (length == 0) {
+    return 0;
+  }
+
+  NSUInteger buflen = MIN(n, 1024);
+  uint8_t bytes[buflen];
+
+  while (n > 0) {
+    ret = [self read:bytes length:MIN(n, buflen)];
+    if (ret < 0) {
+      break;
     }
 
-    NSUInteger buflen = MIN(n, 1024);
-    uint8_t bytes[buflen];
+    n -= ret;
+  }
 
-    while (n > 0) {
-        ret = [self read:bytes length:MIN(n, buflen)];
-        if (ret < 0) {
-            break;
-        }
-
-        n -= ret;
-    }
-
-    return length - n;
+  return length - n;
 }
 
 - (void)close {
-    
 }
 
 @end

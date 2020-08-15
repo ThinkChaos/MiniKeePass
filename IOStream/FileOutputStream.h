@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#import "OutputStream.h"
 #import <Foundation/Foundation.h>
 #include <fcntl.h>
-#import "OutputStream.h"
 
 @interface FileOutputStream : OutputStream {
-    int fd;
+  int fd;
 }
 
-- (id)initWithFilename:(NSString*)filename flags:(int)flags mode:(mode_t)mode;
+- (id)initWithFilename:(NSString *)filename flags:(int)flags mode:(mode_t)mode;
 - (long long)seek:(NSUInteger)offset;
 
 @end

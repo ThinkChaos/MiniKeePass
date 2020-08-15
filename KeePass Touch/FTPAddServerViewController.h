@@ -10,8 +10,6 @@
 
 @interface FTPAddServerViewController : KPViewController
 
-
-
-@property (nonatomic, copy) void (^doneCompletion)(void);
+@property(nonatomic, copy) void (^doneCompletion)(void);
 
 @end

@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "Kdb3Node.h"
+#import <Foundation/Foundation.h>
 
 @interface Kdb3Utils : NSObject
 

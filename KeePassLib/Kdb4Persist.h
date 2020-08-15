@@ -15,20 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "Kdb4Node.h"
 #import "OutputStream.h"
 #import "RandomStream.h"
+#import <Foundation/Foundation.h>
 
 @interface Kdb4Persist : NSObject {
-    Kdb4Tree *tree;
-    OutputStream *outputStream;
-    RandomStream *randomStream;
-    NSDateFormatter *dateFormatter;
-    NSDate *Kdbx4ReferenceDate;
+  Kdb4Tree *tree;
+  OutputStream *outputStream;
+  RandomStream *randomStream;
+  NSDateFormatter *dateFormatter;
+  NSDate *Kdbx4ReferenceDate;
 }
 
-- (id)initWithTree:(Kdb4Tree*)tree outputStream:(OutputStream*)stream randomStream:(RandomStream*)cryptoRandomStream;
+- (id)initWithTree:(Kdb4Tree *)tree
+      outputStream:(OutputStream *)stream
+      randomStream:(RandomStream *)cryptoRandomStream;
 - (void)persist;
 
 @end

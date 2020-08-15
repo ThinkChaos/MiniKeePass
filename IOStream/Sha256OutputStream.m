@@ -20,28 +20,28 @@
 @implementation Sha256OutputStream
 
 - (id)initWithOutputStream:(OutputStream *)stream {
-    self = [super init];
-    if (self) {
-        outputStream = stream;
-        
-        CC_SHA256_Init(&shaCtx);
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    outputStream = stream;
+
+    CC_SHA256_Init(&shaCtx);
+  }
+  return self;
 }
 
 - (NSUInteger)write:(const void *)bytes length:(NSUInteger)bytesLength {
-    CC_SHA256_Update(&shaCtx, bytes, (CC_LONG)bytesLength);
-    
-    return [outputStream write:bytes length:bytesLength];
+  CC_SHA256_Update(&shaCtx, bytes, (CC_LONG)bytesLength);
+
+  return [outputStream write:bytes length:bytesLength];
 }
 
 - (void)close {
-    [outputStream close];
-    CC_SHA256_Final(hash, &shaCtx);
+  [outputStream close];
+  CC_SHA256_Final(hash, &shaCtx);
 }
 
-- (uint8_t*)getHash {
-    return hash;
+- (uint8_t *)getHash {
+  return hash;
 }
 
 @end

@@ -15,24 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <UIKit/UIKit.h>
 #import "InfoBar.h"
+#import <UIKit/UIKit.h>
 
 @interface FormViewController : UITableViewController <UITextFieldDelegate>
 
-@property (nonatomic, strong) NSArray *controls;
+@property(nonatomic, strong) NSArray *controls;
 
-@property (nonatomic, copy) NSString *headerTitle;
-@property (nonatomic, copy) NSString *footerTitle;
+@property(nonatomic, copy) NSString *headerTitle;
+@property(nonatomic, copy) NSString *footerTitle;
 
-@property (nonatomic, copy) void (^donePressed)(FormViewController *formViewController);
-@property (nonatomic, copy) void (^cancelPressed)(FormViewController *formViewController);
+@property(nonatomic, copy) void (^donePressed)
+    (FormViewController *formViewController);
+@property(nonatomic, copy) void (^cancelPressed)
+    (FormViewController *formViewController);
 
 - (id)init;
 
 - (void)donePressed:(id)sender;
 - (void)cancelPressed:(id)sender;
 
-- (void)showErrorMessage:(NSString*)message;
+- (void)showErrorMessage:(NSString *)message;
 
 @end

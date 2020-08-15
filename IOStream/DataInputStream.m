@@ -19,25 +19,25 @@
 
 @implementation DataInputStream
 
-- (id)initWithData:(NSData*)d {
-    self = [super init];
-    if (self) {
-        data = d;
-        dataOffset = 0;
-    }
-    return self;
+- (id)initWithData:(NSData *)d {
+  self = [super init];
+  if (self) {
+    data = d;
+    dataOffset = 0;
+  }
+  return self;
 }
 
-- (NSUInteger)read:(void*)bytes length:(NSUInteger)bytesLength {
-    NSRange range;
-    range.location = dataOffset;
-    range.length = MIN([data length] - dataOffset, bytesLength);
-    
-    [data getBytes:bytes range:range];
-    
-    dataOffset += range.length;
-    
-    return range.length;
+- (NSUInteger)read:(void *)bytes length:(NSUInteger)bytesLength {
+  NSRange range;
+  range.location = dataOffset;
+  range.length = MIN([data length] - dataOffset, bytesLength);
+
+  [data getBytes:bytes range:range];
+
+  dataOffset += range.length;
+
+  return range.length;
 }
 
 @end

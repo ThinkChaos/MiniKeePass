@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
 #import "InputStream.h"
+#import <Foundation/Foundation.h>
 
 @interface DataInputStream : InputStream {
-    NSData *data;
-    NSUInteger dataOffset;
+  NSData *data;
+  NSUInteger dataOffset;
 }
 
-- (id)initWithData:(NSData*)d;
+- (id)initWithData:(NSData *)d;
 
 @end

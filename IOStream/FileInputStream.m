@@ -21,41 +21,42 @@
 
 @implementation FileInputStream
 
-- (id)initWithFilename:(NSString*)filename {
-    self = [super init];
-    if (self) {
-        fd = open([filename UTF8String], O_RDONLY);
-        if (fd == -1) {
-            @throw [NSException exceptionWithName:@"IOException" reason:@"Failed to open file" userInfo:nil];
-        }
+- (id)initWithFilename:(NSString *)filename {
+  self = [super init];
+  if (self) {
+    fd = open([filename UTF8String], O_RDONLY);
+    if (fd == -1) {
+      @throw [NSException exceptionWithName:@"IOException"
+                                     reason:@"Failed to open file"
+                                   userInfo:nil];
     }
-    return self;
+  }
+  return self;
 }
 
 - (void)dealloc {
-    [self close];
+  [self close];
 }
 
-- (NSUInteger)read:(void*)bytes length:(NSUInteger)bytesLength {
-    return read(fd, bytes, bytesLength);
+- (NSUInteger)read:(void *)bytes length:(NSUInteger)bytesLength {
+  return read(fd, bytes, bytesLength);
 }
 
 - (off_t)seek:(NSUInteger)offset {
-    return lseek(fd, offset, SEEK_SET);
+  return lseek(fd, offset, SEEK_SET);
 }
 
 - (off_t)getpos {
-    // Return the current file position
-    return lseek(fd, 0, SEEK_CUR);
+  // Return the current file position
+  return lseek(fd, 0, SEEK_CUR);
 }
 
-
 - (void)close {
-    if (fd == -1) {
-        return;
-    }
-    close(fd);
-    fd = -1;
+  if (fd == -1) {
+    return;
+  }
+  close(fd);
+  fd = -1;
 }
 
 @end

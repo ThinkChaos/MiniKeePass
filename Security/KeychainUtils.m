@@ -20,108 +20,119 @@
 
 @implementation KeychainUtils
 
-+ (NSString *)stringForKey:(NSString *)key andServiceName:(NSString *)serviceName {
-    CFTypeRef result_data = NULL;
-	OSStatus status;
++ (NSString *)stringForKey:(NSString *)key
+            andServiceName:(NSString *)serviceName {
+  CFTypeRef result_data = NULL;
+  OSStatus status;
 
-    // Check the arguments
-    if (key == nil || serviceName == nil) {
-        return nil;
-    }
+  // Check the arguments
+  if (key == nil || serviceName == nil) {
+    return nil;
+  }
 
-    NSDictionary *query = @{
-                            (__bridge id)kSecReturnData : (id)kCFBooleanTrue,
-                            (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                            (__bridge id)kSecAttrService : serviceName,
-                            (__bridge id)kSecAttrAccount : key,
-                            };
+  NSDictionary *query = @{
+    (__bridge id)kSecReturnData : (id)kCFBooleanTrue,
+    (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+    (__bridge id)kSecAttrService : serviceName,
+    (__bridge id)kSecAttrAccount : key,
+  };
 
-    status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result_data);
-	if (status != errSecSuccess) {
-        return nil;
-    }
+  status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result_data);
+  if (status != errSecSuccess) {
+    return nil;
+  }
 
-    NSData *resultData = (__bridge_transfer NSData *)result_data;
-    NSString *string = [[NSString alloc] initWithData:(id)resultData encoding:NSUTF8StringEncoding];
+  NSData *resultData = (__bridge_transfer NSData *)result_data;
+  NSString *string = [[NSString alloc] initWithData:(id)resultData
+                                           encoding:NSUTF8StringEncoding];
 
-	return string;
+  return string;
 }
 
-+ (BOOL)setString:(NSString *)string forKey:(NSString *)key andServiceName:(NSString *)serviceName {
-    OSStatus status;
++ (BOOL)setString:(NSString *)string
+            forKey:(NSString *)key
+    andServiceName:(NSString *)serviceName {
+  OSStatus status;
 
-    // Check the arguments
-    if (string == nil || key == nil || serviceName == nil) {
-        return NO;
-    }
+  // Check the arguments
+  if (string == nil || key == nil || serviceName == nil) {
+    return NO;
+  }
 
-    // Check if the item already exists
-    NSString *existingPassword = [KeychainUtils stringForKey:key andServiceName:serviceName];
-    if (existingPassword != nil) {
-        // Update
-        NSDictionary *query = @{
-                                (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                (__bridge id)kSecAttrService : serviceName,
-                                (__bridge id)kSecAttrAccount : key,
-                                };
+  // Check if the item already exists
+  NSString *existingPassword = [KeychainUtils stringForKey:key
+                                            andServiceName:serviceName];
+  if (existingPassword != nil) {
+    // Update
+    NSDictionary *query = @{
+      (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+      (__bridge id)kSecAttrService : serviceName,
+      (__bridge id)kSecAttrAccount : key,
+    };
 
-        NSDictionary *attributesToUpdate = @{
-                                             (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked,
-                                             (__bridge id)kSecValueData : [string dataUsingEncoding:NSUTF8StringEncoding],
-                                             };
+    NSDictionary *attributesToUpdate = @{
+      (__bridge id)
+      kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked,
+      (__bridge id)
+      kSecValueData : [string dataUsingEncoding:NSUTF8StringEncoding],
+    };
 
-        status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)attributesToUpdate);
-    } else {
-        // Add
-        NSDictionary *attributes = @{
-                                     (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                                     (__bridge id)kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked,
-                                     (__bridge id)kSecAttrService : serviceName,
-                                     (__bridge id)kSecAttrAccount : key,
-                                     (__bridge id)kSecValueData : [string dataUsingEncoding:NSUTF8StringEncoding],
-                                     };
+    status = SecItemUpdate((__bridge CFDictionaryRef)query,
+                           (__bridge CFDictionaryRef)attributesToUpdate);
+  } else {
+    // Add
+    NSDictionary *attributes = @{
+      (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+      (__bridge id)
+      kSecAttrAccessible : (__bridge id)kSecAttrAccessibleWhenUnlocked,
+      (__bridge id)kSecAttrService : serviceName,
+      (__bridge id)kSecAttrAccount : key,
+      (__bridge id)
+      kSecValueData : [string dataUsingEncoding:NSUTF8StringEncoding],
+    };
 
-        status = SecItemAdd((__bridge CFDictionaryRef)attributes, NULL);
-    }
+    status = SecItemAdd((__bridge CFDictionaryRef)attributes, NULL);
+  }
 
-    return status == errSecSuccess;
+  return status == errSecSuccess;
 }
 
-+ (BOOL)deleteStringForKey:(NSString *)key andServiceName:(NSString *)serviceName {
-    OSStatus status;
++ (BOOL)deleteStringForKey:(NSString *)key
+            andServiceName:(NSString *)serviceName {
+  OSStatus status;
 
-    // Check the arguments
-    if (key == nil || serviceName == nil) {
-        return NO;
-    }
+  // Check the arguments
+  if (key == nil || serviceName == nil) {
+    return NO;
+  }
 
-    NSDictionary *query = @{
-                            (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                            (__bridge id)kSecAttrService : serviceName,
-                            (__bridge id)kSecAttrAccount : key,
-                            };
-    
-    status = SecItemDelete((__bridge CFDictionaryRef)query);
-    
-    return status == errSecSuccess;
+  NSDictionary *query = @{
+    (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+    (__bridge id)kSecAttrService : serviceName,
+    (__bridge id)kSecAttrAccount : key,
+  };
+
+  status = SecItemDelete((__bridge CFDictionaryRef)query);
+
+  return status == errSecSuccess;
 }
 
 + (BOOL)deleteAllForServiceName:(NSString *)serviceName {
-    OSStatus status;
+  OSStatus status;
 
-    // Check the arguments
-    if (serviceName == nil) {
-        return NO;
-    }
+  // Check the arguments
+  if (serviceName == nil) {
+    return NO;
+  }
 
-    NSDictionary *query = @{
-                            (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
-                            (__bridge id)kSecAttrService : serviceName,
-                            };
-    
-    status = SecItemDelete((__bridge CFDictionaryRef)query);
-    
-    return status == errSecSuccess;
+  NSDictionary *query = @{
+    (__bridge id)kSecClass : (__bridge id)kSecClassGenericPassword,
+    (__bridge id)kSecAttrService : serviceName,
+  };
+
+  status = SecItemDelete((__bridge CFDictionaryRef)query);
+
+  return status == errSecSuccess;
 }
 
 @end

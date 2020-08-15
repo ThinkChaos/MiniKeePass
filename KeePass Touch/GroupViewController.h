@@ -15,21 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <UIKit/UIKit.h>
+#import "KdbLib.h"
 #import "KeePassTouchAppDelegate.h"
 #import "SelectGroupViewController.h"
-#import "KdbLib.h"
+#import <UIKit/UIKit.h>
 
 @interface GroupViewController : UITableViewController <SelectGroupDelegate>
 
-@property (nonatomic, weak, readonly) KdbGroup *group;
+@property(nonatomic, weak, readonly) KdbGroup *group;
 
 - (id)initWithGroup:(KdbGroup *)group;
 
 - (void)pushViewControllerForGroup:(KdbGroup *)group;
 - (void)pushViewControllerForEntry:(KdbEntry *)entry;
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForGroup:(KdbGroup *)g;
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForEntry:(KdbEntry *)e;
+- (UITableViewCell *)tableView:(UITableView *)tableView
+                  cellForGroup:(KdbGroup *)g;
+- (UITableViewCell *)tableView:(UITableView *)tableView
+                  cellForEntry:(KdbEntry *)e;
 
 @end

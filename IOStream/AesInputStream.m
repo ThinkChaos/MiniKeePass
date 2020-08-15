@@ -22,80 +22,91 @@
 
 @implementation AesInputStream
 
-- (id)initWithInputStream:(InputStream*)stream key:(NSData*)key iv:(NSData*)iv {
-    self = [super init];
-    if (self) {
-        inputStream = stream;
-        
-        CCCryptorCreate(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding, key.bytes, kCCKeySizeAES256, iv.bytes, &cryptorRef);
-        
-        bufferOffset = 0;
-        bufferSize = 0;
-        eof = NO;
-    }
-    return self;
+- (id)initWithInputStream:(InputStream *)stream
+                      key:(NSData *)key
+                       iv:(NSData *)iv {
+  self = [super init];
+  if (self) {
+    inputStream = stream;
+
+    CCCryptorCreate(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,
+                    key.bytes, kCCKeySizeAES256, iv.bytes, &cryptorRef);
+
+    bufferOffset = 0;
+    bufferSize = 0;
+    eof = NO;
+  }
+  return self;
 }
 
 - (void)dealloc {
-    CCCryptorRelease(cryptorRef);
+  CCCryptorRelease(cryptorRef);
 }
 
-- (NSUInteger)read:(void*)bytes length:(NSUInteger)bytesLength {
-    NSUInteger remaining = bytesLength;
-    NSUInteger offset = 0;
-    NSUInteger n;
-    
-    while (remaining > 0) {
-        if (bufferOffset >= bufferSize) {
-            if (![self decrypt]) {
-                return bytesLength - remaining;
-            }
-        }
-        
-        n = MIN(remaining, bufferSize - bufferOffset);       
-        memcpy(((uint8_t*)bytes) + offset, outputBuffer + bufferOffset, n);
-        
-        bufferOffset += n;
-        
-        offset += n;
-        remaining -= n;
+- (NSUInteger)read:(void *)bytes length:(NSUInteger)bytesLength {
+  NSUInteger remaining = bytesLength;
+  NSUInteger offset = 0;
+  NSUInteger n;
+
+  while (remaining > 0) {
+    if (bufferOffset >= bufferSize) {
+      if (![self decrypt]) {
+        return bytesLength - remaining;
+      }
     }
-    
-    return bytesLength;
+
+    n = MIN(remaining, bufferSize - bufferOffset);
+    memcpy(((uint8_t *)bytes) + offset, outputBuffer + bufferOffset, n);
+
+    bufferOffset += n;
+
+    offset += n;
+    remaining -= n;
+  }
+
+  return bytesLength;
 }
 
 - (BOOL)decrypt {
-    size_t decryptedBytes = 0;
-    NSUInteger n;
-    
-    if (eof) {
-        return NO;
+  size_t decryptedBytes = 0;
+  NSUInteger n;
+
+  if (eof) {
+    return NO;
+  }
+
+  bufferOffset = 0;
+  bufferSize = 0;
+
+  n = [inputStream read:inputBuffer length:AES_BUFFERSIZE];
+  if (n > 0) {
+    CCCryptorStatus cs =
+        CCCryptorUpdate(cryptorRef, inputBuffer, n, outputBuffer,
+                        AES_BUFFERSIZE, &decryptedBytes);
+    if (cs != kCCSuccess) {
+      @throw [NSException exceptionWithName:@"IOException"
+                                     reason:@"Error during decrypt"
+                                   userInfo:nil];
     }
-    
-    bufferOffset = 0;
-    bufferSize = 0;
-    
-    n = [inputStream read:inputBuffer length:AES_BUFFERSIZE];
-    if (n > 0) {
-        CCCryptorStatus cs = CCCryptorUpdate(cryptorRef, inputBuffer, n, outputBuffer, AES_BUFFERSIZE, &decryptedBytes);
-        if (cs != kCCSuccess) {
-            @throw [NSException exceptionWithName:@"IOException" reason:@"Error during decrypt" userInfo:nil];
-        }
-        
-        bufferSize += decryptedBytes;
+
+    bufferSize += decryptedBytes;
+  }
+
+  if (n < AES_BUFFERSIZE) {
+    CCCryptorStatus cs =
+        CCCryptorFinal(cryptorRef, outputBuffer + decryptedBytes,
+                       AES_BUFFERSIZE - decryptedBytes, &decryptedBytes);
+    if (cs != kCCSuccess) {
+      @throw [NSException exceptionWithName:@"DecryptError"
+                                     reason:@"Error during decrypt"
+                                   userInfo:nil];
     }
-    
-    if (n < AES_BUFFERSIZE) {
-        CCCryptorStatus cs = CCCryptorFinal(cryptorRef, outputBuffer + decryptedBytes, AES_BUFFERSIZE - decryptedBytes, &decryptedBytes);
-        if (cs != kCCSuccess) {
-            @throw [NSException exceptionWithName:@"DecryptError" reason:@"Error during decrypt" userInfo:nil];
-        }
-        
-        eof = YES;
-        bufferSize += decryptedBytes;
-    }
-    
-    return YES;
+
+    eof = YES;
+    bufferSize += decryptedBytes;
+  }
+
+  return YES;
 }
 
 @end

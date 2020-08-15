@@ -15,19 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <UIKit/UIKit.h>
 #import "FormViewController.h"
 #import "ImageSelectionViewController.h"
 #import "Kdb.h"
+#import <UIKit/UIKit.h>
 
-@interface EditItemViewController : FormViewController <ImageSelectionViewDelegate>
+@interface EditItemViewController
+    : FormViewController <ImageSelectionViewDelegate>
 
-@property (nonatomic, readonly) UITextField *nameTextField;
-@property (nonatomic, assign) NSUInteger selectedImageIndex;
+@property(nonatomic, readonly) UITextField *nameTextField;
+@property(nonatomic, assign) NSUInteger selectedImageIndex;
 
 // CUSTOM ICON STUFF
-@property (nonatomic, strong) NSString *searchKey;
-@property (nonatomic) BOOL isKdb4;
+@property(nonatomic, strong) NSString *searchKey;
+@property(nonatomic) BOOL isKdb4;
 
 - (id)initWithEntry:(KdbEntry *)entry;
 - (id)initWithGroup:(KdbGroup *)group;

@@ -15,26 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <UIKit/UIKit.h>
-#import "FilesViewController.h"
 #import "DatabaseDocument.h"
+#import "FilesViewController.h"
+#import <UIKit/UIKit.h>
 @import GoogleMobileAds;
 
+@interface KeePassTouchAppDelegate
+    : NSObject <UIApplicationDelegate, GADBannerViewDelegate,
+                UINavigationControllerDelegate>
 
+@property(nonatomic, strong) UIWindow *window;
+@property(nonatomic, strong) DatabaseDocument *databaseDocument;
+@property(nonatomic, assign) BOOL locked;
 
-@interface KeePassTouchAppDelegate : NSObject <UIApplicationDelegate,GADBannerViewDelegate, UINavigationControllerDelegate>
+@property(nonatomic, assign) BOOL bannerIsVisible;
+@property(nonatomic, strong) GADBannerView *bannerView;
+@property(nonatomic, strong) UIView *currentAd;
 
-@property (nonatomic, strong) UIWindow *window;
-@property (nonatomic, strong) DatabaseDocument *databaseDocument;
-@property (nonatomic, assign) BOOL locked;
-
-@property (nonatomic, assign) BOOL bannerIsVisible;
-@property (nonatomic, strong) GADBannerView *bannerView;
-@property (nonatomic, strong) UIView *currentAd;
-
-
-@property (nonatomic, strong) UINavigationController *navigationController;
-@property (nonatomic, strong) FilesViewController *filesViewController;
+@property(nonatomic, strong) UINavigationController *navigationController;
+@property(nonatomic, strong) FilesViewController *filesViewController;
 
 + (KeePassTouchAppDelegate *)appDelegate;
 + (NSString *)documentsDirectory;
