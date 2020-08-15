@@ -24,7 +24,6 @@
 #define EXIT_TIME                   @"exitTime"
 #define PIN_ENABLED                 @"pinEnabled"
 #define TOUCH_ID_ENABLED            @"TouchIDEnabled"
-#define DROPBOX_AUTOSYNC            @"DBAutoSync"
 #define DEFAULT_DATABASE            @"DefaultDatabase"
 #define PIN_LOCK_TIMEOUT            @"pinLockTimeout"
 #define PIN_FAILED_ATTEMPTS         @"pinFailedAttempts"
@@ -306,14 +305,6 @@ static AppSettings *sharedInstance;
 
 - (void)setPwGenCharSets:(NSInteger)pwGenCharSets {
     [userDefaults setInteger:pwGenCharSets forKey:PW_GEN_CHAR_SETS];
-}
-
-- (BOOL)autoSyncEnabled {
-    return [userDefaults boolForKey:DROPBOX_AUTOSYNC];
-}
-
-- (void)setAutoSyncEnabled:(BOOL)autoSyncEnabled {
-    [userDefaults setBool:autoSyncEnabled forKey:DROPBOX_AUTOSYNC];
 }
 
 @end

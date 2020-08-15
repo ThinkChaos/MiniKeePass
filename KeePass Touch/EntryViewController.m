@@ -327,12 +327,6 @@ enum {
 #warning replace this with singleton
         }
       }
-      if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DBAutoSync"]) {
-        FilesViewController *fvc =
-            (FilesViewController *)[self.navigationController.viewControllers
-                objectAtIndex:0];
-        [fvc syncDropbox];
-      }
     }
   }
 

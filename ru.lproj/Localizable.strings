@@ -62,28 +62,6 @@
 "Choose" = "Выбрать";
 "Canceled" = "Отменено";
 
-
-// Dropbox Sync
-"No Folders or Files in here" = "Нет папок или файлов";
-"Choose one of the following options" = "Выберите один из следующих вариантов";
-"Local" = "База данных на вашем устройстве";
-"Don't Auto Sync" = "Нет";
-"If you choose Auto Sync the app will sync with the chosen Dropbox folder on each startup. Should auto-sync with the chosen folder be enabled? You can reset this in the settings." = "Хотите активировать функцию автоматической синхронизации с выбранной папкой в Dropbox при каждом запуске программы? Вы можете в любой момент отменить внесённые изменения в настройках.";
-"Reset Dropbox Settings" = "Сбросить настройки Dropbox";
-"Your dropbox file is newer than the local file.\n Which one do you want to keep and use?" = "База данных, находящаяся в Dropbox новее, чем на вашем устройстве.\n Какую базу данных вы хотите сохранить и использовать?";
-"Your local file is newer than the dropbox file.\n Which one do you want to keep and use?" = "База данных, находящаяся на вашем устройстве новее, чем в Dropbox.\n Какую базу данных вы хотите сохранить и использовать?";
-
-"Newer Version" = "Новую версию";
-"Older Version" = "Старую версию";
-
-"Invalid database row" = "Недопустимая строка базы данных";
-
-"Dropbox Sync Init" = "Синхронизация";
-"Dropbox Sync" = "Dropbox";
-
-// Synchronisation
-"Synchronisation" = "Синхронизация";
-
 // Touch ID and Default Database
 "No Touch ID enabled" = "Touch ID не включён. Пожалуйста, включите Touch ID в настройках приложения.";
 "Unknown Touch ID entered. Please try again." = "Touch ID не распознан. Пожалуйста, повторите ещё.";
@@ -173,12 +151,9 @@
 "PINs did not match. Try again" = "PIN-коды не совпадают. Попробуйте снова";
 "KeePass Touch version %@" = "KeePass Touch, версия %@";
 
-"Auto Sync" = "Автоматич. синхронизация";
-
 // Help Titles
 "Technical help" = "Техническая помощь";
 "iTunes Import/Export" = "Импорт/экспорт iTunes";
-"Dropbox Import/Export" = "Импорт/экспорт Dropbox";
 "Safari/Email Import" = "Импорт из Safari/Mail";
 "Create New Database" = "Создание новой базы данных";
 "Key Files" = "Файлы ключей";

@@ -17,11 +17,9 @@
 
 #import "FilesInfoView.h"
 #import "FilesUploadDelegate.h"
-#import "GCDWebUploader.h"
 #import "NewKdbViewController.h"
 #import "TextEntryController.h"
 #import <Foundation/Foundation.h>
-#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
 
 @class KeePassTouchAppDelegate;
 
@@ -31,10 +29,7 @@
 - (void)updateFiles;
 - (void)reloadTableViewData;
 - (void)openDatabaseWithFilename:(NSString *)filename;
-- (void)syncDropbox;
 
-@property(nonatomic, strong) DBUserClient *userClient;
-@property(nonatomic, strong) NSArray<DBFILESFileMetadata *> *collisionArray;
 @property(nonatomic, strong) NSMutableArray *databaseFiles;
 @property(nonatomic, readonly) void (^showError)(NSError *error);
 

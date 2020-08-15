@@ -84,6 +84,4 @@
 - (NSInteger)pwGenCharSets;
 - (void)setPwGenCharSets:(NSInteger)pwGenCharSets;
 
-@property (nonatomic) BOOL autoSyncEnabled;
-
 @end

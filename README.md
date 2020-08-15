@@ -6,7 +6,6 @@ KeePass Touch provides secure password storage on your phone that's compatible w
 - View, Edit, and Create KeePass 1.x and 2.x files
 - Search for entries from the top of tables like in Mail
 - Key File Support
-- Import/Export files to Dropbox using the Dropbox iPhone app
 - Copy password entries to the clipboard for easy entry
 - Open websites in Safari while KeePass Touch runs in the background
 - Prevent unauthorized access to KeePass Touch with a PIN
@@ -17,12 +16,6 @@ KeePass Touch provides secure password storage on your phone that's compatible w
 
 FAQ
 ---
-
-### Copying KeePass files using Dropbox ###
-
-You can copy KeePass files from Dropbox to your device using the [Dropbox iOS App](https://www.dropbox.com/help/80/en).  This method will also work with any other app that let you open files in other apps (Google Drive, Box.net, Mail, Safari, etc).
-
-You can use a similar procedure in KeePass Touch to copy your KeePass file from KeePass Touch to another app.  Open the KeePass file in KeePass Touch, and select the action button on the bottom toolbar, and you will be presented with a list of apps that can open the KeePass file.
 
 ### Copying KeePass files using iTunes ###
 

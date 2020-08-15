@@ -900,13 +900,6 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
   // Save the database
   DatabaseDocument *databaseDocument = self.appDelegate.databaseDocument;
   [databaseDocument save];
-
-  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DBAutoSync"]) {
-    FilesViewController *fvc =
-        (FilesViewController *)[self.navigationController.viewControllers
-            objectAtIndex:0];
-    [fvc syncDropbox];
-  }
 }
 
 #pragma mark - Rename Group/Entry
@@ -986,13 +979,6 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
 
   // Save the document
   [self.appDelegate.databaseDocument save];
-
-  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DBAutoSync"]) {
-    FilesViewController *fvc =
-        (FilesViewController *)[self.navigationController.viewControllers
-            objectAtIndex:0];
-    [fvc syncDropbox];
-  }
 
   [editItemViewController dismissViewControllerAnimated:YES completion:nil];
 
@@ -1107,12 +1093,6 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
   // Save the database
   DatabaseDocument *databaseDocument = self.appDelegate.databaseDocument;
   [databaseDocument save];
-  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DBAutoSync"]) {
-    FilesViewController *fvc =
-        (FilesViewController *)[self.navigationController.viewControllers
-            objectAtIndex:0];
-    [fvc syncDropbox];
-  }
 
   // Update the table
   [self.tableView deleteRowsAtIndexPaths:indexPaths

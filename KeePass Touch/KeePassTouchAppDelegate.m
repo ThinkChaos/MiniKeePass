@@ -24,10 +24,6 @@
 #import "SettingsViewController.h"
 #import "UIView+Layout.h"
 #import "WebViewController.h"
-#import <ObjectiveDropboxOfficial/ObjectiveDropboxOfficial.h>
-
-#define APP_KEY @"35en533x9e3johe"
-#define APP_SECRET @"tnakqwsic649thr"
 
 #import "constants.h"
 
@@ -59,45 +55,6 @@
   self.navigationController = [[UINavigationController alloc]
       initWithRootViewController:self.filesViewController];
   self.navigationController.toolbarHidden = NO;
-
-  BOOL willPerformMigration = [DBClientsManager
-      checkAndPerformV1TokenMigration:^(
-          BOOL shouldRetry, BOOL invalidAppKeyOrSecret,
-          NSArray<NSArray<NSString *> *> *unsuccessfullyMigratedTokenData) {
-        if (invalidAppKeyOrSecret) {
-          // Developers should ensure that the appropriate app key and secret
-          // are being supplied. If your app has multiple app keys / secrets,
-          // then run this migration method for each app key / secret
-          // combination, and ignore this boolean.
-        }
-
-        if (shouldRetry) {
-          // Store this BOOL somewhere to retry when network connection has
-          // returned
-        }
-
-        if ([unsuccessfullyMigratedTokenData count] != 0) {
-          NSLog(@"The following tokens were unsucessfully migrated:");
-          for (NSArray<NSString *>
-                   *tokenData in unsuccessfullyMigratedTokenData) {
-            NSLog(@"DropboxUserID: %@, AccessToken: %@, AccessTokenSecret: %@, "
-                  @"StoredAppKey: %@",
-                  tokenData[0], tokenData[1], tokenData[2], tokenData[3]);
-          }
-        }
-
-        if (!invalidAppKeyOrSecret && !shouldRetry &&
-            [unsuccessfullyMigratedTokenData count] == 0) {
-          [DBClientsManager setupWithAppKey:APP_KEY];
-        }
-      }
-                                queue:nil
-                               appKey:APP_KEY
-                            appSecret:APP_SECRET];
-
-  if (!willPerformMigration) {
-    [DBClientsManager setupWithAppKey:APP_KEY];
-  }
 
   // Create the window
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -146,14 +103,6 @@
       [self closeDatabase];
     }
   }
-
-#warning FIND correct way to show popup after lockscreen etc.
-  if ([self.navigationController.topViewController
-          isKindOfClass:[FilesViewController class]] &&
-      [[NSUserDefaults standardUserDefaults] stringForKey:@"DropboxPath"] !=
-          nil)
-    [(FilesViewController *)
-            self.navigationController.topViewController syncDropbox];
 }
 
 - (BOOL)application:(UIApplication *)app
@@ -221,32 +170,6 @@
     [self.filesViewController.tableView reloadData];
   }
 
-  DBOAuthResult *authResult = [DBClientsManager handleRedirectURL:url];
-  if (authResult != nil) {
-    if ([authResult isSuccess]) {
-      NSLog(@"Success! User is logged into Dropbox.");
-      [[NSNotificationCenter defaultCenter]
-          postNotificationName:@"dropboxLinked"
-                        object:nil];
-    } else if ([authResult isCancel]) {
-      // ignore, user cancelled manually
-    } else if ([authResult isError]) {
-#warning self.filesviewcontroller showerror needed here (show AlertController) not showErrorMessage (TWMessageBar)
-      UIAlertController *errorAlert = [UIAlertController
-          alertControllerWithTitle:NSLocalizedString(@"Error", nil)
-                           message:[NSString
-                                       stringWithFormat:@"Dropbox Error: %@",
-                                                        authResult
-                                                            .errorDescription]
-                    preferredStyle:IS_IPAD ? UIAlertControllerStyleAlert
-                                           : UIAlertControllerStyleActionSheet];
-
-      [self.filesViewController presentViewController:errorAlert
-                                             animated:YES
-                                           completion:nil];
-    }
-    return YES;
-  }
   return YES;
 }
 

@@ -68,16 +68,6 @@
 "Imprint" = "Impressum";
 "Privacy" = "Datenschutz";
 
-// Dropbox Sync
-"No Folders or Files in here" = "Keine Dateien oder Ordner gefunden";
-"Choose one of the following options" = "Wählen Sie eine der folgenden Optionen";
-"Local" = "Lokal";
-"Don't Auto Sync" = "Kein Auto Sync";
-"If you choose Auto Sync the app will sync with the chosen Dropbox folder on each startup. Should auto-sync with the chosen folder be enabled? You can reset this in the settings." = "Wenn Sie Auto Sync aktivieren, wird bei jedem Start der App mit dem ausgewählten Dropbox-Ordner synchronisiert. Soll Auto Sync für den ausgewählten Ordner aktiviert werden? Sie können dies jederzeit in den Einstellungen zurücksetzen.";
-"Reset Dropbox Settings" = "Dropbox Einstellungen zurücksetzen";
-"Your dropbox file is newer than the local file.\n Which one do you want to keep and use?" = "Ihre Dropbox Datei ist neuer als die lokale Datei.\n Welche möchten Sie behalten und nutzen?";
-"Your local file is newer than the dropbox file.\n Which one do you want to keep and use?" = "Ihre lokale Datei ist neuer als die Dropbox Datei.\n Welche möchten Sie behalten und nutzen?";
-
 "Newer Version" = "Neue Version";
 "Older Version" = "Alte Version";
 
@@ -182,7 +172,6 @@
 // Help Titles
 "Technical help" = "Technische Hilfe";
 "iTunes Import/Export" = "iTunes Im- und Export";
-"Dropbox Import/Export" = "Dropbox Im- und Export";
 "Safari/Email Import" = "Safari und E-Mail Import";
 "Create New Database" = "Neue Datenbank erstellen";
 "Key Files" = "Schlüsseldateien";

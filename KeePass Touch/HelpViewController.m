@@ -57,8 +57,6 @@
     _helpTopics = @[
       [HelpTopic helpTopicWithTitle:@"iTunes Import/Export"
                         andResource:@"itunes"],
-      [HelpTopic helpTopicWithTitle:@"Dropbox Import/Export"
-                        andResource:@"dropbox"],
       [HelpTopic helpTopicWithTitle:@"Safari/Email Import"
                         andResource:@"safariemail"],
       [HelpTopic helpTopicWithTitle:@"Create New Database"

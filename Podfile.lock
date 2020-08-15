@@ -63,7 +63,6 @@ PODS:
     - nanopb/encode (= 1.30905.0)
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
-  - ObjectiveDropboxOfficial (3.3.5)
   - PromisesObjC (1.2.10)
   - TWMessageBarManager (1.8.1)
 
@@ -72,7 +71,6 @@ DEPENDENCIES:
   - Fabric
   - Firebase/Core
   - MBProgressHUD
-  - ObjectiveDropboxOfficial (~> 3.3.5)
   - TWMessageBarManager
 
 SPEC REPOS:
@@ -89,7 +87,6 @@ SPEC REPOS:
     - GoogleUtilities
     - MBProgressHUD
     - nanopb
-    - ObjectiveDropboxOfficial
     - PromisesObjC
     - TWMessageBarManager
 
@@ -106,10 +103,9 @@ SPEC CHECKSUMS:
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
-  ObjectiveDropboxOfficial: f5f3b1099817ad319f3a72614b4d1cc082022d24
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   TWMessageBarManager: fd84e7948ba7968a2b5d9454859135761214ec56
 
-PODFILE CHECKSUM: 44798d68ae11477fa4505fcb9352a3bfb847d753
+PODFILE CHECKSUM: 83de7b40c6bb108a2d603d351c5bd3a50f67c80d
 
 COCOAPODS: 1.9.3

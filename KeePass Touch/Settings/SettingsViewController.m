@@ -41,7 +41,6 @@ enum {
     SECTION_PASSWORD_ENCODING,
     SECTION_CLEAR_CLIPBOARD,
     SECTION_WEB_BROWSER,
-    SECTION_FTP,
     SECTION_NUMBER
 };
 
@@ -67,13 +66,6 @@ enum {
     ROW_CLEAR_CLIPBOARD_ENABLED,
     ROW_CLEAR_CLIPBOARD_TIMEOUT,
     ROW_CLEAR_CLIPBOARD_NUMBER
-};
-
-enum {
-    ROW_FTP_RESET,
-    ROW_FTP_DROPBOX,
-    ROW_FTP_DROPBOX_AUTO_SYNC,
-    ROW_FTP_COUNT
 };
 
 enum {
@@ -106,7 +98,6 @@ enum {
     SwitchCell *clearClipboardEnabledCell;
     ChoiceCell *clearClipboardTimeoutCell;
     SwitchCell *webBrowserIntegratedCell;
-    SwitchCell *dbAutoSyncSwitchCell;
     NSString *tempPin;
 }
 @end
@@ -151,10 +142,6 @@ enum {
                                                              NSLocalizedString(@"2 Minutes", nil),
                                                              NSLocalizedString(@"5 Minutes", nil)]
                                              selectedIndex:[appSettings pinLockTimeoutIndex]];
-    
-    dbAutoSyncSwitchCell = [[SwitchCell alloc] initWithLabel:NSLocalizedString(@"Auto Sync", nil)];
-    dbAutoSyncSwitchCell.switchControl.on = appSettings.autoSyncEnabled;
-    [dbAutoSyncSwitchCell.switchControl addTarget:self action:@selector(didToggleSwitch:) forControlEvents:UIControlEventValueChanged];
     
     deleteOnFailureEnabledCell = [[SwitchCell alloc] initWithLabel:NSLocalizedString(@"Enabled", nil)];
     [deleteOnFailureEnabledCell.switchControl addTarget:self
@@ -339,8 +326,6 @@ enum {
             
         case SECTION_CLEAR_CLIPBOARD:
             return ROW_CLEAR_CLIPBOARD_NUMBER;
-        case SECTION_FTP:
-            return ROW_FTP_COUNT;
     }
     return 0;
 }
@@ -373,8 +358,6 @@ enum {
 
         case SECTION_WEB_BROWSER:
             return NSLocalizedString(@"Web Browser", nil);
-        case SECTION_FTP:
-            return @"FTP & Dropbox";
         case SECTION_TOUCHID:
             return biometryEnabledCell != nil ? [[KPBiometrics supportFaceID] ? @"Face ID & " : @"Touch ID & " stringByAppendingString:NSLocalizedString(@"Default Database", nil)] : NSLocalizedString(@"Default Database", nil);
     }
@@ -479,22 +462,6 @@ enum {
             break;
         case SECTION_WEB_BROWSER:
             return webBrowserIntegratedCell;
-            break;
-        case SECTION_FTP:
-        {
-            if(indexPath.row == ROW_FTP_DROPBOX)
-            {
-                UITableViewCell *dbCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-                dbCell.textLabel.text = NSLocalizedString(@"Reset Dropbox Settings", nil);
-                return dbCell;
-            }
-            else if(indexPath.row == ROW_FTP_DROPBOX_AUTO_SYNC) {
-                return dbAutoSyncSwitchCell;
-            }
-            UITableViewCell *ftpCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-            ftpCell.textLabel.text = NSLocalizedString(@"Reset FTP data", nil);
-            return ftpCell;
-        }
             break;
         case SECTION_TOUCHID:
         {
@@ -606,8 +573,6 @@ enum {
         [appSettings setCloseEnabled:sender.on];
     else if([sender isEqual:deleteOnFailureEnabledCell.switchControl])
         [appSettings setDeleteOnFailureEnabled:sender.on];
-    else if([sender isEqual:dbAutoSyncSwitchCell.switchControl])
-        appSettings.autoSyncEnabled = sender.on;
     else if([sender isEqual:sortingEnabledCell.switchControl])
         [appSettings setSortAlphabetically:sender.on];
     else if([sender isEqual:clearClipboardEnabledCell.switchControl])

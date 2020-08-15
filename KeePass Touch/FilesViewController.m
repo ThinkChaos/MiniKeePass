@@ -18,8 +18,6 @@
 #import "FilesViewController.h"
 #import "AppSettings.h"
 #import "DatabaseManager.h"
-#import "DropboxFolderController.h"
-#import "DropboxManager.h"
 #import "HelpViewController.h"
 #import "KPViewController.h"
 #import "Kdb3Writer.h"
@@ -34,18 +32,14 @@
 
 enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 
-@interface FilesViewController () <DropboxManagerDelegate,
-                                   UIDocumentPickerDelegate> {
+@interface FilesViewController () <UIDocumentPickerDelegate> {
   unsigned long currentFile;
   unsigned long allFiles;
 
   NSMutableArray *keyFiles;
-  NSArray *_localUniques;
-  NSArray *_dropboxUniques;
 
   FilesInfoView *filesInfoView;
   KeePassTouchAppDelegate *appDelegate;
-  UIBarButtonItem *syncButton;
   UIBarButtonItem *addButton;
   UILabel *footerLabel;
   BOOL initialOpen;
@@ -99,13 +93,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
                                       target:self
                                       action:@selector(showSettingsView)];
 
-  // Button for all syncing
-  syncButton =
-      [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"]
-                                       style:UIBarButtonItemStylePlain
-                                      target:self
-                                      action:@selector(syncPressed)];
-
   UIBarButtonItem *helpButton =
       [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"help"]
                                        style:UIBarButtonItemStylePlain
@@ -123,8 +110,8 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
                            action:nil];
 
   self.toolbarItems =
-      [NSArray arrayWithObjects:settingsButton, spacer, syncButton, spacer,
-                                helpButton, spacer, addButton, nil];
+      [NSArray arrayWithObjects:settingsButton, spacer, helpButton, spacer,
+                                addButton, nil];
   self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
   footerLabel = [[UILabel alloc] init];
@@ -149,22 +136,12 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
                      bottomLabelSpace,
                  self.tableView.bounds.size.width, 30.0f);
 
-  if ([[NSUserDefaults standardUserDefaults] stringForKey:@"DropboxPath"] !=
-      nil) {
-    [self syncDropbox];
-  } else {
-    [self showAutoFillPopupInfo];
-  }
+  [self showAutoFillPopupInfo];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   [self updateFiles];
-
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(syncDropbox)
-                                               name:@"DROPBOX_SYNC_NOTIFICATION"
-                                             object:nil];
 
   NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
 
@@ -240,34 +217,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 }
 
 #pragma mark - Other methods
-
-// Dropbox Syncing
-- (void)syncPressed {
-  UIAlertController *alertCon = [UIAlertController
-      alertControllerWithTitle:NSLocalizedString(@"Synchronisation", nil)
-                       message:NSLocalizedString(
-                                   @"Choose one of the following options", nil)
-                preferredStyle:UIAlertControllerStyleActionSheet];
-  alertCon.modalPresentationStyle = UIModalPresentationPopover;
-  alertCon.popoverPresentationController.barButtonItem = syncButton;
-
-  UIAlertAction *dropboxAlertAction =
-      [UIAlertAction actionWithTitle:@"Dropbox Sync"
-                               style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction *action) {
-                               [self dropboxPressed];
-                             }];
-  [dropboxAlertAction setValue:[UIImage imageNamed:@"dropbox"] forKey:@"image"];
-  [alertCon addAction:dropboxAlertAction];
-
-  UIAlertAction *cancelAlertAction =
-      [UIAlertAction actionWithTitle:@"Cancel"
-                               style:UIAlertActionStyleCancel
-                             handler:nil];
-  [alertCon addAction:cancelAlertAction];
-
-  [self presentViewController:alertCon animated:YES completion:nil];
-}
 
 - (void)displayInfoPage {
   if (filesInfoView == nil) {
@@ -873,484 +822,16 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
            withRowAnimation:UITableViewRowAnimationNone];
 }
 
-#pragma mark - DROPBOX SYNC & DBRestClientDelegate
-
-// Dropbox Syncing
-- (void)dropboxPressed {
-
-  if (![[DBClientsManager authorizedClient] isAuthorized]) {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(dropboxLinked)
-                                                 name:@"dropboxLinked"
-                                               object:nil];
-
-    [DBClientsManager authorizeFromController:[UIApplication sharedApplication]
-                                   controller:self
-                                      openURL:^(NSURL *url) {
-                                        [[UIApplication sharedApplication]
-                                                      openURL:url
-                                                      options:@{}
-                                            completionHandler:nil];
-                                      }];
-  } else {
-    DropboxFolderController *dfc =
-        [[DropboxFolderController alloc] initWithStyle:UITableViewStyleGrouped];
-
-    dfc.target = self;
-
-    UINavigationController *nvc =
-        [[UINavigationController alloc] initWithRootViewController:dfc];
-    [self presentViewController:nvc animated:YES completion:nil];
-  }
-}
-
-- (void)dropboxLinked {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [self performSelector:@selector(dropboxPressed)
-             withObject:nil
-             afterDelay:1.0f];
-}
-
-- (void)syncDropbox {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSString *dropboxPath = [defaults stringForKey:@"DropboxPath"];
-
-  MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-  if (!hud)
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-  hud.mode = MBProgressHUDModeIndeterminate;
-  hud.label.text = @"Dropbox Sync Init";
-
-  self.userClient = [DBClientsManager authorizedClient];
-  self.collisionArray = [NSArray array];
-
-  // Check for existing files
-  [DropboxManager sharedInstance].delegate = self;
-  [[DropboxManager sharedInstance] getAllFilesForClient:self.userClient
-                                                 atPath:dropboxPath];
-}
-
-- (void)uploadFilesToDropbox {
-
-  // if no local uniques are there, proceed to the next step
-  if (_localUniques.count == 0) {
-    [self downloadFilesFromDropbox];
-    return;
-  }
-
-  NSString *localFileName = [_localUniques objectAtIndex:0];
-
-  // if conflict call, convert
-  if ([localFileName isKindOfClass:[DBFILESFileMetadata class]])
-    localFileName = ((DBFILESFileMetadata *)localFileName).name;
-
-  NSString *dropboxPath =
-      [[NSUserDefaults standardUserDefaults] stringForKey:@"DropboxPath"];
-
-  // For overriding on upload
-  if (dropboxPath.length == 0)
-    dropboxPath = @"/";
-  DBFILESWriteMode *overwriteMode =
-      [[DBFILESWriteMode alloc] initWithOverwrite];
-  [[self.userClient.filesRoutes
-           uploadUrl:[dropboxPath stringByAppendingString:localFileName]
-                mode:overwriteMode
-          autorename:@(YES)
-      clientModified:nil
-                mute:@(NO)
-            inputUrl:[[KeePassTouchAppDelegate documentsDirectory]
-                         stringByAppendingPathComponent:localFileName]]
-      setResponseBlock:^(DBFILESFileMetadata *_Nullable result,
-                         DBFILESUploadError *_Nullable routeError,
-                         DBRequestError *_Nullable networkError) {
-        if (result) {
-          NSDictionary *attrs = [NSDictionary
-              dictionaryWithObjectsAndKeys:result.serverModified,
-                                           NSFileModificationDate, nil];
-          NSError *errorFile;
-          [[NSFileManager defaultManager]
-              setAttributes:attrs
-               ofItemAtPath:[[KeePassTouchAppDelegate documentsDirectory]
-                                stringByAppendingPathComponent:localFileName]
-                      error:&errorFile];
-          if (self->_localUniques.count > 0)
-            self->_localUniques = [self->_localUniques
-                arrayByRemovingObject:[self->_localUniques objectAtIndex:0]];
-          self->currentFile++;
-
-          MBProgressHUD *currentHUD = [MBProgressHUD HUDForView:self.view];
-          currentHUD.label.text =
-              [NSString stringWithFormat:@"Sync %ld / %ld", self->currentFile,
-                                         self->allFiles];
-          currentHUD.progress = 0.0f;
-
-          // Check if process is done
-          if (self->_localUniques.count == 0)
-            [self downloadFilesFromDropbox];
-          else
-            [self uploadFilesToDropbox];
-        } else {
-          if (networkError)
-            [self showErrorOnHud:networkError.nsError];
-          else if (routeError)
-            [self showErrorMessageOnHud:[routeError description]];
-        }
-      }];
-}
-
-- (void)downloadFilesFromDropbox {
-  if (_dropboxUniques.count == 0) {
-    [self handleCollision];
-    return;
-  }
-
-  DBFILESFileMetadata *fileMetadata = [_dropboxUniques objectAtIndex:0];
-
-  NSString *dropboxPath =
-      [[NSUserDefaults standardUserDefaults] stringForKey:@"DropboxPath"];
-  if (dropboxPath.length == 0)
-    dropboxPath = @"/";
-  [[[self.userClient.filesRoutes
-      downloadUrl:[dropboxPath stringByAppendingString:fileMetadata.name]
-        overwrite:YES
-      destination:
-          [NSURL fileURLWithPath:[[KeePassTouchAppDelegate documentsDirectory]
-                                     stringByAppendingPathComponent:fileMetadata
-                                                                        .name]]]
-      setResponseBlock:^(DBFILESFileMetadata *_Nullable result,
-                         DBFILESDownloadError *_Nullable routeError,
-                         DBRequestError *_Nullable networkError,
-                         NSURL *_Nonnull destination) {
-        if (result) {
-
-          [self reloadTableViewData];
-          NSDictionary *attrs = [NSDictionary
-              dictionaryWithObjectsAndKeys:result.serverModified,
-                                           NSFileModificationDate, nil];
-          NSError *errorFile;
-          [[NSFileManager defaultManager]
-              setAttributes:attrs
-               ofItemAtPath:[[KeePassTouchAppDelegate documentsDirectory]
-                                stringByAppendingPathComponent:fileMetadata
-                                                                   .name]
-                      error:&errorFile];
-
-          if (self->_dropboxUniques.count > 0)
-            self->_dropboxUniques = [self->_dropboxUniques
-                arrayByRemovingObject:[self->_dropboxUniques objectAtIndex:0]];
-          self->currentFile++;
-
-          MBProgressHUD *currentHUD = [MBProgressHUD HUDForView:self.view];
-          currentHUD.label.text =
-              [NSString stringWithFormat:@"Sync %ld / %ld", self->currentFile,
-                                         self->allFiles];
-          currentHUD.progress = 0.0f;
-
-          // Check if process is done
-          if (self->_dropboxUniques.count == 0)
-            [self handleCollision];
-          else
-            [self downloadFilesFromDropbox];
-
-        } else {
-          if (networkError)
-            [self showErrorOnHud:networkError.nsError];
-          else if (routeError)
-            [self showErrorMessageOnHud:[routeError description]];
-        }
-      }]
-      setProgressBlock:^(int64_t bytesDownloaded, int64_t totalBytesDownloaded,
-                         int64_t totalBytesExpectedToDownload) {
-        float downloadPercentage =
-            (float)totalBytesDownloaded / (float)totalBytesExpectedToDownload;
-        [MBProgressHUD HUDForView:self.view].progress = downloadPercentage;
-      }];
-}
-
-#pragma mark - DropboxManagerDelegate
-
-- (void)didListFolderWithFiles:(NSArray<DBFILESFileMetadata *> *)keepassFiles {
-
-  _localUniques = [NSArray arrayWithArray:_databaseFiles];
-  _dropboxUniques = [NSArray array];
-
-  // go through all 3 cases and add in 3 arrays
-  for (DBFILESFileMetadata *fileMetadata in keepassFiles) {
-    BOOL found = NO;
-    for (NSString *fileName in _localUniques) {
-      if ([fileName isEqualToString:fileMetadata.name]) {
-        self.collisionArray =
-            [self.collisionArray arrayByAddingObject:fileMetadata];
-        _localUniques = [_localUniques arrayByRemovingObject:fileName];
-        found = YES;
-      }
-    }
-    if (!found) {
-      _dropboxUniques = [_dropboxUniques arrayByAddingObject:fileMetadata];
-    }
-  }
-
-  currentFile = 1;
-  allFiles =
-      (_localUniques.count + _dropboxUniques.count + self.collisionArray.count);
-
-  MBProgressHUD *currentHUD = [MBProgressHUD HUDForView:self.view];
-  currentHUD.label.text =
-      [NSString stringWithFormat:@"Sync %ld / %ld", currentFile, allFiles];
-  currentHUD.progress = 0.0f;
-
-  [self uploadFilesToDropbox];
-}
-
-- (void)didFailToListFolderWithError:(DBRequestError *)error {
-  [self showErrorOnHud:error.nsError];
-}
-
-- (void)didFailToListFolderWithFolderError:(NSObject *)error {
-  if (error)
-    [self showErrorMessageOnHud:[error description]];
-}
-
-- (void)handleCollision {
-  if (self.collisionArray.count > 0) {
-    DBFILESFileMetadata *file = [self.collisionArray objectAtIndex:0];
-    NSString *documentsDirectory = [KeePassTouchAppDelegate documentsDirectory];
-    NSString *path =
-        [documentsDirectory stringByAppendingPathComponent:file.name];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDate *localModificationDate =
-        [[fileManager attributesOfItemAtPath:path
-                                       error:nil] fileModificationDate];
-    NSDate *remoteModificationDate = file.serverModified;
-
-    UIAlertController *chooseVersionController = [UIAlertController
-        alertControllerWithTitle:@"Update"
-                         message:@""
-                  preferredStyle:UIAlertControllerStyleAlert];
-
-    // Dropbox Handler
-    void (^dropboxHandler)(UIAlertAction *action) = ^void(
-        UIAlertAction *action) {
-      self->_dropboxUniques = [self->_dropboxUniques arrayByAddingObject:file];
-      self.collisionArray = [self.collisionArray arrayByRemovingObject:file];
-      [self downloadFilesFromDropbox];
-    };
-
-    // Local Handler
-    void (^localHandler)(UIAlertAction *action) = ^void(UIAlertAction *action) {
-      self->_localUniques = [self->_localUniques arrayByAddingObject:file];
-      self.collisionArray = [self.collisionArray arrayByRemovingObject:file];
-      [self uploadFilesToDropbox];
-    };
-
-    UIAlertAction *newerFileAction;
-    UIAlertAction *olderFileAction;
-
-    if ([localModificationDate compare:remoteModificationDate] ==
-        NSOrderedDescending) {
-      if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DBAutoSync"]) {
-        localHandler(nil);
-        return;
-      }
-
-      newerFileAction = [UIAlertAction
-          actionWithTitle:NSLocalizedString(@"Newer Version", nil)
-                    style:UIAlertActionStyleDefault
-                  handler:localHandler];
-
-      olderFileAction = [UIAlertAction
-          actionWithTitle:NSLocalizedString(@"Older Version", nil)
-                    style:UIAlertActionStyleDestructive
-                  handler:dropboxHandler];
-
-      chooseVersionController.message =
-          NSLocalizedString(@"Your local file is newer than the dropbox "
-                            @"file.\n Which one do you want to keep and use?",
-                            nil);
-
-      [chooseVersionController addAction:newerFileAction];
-      [chooseVersionController addAction:olderFileAction];
-      [chooseVersionController
-          addAction:
-              [UIAlertAction
-                  actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                            style:UIAlertActionStyleCancel
-                          handler:^(UIAlertAction *_Nonnull action) {
-                            self.collisionArray = [self.collisionArray
-                                arrayByRemovingObject:file];
-                            self->currentFile++;
-                            if (self->currentFile > self->allFiles) {
-                              MBProgressHUD *hud =
-                                  [MBProgressHUD HUDForView:self.view];
-                              hud.mode = MBProgressHUDModeCustomView;
-                              hud.customView = [[UIImageView alloc]
-                                  initWithImage:[UIImage
-                                                    imageNamed:@"check_green"]];
-                              hud.label.text =
-                                  NSLocalizedString(@"Dropbox Sync", nil);
-                              [hud hideAnimated:YES afterDelay:1.2f];
-                              [self checkForAutoSync];
-                            } else {
-                              MBProgressHUD *currentHUD =
-                                  [MBProgressHUD HUDForView:self.view];
-                              currentHUD.label.text =
-                                  [NSString stringWithFormat:@"Sync %ld / %ld",
-                                                             self->currentFile,
-                                                             self->allFiles];
-                              currentHUD.progress = 0.0f;
-                            }
-                            [self handleCollision];
-                          }]];
-
-      [self presentViewController:chooseVersionController
-                         animated:YES
-                       completion:nil];
-    } else if ([localModificationDate compare:remoteModificationDate] ==
-               NSOrderedAscending) {
-      if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DBAutoSync"]) {
-        dropboxHandler(nil);
-        return;
-      }
-      newerFileAction = [UIAlertAction
-          actionWithTitle:NSLocalizedString(@"Newer Version", nil)
-                    style:UIAlertActionStyleDefault
-                  handler:dropboxHandler];
-
-      olderFileAction = [UIAlertAction
-          actionWithTitle:NSLocalizedString(@"Older Version", nil)
-                    style:UIAlertActionStyleDestructive
-                  handler:localHandler];
-
-      chooseVersionController.message =
-          NSLocalizedString(@"Your dropbox file is newer than the local "
-                            @"file.\n Which one do you want to keep and use?",
-                            nil);
-
-      [chooseVersionController addAction:newerFileAction];
-      [chooseVersionController addAction:olderFileAction];
-      [chooseVersionController
-          addAction:
-              [UIAlertAction
-                  actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                            style:UIAlertActionStyleCancel
-                          handler:^(UIAlertAction *_Nonnull action) {
-                            self.collisionArray = [self.collisionArray
-                                arrayByRemovingObject:file];
-                            self->currentFile++;
-                            if (self->currentFile > self->allFiles) {
-                              MBProgressHUD *hud =
-                                  [MBProgressHUD HUDForView:self.view];
-                              hud.mode = MBProgressHUDModeCustomView;
-                              hud.customView = [[UIImageView alloc]
-                                  initWithImage:[UIImage
-                                                    imageNamed:@"check_green"]];
-                              hud.label.text =
-                                  NSLocalizedString(@"Dropbox Sync", nil);
-                              [hud hideAnimated:YES afterDelay:1.2f];
-                              [self checkForAutoSync];
-                            } else {
-                              MBProgressHUD *currentHUD =
-                                  [MBProgressHUD HUDForView:self.view];
-                              currentHUD.label.text =
-                                  [NSString stringWithFormat:@"Sync %ld / %ld",
-                                                             self->currentFile,
-                                                             self->allFiles];
-                              currentHUD.progress = 0.0f;
-                            }
-                            [self handleCollision];
-                          }]];
-
-      [self presentViewController:chooseVersionController
-                         animated:YES
-                       completion:nil];
-    }
-    // if not ascending or descending, file is in sync
-    else {
-      self.collisionArray = [self.collisionArray arrayByRemovingObject:file];
-      currentFile++;
-      if (currentFile > allFiles) {
-        MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-        hud.mode = MBProgressHUDModeCustomView;
-        hud.customView = [[UIImageView alloc]
-            initWithImage:[UIImage imageNamed:@"check_green"]];
-        hud.label.text = NSLocalizedString(@"Dropbox Sync", nil);
-        [hud hideAnimated:YES afterDelay:1.2f];
-        [self checkForAutoSync];
-      } else {
-        MBProgressHUD *currentHUD = [MBProgressHUD HUDForView:self.view];
-        currentHUD.label.text = [NSString
-            stringWithFormat:@"Sync %ld / %ld", currentFile, allFiles];
-        currentHUD.progress = 0.0f;
-      }
-      [self handleCollision];
-    }
-
-  } else {
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.customView =
-        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"check_green"]];
-    hud.label.text = NSLocalizedString(@"Dropbox Sync", nil);
-    [hud hideAnimated:YES afterDelay:1.2f];
-    [self reloadTableViewData];
-  }
-
-  return;
-}
-
-- (void)checkForAutoSync {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  if ([defaults boolForKey:@"DBAutoSync"])
-    return;
-  NSInteger askCount = [defaults integerForKey:@"DBAutoSyncCount"];
-  if (askCount == 0 || askCount == 10) {
-    UIAlertController *avc = [UIAlertController
-        alertControllerWithTitle:NSLocalizedString(@"Auto Sync", nil)
-                         message:NSLocalizedString(
-                                     @"If you choose Auto Sync the app will "
-                                     @"sync with the chosen Dropbox folder on "
-                                     @"each startup. Should auto-sync with the "
-                                     @"chosen folder be enabled? You can reset "
-                                     @"this in the settings.",
-                                     nil)
-                  preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *dontAction = [UIAlertAction
-        actionWithTitle:NSLocalizedString(@"Don't Auto Sync", nil)
-                  style:UIAlertActionStyleCancel
-                handler:nil];
-    UIAlertAction *activateAction =
-        [UIAlertAction actionWithTitle:NSLocalizedString(@"Auto Sync", nil)
-                                 style:UIAlertActionStyleDefault
-                               handler:^(UIAlertAction *_Nonnull action) {
-                                 [defaults setBool:YES forKey:@"DBAutoSync"];
-                               }];
-    [avc addAction:activateAction];
-    [avc addAction:dontAction];
-
-    [self presentViewController:avc animated:YES completion:nil];
-    [defaults setInteger:(askCount + 1) forKey:@"DBAutoSyncCount"];
-  } else
-    [defaults setInteger:(askCount + 1) forKey:@"DBAutoSyncCount"];
-}
-
 - (void)showAutoFillPopupInfo {
   if (![[NSUserDefaults standardUserDefaults] boolForKey:@"LaunchTwo"]) {
 #warning remove this after some versions
     // This is any second launch
-    BOOL purchased = [AppSettings sharedInstance].purchased;
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"LaunchTwo"];
     NSString *alertMessage =
         @"Go ahead! Just open your database and you are good to go.\n\nYour "
         @"passwords will now be securely available in any app.\n\nBe aware "
         @"that the URL field is required to use it, so make use of it in as "
         @"many entries as you can.";
-    if (!purchased)
-      alertMessage =
-          @"Go ahead into settings and purchase Remove Ads + Auto "
-          @"Fill!\n\nAfter that, just open your database and you are good to "
-          @"go. Your passwords will now be securely available in any "
-          @"app.\n\nBe aware that the URL field is required to use it, so make "
-          @"use of it in as many entries as you can.";
     UIAlertController *alertCon = [UIAlertController
         alertControllerWithTitle:@"Auto Fill is here!"
                          message:alertMessage

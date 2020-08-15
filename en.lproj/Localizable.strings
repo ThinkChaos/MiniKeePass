@@ -67,22 +67,6 @@
 "Imprint" = "Imprint";
 "Privacy" = "Privacy";
 
-
-// Dropbox Sync
-"No Folders or Files in here" = "No Folders or Files in here";
-"Choose one of the following options" = "Choose one of the following options";
-"Local" = "Local";
-"Don't Auto Sync" = "Don't Auto Sync";
-"If you choose Auto Sync the app will sync with the chosen Dropbox folder on each startup. Should auto-sync with the chosen folder be enabled? You can reset this in the settings." = "If you choose Auto Sync the app will sync with the chosen Dropbox folder on each startup. Should auto-sync with the chosen folder be enabled? You can reset this in the settings.";
-"Reset Dropbox Settings" = "Reset Dropbox Settings";
-"Your dropbox file is newer than the local file.\n Which one do you want to keep and use?" = "Your dropbox file is newer than the local file.\n Which one do you want to keep and use?";
-"Your local file is newer than the dropbox file.\n Which one do you want to keep and use?" = "Your local file is newer than the dropbox file.\n Which one do you want to keep and use?";
-
-"Newer Version" = "Newer Version";
-"Older Version" = "Older Version";
-
-"Invalid database row" = "Invalid database row";
-
 // Touch ID and Default Database
 "No Touch ID enabled" = "No Touch ID enabled. Please enable TouchID in the Settings App.";
 "Unknown Touch ID entered. Please try again." = "Unknown Touch ID entered. Please try again.";
@@ -177,7 +161,6 @@
 // Help Titles
 "Technical help" = "Technical help";
 "iTunes Import/Export" = "iTunes Import/Export";
-"Dropbox Import/Export" = "Dropbox Import/Export";
 "Safari/Email Import" = "Safari/Email Import";
 "Create New Database" = "Create New Database";
 "Key Files" = "Key Files";

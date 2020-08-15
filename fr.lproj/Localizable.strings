@@ -67,21 +67,6 @@
 "Choose" = "Choisisser";
 "Canceled" = "Annuler";
 
-// Dropbox Sync
-"No Folders or Files in here" = "Aucun dossier ou fichier ici";
-"Choose one of the following options" = "Choisir une des options suivantes";
-"Local" = "Locale";
-"Don't Auto Sync" = "Pas de synchro Auto";
-"If you choose Auto Sync the app will sync with the chosen Dropbox folder on each startup. Should auto-sync with the chosen folder be enabled? You can reset this in the settings." = "Si vous choisissez la synchro Auto, l'application se synchronisera avec le dossier Dropbox par défaut à chaque démarrage. Voulez-vous activer la synchronisation Automatique avec le dossier choisi ? Vous pouvez le réinitialiser dans les paramètres";
-"Reset Dropbox Settings" = "Réinitialiser les paramètres de Dropbox";
-"Your dropbox file is newer than the local file.\n Which one do you want to keep and use?" = "Votre fichier Dropbox est plus récent que le nouveau que le fichier local.\nLequel voulez-vous conserver et utiliser ?";
-"Your local file is newer than the dropbox file.\n Which one do you want to keep and use?" = "Votre fichier local est plus récent que le fichier Dropbox.\nLequel voulez-vous conserver et utiliser ?";
-
-"Newer Version" = "Nouvelle version";
-"Older Version" = "Ancienne version";
-
-"Invalid database row" = "BDD selectionnée invalide";
-
 // Touch ID and Default Database
 "No Touch ID enabled" = "Touch ID est indisponible. Veuillez activer Touch ID dans les paramètres de l'application.";
 "Unknown Touch ID entered. Please try again." = "Touch ID non reconnu. Veuillez réessayer.";
@@ -173,7 +158,6 @@
 
 // Help Titles
 "iTunes Import/Export" = "Import/Export iTunes";
-"Dropbox Import/Export" = "Import/Export Dropbox";
 "Safari/Email Import" = "Import Safari/Email";
 "Create New Database" = "Créer une nouvelle BDD";
 "Key Files" = "Fichiers de clé";
