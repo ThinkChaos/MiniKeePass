@@ -533,39 +533,6 @@ enum {
         selectionListViewController.reference = indexPath;
         [self.navigationController pushViewController:selectionListViewController animated:YES];
     }
-    else if(indexPath.section == SECTION_FTP) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        
-        if(indexPath.row == ROW_FTP_DROPBOX) {
-            [DBClientsManager unlinkAndResetClients];
-            [defaults removeObjectForKey:@"DBAutoSync"];
-            [defaults removeObjectForKey:@"DropboxPath"];
-        }
-        else if(indexPath.row == ROW_FTP_DROPBOX_AUTO_SYNC)
-        {
-            // nothing to do here, as the switch handles it
-            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-            return;
-        }
-        else
-        {
-            [KeychainUtils deleteStringForKey:KPT_FTP_KEY_HOST andServiceName:KPT_FTP_SERVICE];
-            [KeychainUtils deleteStringForKey:KPT_FTP_KEY_USER andServiceName:KPT_FTP_SERVICE];
-            [KeychainUtils deleteStringForKey:KPT_FTP_KEY_PASSWD andServiceName:KPT_FTP_SERVICE];
-        }
-        
-        
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.mode = MBProgressHUDModeText;
-        hud.detailsLabel.text = NSLocalizedString(@"Reset complete", nil);
-        hud.detailsLabel.font = [UIFont fontWithName:@"Andale Mono" size:22];
-        hud.margin = 10.f;
-        hud.removeFromSuperViewOnHide = YES;
-        [hud hideAnimated:YES afterDelay:1.5f];
-        
-        
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
 }
 
 - (void)selectionListViewController:(SelectionListViewController *)controller selectedIndex:(NSInteger)selectedIndex withReference:(id<NSObject>)reference {

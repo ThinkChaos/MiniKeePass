@@ -82,23 +82,6 @@
 
 "Invalid database row" = "BDD selectionnée invalide";
 
-
-// FTP Connect & Local Sync
-"Connect" = "Connexion";
-"FTP Login Data" = "Donnée de connexion FTP";
-"Illegal Port" = "Port interdit";
-"Insert FTP data here" = "Insérer votre fichier FTP ici";
-"Reset FTP data" = "Réinitialiser les données FTP";
-"Reset complete" = "Réinitialisation complète";
-"Choose Upload File..." = "Choisisser un fichier à envoyer...";
-"Overwrite" = "Écraser";
-"File with filename already exists. Should overwrite existing file?" = "Un fichier du même nom existe déjà. Voulez-vous écraser le fichier existant ?";
-"Yes" = "Oui";
-"No" = "Non";
-"No WiFi Available" = "WiFi indisponible";
-"Local Syncing needs WiFi to work" = "Le WiFi est nécessaire pour effectuer la synchronisation locale";
-
-
 // Touch ID and Default Database
 "No Touch ID enabled" = "Touch ID est indisponible. Veuillez activer Touch ID dans les paramètres de l'application.";
 "Unknown Touch ID entered. Please try again." = "Touch ID non reconnu. Veuillez réessayer.";

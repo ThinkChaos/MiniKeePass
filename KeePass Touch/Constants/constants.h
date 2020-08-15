@@ -19,16 +19,4 @@
 
 #define KPT_KEYFILES_SERVICE @"com.kptouch.keyfiles"
 
-#pragma mark FTP
-
-#define KPT_FTP_SERVICE @"com.kptouch.ftpaccess"
-
-#define KPT_FTP_KEY_HOST @"kptftphost"
-
-#define KPT_FTP_KEY_USER @"kptftpusername"
-
-#define KPT_FTP_KEY_PASSWD @"kptftppassword"
-
-
-
 #endif /* constants_h */

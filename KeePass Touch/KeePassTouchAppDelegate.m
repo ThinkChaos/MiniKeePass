@@ -297,11 +297,9 @@
   // Delete the PIN from the keychain
   [KeychainUtils deleteStringForKey:KPT_PIN_KEY andServiceName:KPT_PIN_SERVICE];
 
-  // Delete all database passwords, keyfiles and ftp login data from the
-  // keychain
+  // Delete all database passwords and keyfiles from the keychain
   [KeychainUtils deleteAllForServiceName:KPT_PASSWORD_SERVICE];
   [KeychainUtils deleteAllForServiceName:KPT_KEYFILES_SERVICE];
-  [KeychainUtils deleteAllForServiceName:KPT_FTP_SERVICE];
 }
 
 - (void)deleteAllData {

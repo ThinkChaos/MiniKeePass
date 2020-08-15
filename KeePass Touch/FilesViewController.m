@@ -21,6 +21,7 @@
 #import "DropboxFolderController.h"
 #import "DropboxManager.h"
 #import "HelpViewController.h"
+#import "KPViewController.h"
 #import "Kdb3Writer.h"
 #import "Kdb4Writer.h"
 #import "KeePassTouchAppDelegate.h"
@@ -30,9 +31,6 @@
 #import "NewKdbViewController.h"
 
 #import "constants.h"
-
-#import "FTPAddServerViewController.h"
-#import "FTPSelectViewController.h"
 
 enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 
@@ -278,15 +276,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
   [dropboxAlertAction setValue:[UIImage imageNamed:@"dropbox"] forKey:@"image"];
   [alertCon addAction:dropboxAlertAction];
 
-  UIAlertAction *ftpAlertAction =
-      [UIAlertAction actionWithTitle:@"FTP Sync"
-                               style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction *action) {
-                               [self ftpPressed];
-                             }];
-  [ftpAlertAction setValue:[UIImage imageNamed:@"globe"] forKey:@"image"];
-  [alertCon addAction:ftpAlertAction];
-
   UIAlertAction *cancelAlertAction =
       [UIAlertAction actionWithTitle:@"Cancel"
                                style:UIAlertActionStyleCancel
@@ -331,106 +320,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
           stringByAppendingString:[webUploader.serverURL absoluteString]];
     }
   }
-}
-
-// FTP Syncing
-- (void)ftpPressed {
-  if (isUploading) {
-    isUploading = NO;
-    [footerLabel removeFromSuperview];
-  }
-  if ([webUploader isRunning]) {
-    UIImage *newImage = [UIImage imageNamed:@"sync"];
-    [syncButton setImage:newImage];
-    [webUploader stop];
-  }
-
-  if ([KeychainUtils stringForKey:KPT_FTP_KEY_HOST
-                   andServiceName:KPT_FTP_SERVICE] == nil) {
-    FTPAddServerViewController *fsvc =
-        [[FTPAddServerViewController alloc] init];
-    fsvc.doneCompletion = ^() {
-      [self showFTPOptions];
-    };
-    UINavigationController *navi =
-        [[UINavigationController alloc] initWithRootViewController:fsvc];
-    [self presentViewController:navi animated:YES completion:nil];
-  } else {
-    [self showFTPOptions];
-  }
-}
-
-- (void)showFTPOptions {
-  NSInteger rowCount = [self.tableView numberOfRowsInSection:SECTION_DATABASE] +
-                       [self.tableView numberOfRowsInSection:SECTION_KEYFILE];
-  UIAlertController *alertCon = [UIAlertController
-      alertControllerWithTitle:nil
-                       message:nil
-                preferredStyle:UIAlertControllerStyleActionSheet];
-  alertCon.modalPresentationStyle = UIModalPresentationPopover;
-  alertCon.popoverPresentationController.barButtonItem = syncButton;
-  UIAlertAction *downloadAction = [UIAlertAction
-      actionWithTitle:NSLocalizedString(@"Download", nil)
-                style:UIAlertActionStyleDefault
-              handler:^(UIAlertAction *_Nonnull action) {
-                // Download FTP
-                FTPSelectViewController *fsvc = [[FTPSelectViewController alloc]
-                    initWithMode:FTP_MODE_DOWNLOAD];
-                fsvc.path = @"/";
-                UINavigationController *navi = [[UINavigationController alloc]
-                    initWithRootViewController:fsvc];
-                [self presentViewController:navi animated:YES completion:nil];
-              }];
-  [alertCon addAction:downloadAction];
-
-  if (rowCount > 0) {
-    UIAlertAction *uploadAction = [UIAlertAction
-        actionWithTitle:NSLocalizedString(@"Upload", nil)
-                  style:UIAlertActionStyleDefault
-                handler:^(UIAlertAction *_Nonnull action) {
-                  // Upload FTP
-                  NSInteger databaseRows =
-                      [self.tableView numberOfRowsInSection:SECTION_DATABASE];
-                  NSInteger keyFileRows =
-                      [self.tableView numberOfRowsInSection:SECTION_KEYFILE];
-                  if ((databaseRows + keyFileRows) > 1) {
-                    self->isUploading = YES;
-                    [self.view addSubview:self->footerLabel];
-                    self->footerLabel.text =
-                        NSLocalizedString(@"Choose Upload File...", nil);
-                  } else {
-                    // sofort initialisieren mit Upload Database File
-                    FTPSelectViewController *fsvc =
-                        [[FTPSelectViewController alloc]
-                            initWithMode:FTP_MODE_UPLOAD];
-                    fsvc.path = @"/";
-                    fsvc.loadFilename =
-                        [self.tableView
-                            cellForRowAtIndexPath:
-                                [NSIndexPath
-                                    indexPathForRow:0
-                                          inSection:databaseRows == 0
-                                                        ? SECTION_KEYFILE
-                                                        : SECTION_DATABASE]]
-                            .textLabel.text;
-                    UINavigationController *navi =
-                        [[UINavigationController alloc]
-                            initWithRootViewController:fsvc];
-                    [self presentViewController:navi
-                                       animated:YES
-                                     completion:nil];
-                  }
-                }];
-    [alertCon addAction:uploadAction];
-  }
-
-  UIAlertAction *cancelAction =
-      [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                               style:UIAlertActionStyleCancel
-                             handler:nil];
-  [alertCon addAction:cancelAction];
-
-  [self presentViewController:alertCon animated:YES completion:nil];
 }
 
 - (void)displayInfoPage {
@@ -958,16 +847,6 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (isUploading) {
-    [footerLabel removeFromSuperview];
-    FTPSelectViewController *fsvc = [[FTPSelectViewController alloc]
-        initWithUploadFile:[self.tableView cellForRowAtIndexPath:indexPath]
-                               .textLabel.text];
-    fsvc.path = @"/";
-    NSLog(@"fileName is: %@", fsvc.loadFilename);
-    isUploading = NO;
-    UINavigationController *navi =
-        [[UINavigationController alloc] initWithRootViewController:fsvc];
-    [self presentViewController:navi animated:YES completion:nil];
     return;
   }
   if ([webUploader isRunning]) {

@@ -81,32 +81,9 @@
 "Dropbox Sync Init" = "Синхронизация";
 "Dropbox Sync" = "Dropbox";
 
-
-// FTP Connect & Local Sync
-"Connect" = "Подключить";
-"FTP Login Data" = "Настройка FTP";
-"Illegal Port" = "Неверный порт";
-"Insert FTP data here" = "Введите данные FTP";
-"Reset FTP data" = "Сбросить настройки FTP";
-"Reset complete" = "Сброс завершён";
-"Choose Upload File..." = "Выберите загружаемый файл...";
-"Overwrite" = "Перезаписать";
-"File with filename already exists. Should overwrite existing file?" = "Файл с таким именем существует. Перезаписать?";
-"Yes" = "Да";
-"No" = "Нет";
-"No WiFi Available" = "Нет доступных Wi-Fi сетей";
-"Local Syncing needs WiFi to work" = "Для синхронизации нужна Wi-Fi сеть.";
-
-"Host" = "Сервер";
-"Port" = "Порт";
-
-
 // Synchronisation
 "Synchronisation" = "Синхронизация";
 "Local Sync" = "По Wi-Fi";
-"Dropbox Sync" = "Через Dropbox";
-"FTP Sync" = "По FTP";
-
 
 // Touch ID and Default Database
 "No Touch ID enabled" = "Touch ID не включён. Пожалуйста, включите Touch ID в настройках приложения.";

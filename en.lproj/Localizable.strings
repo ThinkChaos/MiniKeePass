@@ -83,23 +83,6 @@
 
 "Invalid database row" = "Invalid database row";
 
-
-// FTP Connect & Local Sync
-"Connect" = "Connect";
-"FTP Login Data" = "FTP Login Data";
-"Illegal Port" = "Illegal Port";
-"Insert FTP data here" = "Insert FTP data here";
-"Reset FTP data" = "Reset FTP data";
-"Reset complete" = "Reset complete";
-"Choose Upload File..." = "Choose Upload File...";
-"Overwrite" = "Overwrite";
-"File with filename already exists. Should overwrite existing file?" = "A File with that filename already exists. Overwrite?";
-"Yes" = "Yes";
-"No" = "No";
-"No WiFi Available" = "No WiFi Available";
-"Local Syncing needs WiFi to work" = "Local Syncing needs a WiFi network to work.";
-
-
 // Touch ID and Default Database
 "No Touch ID enabled" = "No Touch ID enabled. Please enable TouchID in the Settings App.";
 "Unknown Touch ID entered. Please try again." = "Unknown Touch ID entered. Please try again.";

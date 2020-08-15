@@ -18,16 +18,13 @@
 		425A14B91AC0F18000573C66 /* KDB4CustomIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A14B81AC0F18000573C66 /* KDB4CustomIcon.m */; };
 		42930BE91A7551F4008AF0FF /* request.html in Resources */ = {isa = PBXBuildFile; fileRef = 42930BE81A7551F4008AF0FF /* request.html */; };
 		42930BEB1A755446008AF0FF /* source.html in Resources */ = {isa = PBXBuildFile; fileRef = 42930BEA1A755446008AF0FF /* source.html */; };
-		42993D231A7A479E0000D8E8 /* FTPSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42993D221A7A479E0000D8E8 /* FTPSelectViewController.m */; };
 		42993D251A7B14D30000D8E8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42993D241A7B14D30000D8E8 /* CFNetwork.framework */; };
 		42993D2F1A7FACF40000D8E8 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42993D2E1A7FACF40000D8E8 /* LocalAuthentication.framework */; };
 		42B888701D7AFE1F004ED717 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42B8886F1D7AFE1F004ED717 /* LaunchScreen.storyboard */; };
 		42BEFB4F1A825BD40049C325 /* de-request.html in Resources */ = {isa = PBXBuildFile; fileRef = 42BEFB4E1A825BD40049C325 /* de-request.html */; };
 		42BEFB511A825C870049C325 /* de-source.html in Resources */ = {isa = PBXBuildFile; fileRef = 42BEFB501A825C870049C325 /* de-source.html */; };
-		42BEFB551A825DB80049C325 /* ftp.html in Resources */ = {isa = PBXBuildFile; fileRef = 42BEFB521A825DB80049C325 /* ftp.html */; };
 		42BEFB561A825DB80049C325 /* touchid.html in Resources */ = {isa = PBXBuildFile; fileRef = 42BEFB531A825DB80049C325 /* touchid.html */; };
 		42BEFB571A825DB80049C325 /* wifi.html in Resources */ = {isa = PBXBuildFile; fileRef = 42BEFB541A825DB80049C325 /* wifi.html */; };
-		42BEFB641A8287B70049C325 /* de-ftp.html in Resources */ = {isa = PBXBuildFile; fileRef = 42BEFB611A8287B70049C325 /* de-ftp.html */; };
 		42BEFB651A8287B70049C325 /* de-touchid.html in Resources */ = {isa = PBXBuildFile; fileRef = 42BEFB621A8287B70049C325 /* de-touchid.html */; };
 		42BEFB661A8287B70049C325 /* de-wifi.html in Resources */ = {isa = PBXBuildFile; fileRef = 42BEFB631A8287B70049C325 /* de-wifi.html */; };
 		42CA11701B692A85003A161D /* DropboxFolderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42CA116F1B692A85003A161D /* DropboxFolderController.m */; };
@@ -182,7 +179,6 @@
 		8973443B221D81360016D5EE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89734439221D81360016D5EE /* MainInterface.storyboard */; };
 		89734440221D81360016D5EE /* KeePass Touch Autofill.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 89734433221D81350016D5EE /* KeePass Touch Autofill.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		897C50761FEAC0D900C5EB5F /* KPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897C50751FEAC0D900C5EB5F /* KPViewController.m */; };
-		897C50791FEAC15100C5EB5F /* FTPAddServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897C50781FEAC15100C5EB5F /* FTPAddServerViewController.m */; };
 		8994184A2212FD16004D79C1 /* de-imprint.html in Resources */ = {isa = PBXBuildFile; fileRef = 899418482212FD15004D79C1 /* de-imprint.html */; };
 		8994184B2212FD16004D79C1 /* de-privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = 899418492212FD15004D79C1 /* de-privacy.html */; };
 		899D3B2923461B0A00100BDE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E0830E146F24E3001C4EDF /* Localizable.strings */; };
@@ -322,17 +318,13 @@
 		425A14B81AC0F18000573C66 /* KDB4CustomIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KDB4CustomIcon.m; sourceTree = "<group>"; };
 		42930BE81A7551F4008AF0FF /* request.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = request.html; sourceTree = "<group>"; };
 		42930BEA1A755446008AF0FF /* source.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = source.html; sourceTree = "<group>"; };
-		42993D211A7A479E0000D8E8 /* FTPSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTPSelectViewController.h; sourceTree = "<group>"; };
-		42993D221A7A479E0000D8E8 /* FTPSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTPSelectViewController.m; sourceTree = "<group>"; };
 		42993D241A7B14D30000D8E8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		42993D2E1A7FACF40000D8E8 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		42B8886F1D7AFE1F004ED717 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		42BEFB4E1A825BD40049C325 /* de-request.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "de-request.html"; sourceTree = "<group>"; };
 		42BEFB501A825C870049C325 /* de-source.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "de-source.html"; sourceTree = "<group>"; };
-		42BEFB521A825DB80049C325 /* ftp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = ftp.html; sourceTree = "<group>"; };
 		42BEFB531A825DB80049C325 /* touchid.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = touchid.html; sourceTree = "<group>"; };
 		42BEFB541A825DB80049C325 /* wifi.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = wifi.html; sourceTree = "<group>"; };
-		42BEFB611A8287B70049C325 /* de-ftp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "de-ftp.html"; sourceTree = "<group>"; };
 		42BEFB621A8287B70049C325 /* de-touchid.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "de-touchid.html"; sourceTree = "<group>"; };
 		42BEFB631A8287B70049C325 /* de-wifi.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "de-wifi.html"; sourceTree = "<group>"; };
 		42CA116E1B692A85003A161D /* DropboxFolderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxFolderController.h; sourceTree = "<group>"; };
@@ -598,8 +590,6 @@
 		8973443D221D81360016D5EE /* KeePass_Touch_Autofill.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KeePass_Touch_Autofill.entitlements; sourceTree = "<group>"; };
 		897C50741FEAC0D900C5EB5F /* KPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KPViewController.h; sourceTree = "<group>"; };
 		897C50751FEAC0D900C5EB5F /* KPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KPViewController.m; sourceTree = "<group>"; };
-		897C50771FEAC15100C5EB5F /* FTPAddServerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FTPAddServerViewController.h; sourceTree = "<group>"; };
-		897C50781FEAC15100C5EB5F /* FTPAddServerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FTPAddServerViewController.m; sourceTree = "<group>"; };
 		899418482212FD15004D79C1 /* de-imprint.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "de-imprint.html"; sourceTree = "<group>"; };
 		899418492212FD15004D79C1 /* de-privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "de-privacy.html"; sourceTree = "<group>"; };
 		899E65CE2133286400DF2126 /* NSData+CompressGZip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+CompressGZip.h"; sourceTree = "<group>"; };
@@ -706,7 +696,6 @@
 				52491D0714D8F3FB00F8CBC8 /* de-createdb.html */,
 				52491D0814D8F3FB00F8CBC8 /* de-dropbox.html */,
 				52491D0914D8F3FB00F8CBC8 /* de-itunes.html */,
-				42BEFB611A8287B70049C325 /* de-ftp.html */,
 				42BEFB621A8287B70049C325 /* de-touchid.html */,
 				42BEFB631A8287B70049C325 /* de-wifi.html */,
 				42BEFB501A825C870049C325 /* de-source.html */,
@@ -789,7 +778,6 @@
 				896BC62722FF262A00490A37 /* autofill.html */,
 				52A177BB13EB698E00CEEFCE /* createdb.html */,
 				689D021413A42B63005EBD36 /* dropbox.html */,
-				42BEFB521A825DB80049C325 /* ftp.html */,
 				89F89FD32212142B00A8A849 /* imprint.html */,
 				689D021513A42B63005EBD36 /* itunes.html */,
 				68DDC3721405160300FC8BD8 /* keyfiles.html */,
@@ -1001,10 +989,6 @@
 				689D042F13A42C81005EBD36 /* FilesViewController.m */,
 				68A3E1AD13A8C9D1006881CA /* FormViewController.h */,
 				68A3E1AE13A8C9D1006881CA /* FormViewController.m */,
-				897C50771FEAC15100C5EB5F /* FTPAddServerViewController.h */,
-				897C50781FEAC15100C5EB5F /* FTPAddServerViewController.m */,
-				42993D211A7A479E0000D8E8 /* FTPSelectViewController.h */,
-				42993D221A7A479E0000D8E8 /* FTPSelectViewController.m */,
 				52C7FD7B18693D9900D498A2 /* GroupSearchDataSource.h */,
 				52C7FD7C18693D9900D498A2 /* GroupSearchDataSource.m */,
 				689D043013A42C81005EBD36 /* GroupViewController.h */,
@@ -1389,7 +1373,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				896BC62822FF262A00490A37 /* autofill.html in Resources */,
-				42BEFB551A825DB80049C325 /* ftp.html in Resources */,
 				42930BEB1A755446008AF0FF /* source.html in Resources */,
 				894A8251222EADDB008EAC65 /* GoogleService-Info.plist in Resources */,
 				529708B014FEF149003547FB /* Andale Mono.ttf in Resources */,
@@ -1424,7 +1407,6 @@
 				52E43F4D15B59C890029F979 /* ru-dropbox.html in Resources */,
 				52E43F4E15B59C890029F979 /* ru-itunes.html in Resources */,
 				8964591A2349346900C8B9EE /* icon_key_iPhone_22x29.png in Resources */,
-				42BEFB641A8287B70049C325 /* de-ftp.html in Resources */,
 				52E43F4F15B59C890029F979 /* ru-keyfiles.html in Resources */,
 				42BEFB561A825DB80049C325 /* touchid.html in Resources */,
 				8964591D2349346900C8B9EE /* icon_key_iPhone_44x58.png in Resources */,
@@ -1554,7 +1536,6 @@
 				8952DAD6203B553000F318B9 /* VariantDictionary.m in Sources */,
 				689D03D713A42B63005EBD36 /* Kdb3Node.m in Sources */,
 				8952DABF203B4B5900F318B9 /* BlockCipher.m in Sources */,
-				897C50791FEAC15100C5EB5F /* FTPAddServerViewController.m in Sources */,
 				89FC6ADF20A8AF6C003D469D /* argon2.c in Sources */,
 				689D03DA13A42B63005EBD36 /* Kdb3Reader.m in Sources */,
 				689D03DB13A42B63005EBD36 /* Kdb3Writer.m in Sources */,
@@ -1572,7 +1553,6 @@
 				897C50761FEAC0D900C5EB5F /* KPViewController.m in Sources */,
 				893D7B10207934BC0043B39D /* TwoFishInputStream.m in Sources */,
 				689D03E313A42B63005EBD36 /* KdbWriterFactory.m in Sources */,
-				42993D231A7A479E0000D8E8 /* FTPSelectViewController.m in Sources */,
 				89D477781EEC5C8800052EC6 /* NSArray+Additions.m in Sources */,
 				689D03E513A42B63005EBD36 /* Salsa20RandomStream.m in Sources */,
 				689D03E713A42B63005EBD36 /* Utils.m in Sources */,

@@ -83,23 +83,6 @@
 
 "Invalid database row" = "Ungültige Datenbank Auswahl in der Tabelle";
 
-// FTP Connect & Local Sync
-"Connect" = "Verbinden";
-"FTP Login Data" = "FTP Zugangsdaten";
-"Illegal Port" = "Ungültiger Port";
-"Insert FTP data here" = "Geben Sie ihre FTP Zugangsdaten ein";
-"Reset FTP data" = "FTP Daten zurücksetzen";
-"Reset complete" = "Zurücksetzen abgeschlossen";
-"Choose Upload File..." = "Wählen Sie die Datei zum Upload";
-"Overwrite" = "Überschreiben";
-"File with filename already exists. Should overwrite existing file?" = "Eine Datei dieses Namens existiert bereits. Überschreiben?";
-"Yes" = "Ja";
-"No" = "Nein";
-"No WiFi Available" = "WLAN nicht verfügbar";
-"Local Syncing needs WiFi to work" = "WLAN wird für lokale Synchronisation benötigt.";
-
-
-
 // Touch ID and Default Database
 "No Touch ID enabled" = "Touch ID ist nicht aktiviert / konfiguriert. Bitte konfigurieren Sie Touch ID in den Einstellungen.";
 "Unknown Touch ID entered. Please try again." = "Der gescannte Fingerabdruck wurde nicht erkannt. Bitte versuchen Sie es erneut.";
