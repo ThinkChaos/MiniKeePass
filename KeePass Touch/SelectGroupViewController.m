@@ -159,8 +159,13 @@ static NSString *const kKeyName = @"name";
 
   BOOL selectable = [[dict objectForKey:kKeySelectable] boolValue];
   if (selectable) {
-    cell.textLabel.textColor = [UIColor blackColor];
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    if (@available(iOS 13.0, *)) {
+      cell.textLabel.textColor = [UIColor labelColor];
+    } else {
+      // Fallback on earlier versions
+      cell.textLabel.textColor = [UIColor blackColor];
+    }
   } else {
     cell.textLabel.textColor = [UIColor lightGrayColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

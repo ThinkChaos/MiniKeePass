@@ -11,8 +11,10 @@
 		<dict>
 			<key>CFBundleTypeIconFiles</key>
 			<array>
-				<string>icon.png</string>
-				<string>icon@2x.png</string>
+				<string>icon_iPad_64x64.png</string>
+				<string>icon_iPad_320x320.png</string>
+				<string>icon_iPhone_22x29.png</string>
+				<string>icon_iPhone_44x58.png</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>KeePass 2.x Database</string>
@@ -28,8 +30,10 @@
 		<dict>
 			<key>CFBundleTypeIconFiles</key>
 			<array>
-				<string>icon.png</string>
-				<string>icon@2x.png</string>
+				<string>icon_iPad_64x64.png</string>
+				<string>icon_iPad_320x320.png</string>
+				<string>icon_iPhone_22x29.png</string>
+				<string>icon_iPhone_44x58.png</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>KeePass 1.x Database</string>
@@ -43,21 +47,27 @@
 			</array>
 		</dict>
 		<dict>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.content</string>
+			</array>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>key</string>
+			</array>
 			<key>CFBundleTypeIconFiles</key>
 			<array>
-				<string>icon.png</string>
-				<string>icon@2x.png</string>
+				<string>icon_key_iPad_64x64.png</string>
+				<string>icon_key_iPad_320x320.png</string>
+				<string>icon_key_iPhone_22x29.png</string>
+				<string>icon_key_iPhone_44x58.png</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>KeePass Keyfile</string>
 			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
+			<string>Viewer</string>
 			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.kptouch.key</string>
-			</array>
+			<string>Alternate</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -71,7 +81,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.10.3</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -94,21 +104,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>6</string>
-	<key>Fabric</key>
-	<dict>
-		<key>APIKey</key>
-		<string>4db9b69eb3833b3f05e2ffd858997111843bcf3a</string>
-		<key>Kits</key>
-		<array>
-			<dict>
-				<key>KitInfo</key>
-				<dict/>
-				<key>KitName</key>
-				<string>Crashlytics</string>
-			</dict>
-		</array>
-	</dict>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>dbapi-8-emm</string>
@@ -204,7 +200,7 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.data</string>
+				<string>public.content</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>KeePass Keyfile</string>
@@ -222,6 +218,13 @@
 	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>kdbx</string>
+				</array>
+			</dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
@@ -232,6 +235,13 @@
 			<string>com.kptouch.kdbx</string>
 		</dict>
 		<dict>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>kdb</string>
+				</array>
+			</dict>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
@@ -242,8 +252,21 @@
 			<string>com.kptouch.kdb</string>
 		</dict>
 		<dict>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>key</string>
+				</array>
+			</dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.content</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>KeePass KeyFile</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
 			<key>UTTypeIdentifier</key>
 			<string>com.kptouch.key</string>
 		</dict>

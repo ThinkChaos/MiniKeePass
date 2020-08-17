@@ -3,6 +3,9 @@
 
 def shared_pods
   pod 'MBProgressHUD'
+  pod 'Fabric'
+  pod 'Crashlytics'
+  pod 'Firebase/Core'
 end
 
 def main_pods
@@ -10,17 +13,15 @@ def main_pods
   # use_frameworks!
   
   # Pods for KeePass Touch
-  pod 'ObjectiveDropboxOfficial', '~> 3.3.4'
+  pod 'ObjectiveDropboxOfficial'
   pod 'TWMessageBarManager'
   
   pod 'GCDWebServer', '~> 3.0'
   pod 'GCDWebServer/WebUploader', '~> 3.0'
   
-  pod 'Firebase/Core'
-  
   pod 'FTPKit', :git => 'https://github.com/aljlue/FTPKit.git'
   
-  pod 'Google-Mobile-Ads-SDK'
+  pod 'Google-Mobile-Ads-SDK', '~> 7.31.0'
   
   pod 'RMStore', '~> 0.7'
 end

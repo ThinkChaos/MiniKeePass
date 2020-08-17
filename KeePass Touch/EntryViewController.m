@@ -890,6 +890,9 @@ enum {
 #pragma mark - StringField related
 
 - (void)editStringField:(NSIndexPath *)indexPath {
+  // stop on invalid row here
+  if (indexPath.row >= self.editingStringFields.count)
+    return;
   StringField *stringField =
       [self.editingStringFields objectAtIndex:indexPath.row];
 
@@ -931,8 +934,7 @@ enum {
 - (void)setSelectedImageIndex:(NSUInteger)index {
   _selectedImageIndex = index;
   UIImage *image = nil;
-  if (self.isKdb4 && index == 0 &&
-      (((Kdb4Entry *)self.entry).customIconUuid != nil)) {
+  if (self.isKdb4 && (((Kdb4Entry *)self.entry).customIconUuid != nil)) {
     image = [[ImageFactory sharedInstance] imageForEntry:self.entry];
   } else {
     image = [[ImageFactory sharedInstance] imageForIndex:index];

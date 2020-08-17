@@ -54,13 +54,35 @@
 
   if (indexPath.row == selectedIndex) {
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    cell.textLabel.textColor = [UIColor colorWithRed:0.243
-                                               green:0.306
-                                                blue:0.435
-                                               alpha:1];
+    if (@available(iOS 12.0, *)) {
+      if (self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+        cell.textLabel.textColor = [UIColor colorWithRed:0.186
+                                                   green:0.712
+                                                    blue:0.970
+                                                   alpha:1];
+      } else {
+        cell.textLabel.textColor = [UIColor colorWithRed:0.243
+                                                   green:0.306
+                                                    blue:0.435
+                                                   alpha:1];
+      }
+    } else {
+      cell.textLabel.textColor = [UIColor colorWithRed:0.243
+                                                 green:0.306
+                                                  blue:0.435
+                                                 alpha:1];
+      // Fallback on earlier versions
+    }
+
   } else {
     cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.textLabel.textColor = [UIColor blackColor];
+
+    if (@available(iOS 13.0, *)) {
+      cell.textLabel.textColor = UIColor.labelColor;
+    } else {
+      // Fallback on earlier versions
+      cell.textLabel.textColor = UIColor.blackColor;
+    }
   }
 
   return cell;
@@ -68,25 +90,18 @@
 
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell;
 
   if (indexPath.row != selectedIndex) {
     // Remove the checkmark from the current selection
-    cell = [tableView
-        cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex
-                                                 inSection:0]];
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.textLabel.textColor = [UIColor blackColor];
-
-    // Add the checkmark to the new selection
-    cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    cell.textLabel.textColor = [UIColor colorWithRed:0.243
-                                               green:0.306
-                                                blue:0.435
-                                               alpha:1];
+    NSIndexPath *previousPath = [NSIndexPath indexPathForRow:selectedIndex
+                                                   inSection:0];
 
     selectedIndex = indexPath.row;
+    NSIndexPath *newSelectedPath = [NSIndexPath indexPathForRow:selectedIndex
+                                                      inSection:0];
+
+    [tableView reloadRowsAtIndexPaths:@[ previousPath, newSelectedPath ]
+                     withRowAnimation:UITableViewRowAnimationAutomatic];
 
     // Notify the delegate
     if ([delegate respondsToSelector:@selector

@@ -23,7 +23,12 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.textField.textColor = [UIColor blueColor];
+        if (@available(iOS 13.0, *)) {
+            self.textField.textColor = UIColor.linkColor;
+        } else {
+            // Fallback on earlier versions
+            self.textField.textColor = UIColor.blueColor;
+        }
         self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.textField.keyboardType = UIKeyboardTypeURL;

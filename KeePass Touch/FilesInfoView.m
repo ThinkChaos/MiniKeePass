@@ -28,7 +28,12 @@
   self = [super initWithFrame:frame];
   if (self) {
     // Initialization code
-    self.backgroundColor = [UIColor whiteColor];
+    if (@available(iOS 13.0, *)) {
+      self.backgroundColor = UIColor.secondarySystemBackgroundColor;
+    } else {
+      // Fallback on earlier versions
+      self.backgroundColor = UIColor.whiteColor;
+    }
     self.autoresizingMask =
         UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 

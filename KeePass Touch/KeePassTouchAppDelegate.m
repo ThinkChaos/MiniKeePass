@@ -31,6 +31,7 @@
 #import "constants.h"
 
 @import Firebase;
+@import Crashlytics;
 
 @interface KeePassTouchAppDelegate () {
   AppSettings *appSettings;
@@ -42,14 +43,14 @@
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+  // initialize firebase
+  [FIRApp configure];
+
   _databaseDocument = nil;
 
   // Create the files view
   self.filesViewController =
       [[FilesViewController alloc] initWithStyle:UITableViewStylePlain];
-
-  // initialize firebase
-  [FIRApp configure];
 
   // initialize appsettings
   appSettings = [AppSettings sharedInstance];
@@ -57,8 +58,6 @@
   self.navigationController = [[UINavigationController alloc]
       initWithRootViewController:self.filesViewController];
   self.navigationController.toolbarHidden = NO;
-
-  [[self class] clearTmpDirectory];
 
   if (!appSettings.purchased) {
     self.navigationController.delegate = self;
@@ -230,7 +229,8 @@
         [fileManager removeItemAtPath:path error:nil];
       }
     }
-    [fileManager moveItemAtURL:url
+    // copy item to local url
+    [fileManager copyItemAtURL:url
                          toURL:[NSURL fileURLWithPath:path]
                          error:nil];
 
@@ -443,10 +443,10 @@
         dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
           // Sleep until it's time to clean the clipboard
           [NSThread sleepForTimeInterval:clearClipboardTimeout];
-
+          UIPasteboard *pasteBoardRefeteched = [UIPasteboard generalPasteboard];
           // Clear the clipboard if it hasn't changed
-          if (pasteboardVersion == pasteboard.changeCount) {
-            pasteboard.string = @"";
+          if (pasteboardVersion == pasteBoardRefeteched.changeCount) {
+            pasteBoardRefeteched.string = @"";
           }
 
           // End the background task
@@ -529,25 +529,20 @@
                           withObject:nil
                           afterDelay:1.0f];
     } else if ([viewController isKindOfClass:[WebViewController class]]) {
+      CGFloat bottom = 50.0f;
+      if (@available(iOS 11.0, *)) {
+        UIEdgeInsets insets = viewController.view.safeAreaInsets;
+        bottom = MAX(insets.bottom, 50);
+      } else {
+        // Fallback on earlier versions
+      }
       self.currentAd.frame = CGRectMake(
           0,
           viewController.view.bounds.size.height -
-              self.navigationController.toolbar.frame.size.height - 50.0f,
-          viewController.view.bounds.size.width, 50.0f);
+              self.navigationController.toolbar.frame.size.height - bottom,
+          viewController.view.bounds.size.width, 50);
       [viewController.view addSubview:self.currentAd];
     }
-  }
-}
-
-+ (void)clearTmpDirectory {
-  NSArray *tmpDirectoryFiles = [[NSFileManager defaultManager]
-      contentsOfDirectoryAtPath:NSTemporaryDirectory()
-                          error:NULL];
-  for (NSString *file in tmpDirectoryFiles) {
-    NSString *filePath =
-        [NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), file];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
-      [[NSFileManager defaultManager] removeItemAtPath:filePath error:NULL];
   }
 }
 

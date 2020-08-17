@@ -42,6 +42,23 @@
     self.center = viewCenter;
 }
 
+
+- (CGFloat)xMax {
+    return self.xOrigin + self.width;
+}
+
+- (void)setXMax:(CGFloat)xMax {
+    [self setXOrigin:(xMax - self.width)];
+}
+
+- (CGFloat)yMax {
+    return self.yOrigin + self.height;
+}
+
+- (void)setYMax:(CGFloat)yMax {
+    [self setYOrigin:(yMax - self.height)];
+}
+
 - (CGFloat)width
 {
     CGFloat width = self.bounds.size.width;

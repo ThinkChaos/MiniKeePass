@@ -26,33 +26,40 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  self.view.backgroundColor =
-      [[UIColor whiteColor] colorWithAlphaComponent:0.8];
   self.title = NSLocalizedString(@"FTP Login Data", nil);
 
   _host = [KPTextField new];
-  _host.backgroundColor = [UIColor whiteColor];
 
   _host.placeholder = NSLocalizedString(@"Host", nil);
   [self.view addSubview:_host];
 
   _port = [KPTextField new];
   _port.keyboardType = UIKeyboardTypeNumberPad;
-  _port.backgroundColor = [UIColor whiteColor];
   _port.placeholder = NSLocalizedString(@"Port", nil);
 
   [self.view addSubview:_port];
 
   _username = [KPTextField new];
-  _username.backgroundColor = [UIColor whiteColor];
   _username.placeholder = NSLocalizedString(@"Username", nil);
   [self.view addSubview:_username];
 
   _password = [KPTextField new];
-  _password.backgroundColor = [UIColor whiteColor];
   _password.secureTextEntry = YES;
   _password.placeholder = NSLocalizedString(@"Password", nil);
   [self.view addSubview:_password];
+
+  if (@available(iOS 13.0, *)) {
+    self.view.backgroundColor = UIColor.secondarySystemBackgroundColor;
+    _host.backgroundColor = UIColor.systemBackgroundColor;
+    _port.backgroundColor = UIColor.systemBackgroundColor;
+    _username.backgroundColor = UIColor.systemBackgroundColor;
+    _password.backgroundColor = UIColor.systemBackgroundColor;
+  } else {
+    // Fallback on earlier versions
+    self.view.backgroundColor = UIColor.lightGrayColor;
+    _host.backgroundColor = _port.backgroundColor = _username.backgroundColor =
+        _password.backgroundColor = UIColor.whiteColor;
+  }
 
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
       initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -78,20 +85,19 @@
 
   CGFloat height = [SizeDesign getTopSpace] + NAV_BAR_HEIGHT;
 
-  _host.frame = CGRectMake(edgeSpace, height, self.view.width * 3 / 4, 50);
+  _host.frame = CGRectMake(edgeSpace, height, self.view.width * 2 / 3, 50);
 
   _port.frame =
-      CGRectMake(_host.xOrigin + _host.width + 4, height,
-                 self.view.width - _host.width - 4 - edgeSpace * 2, 50);
-  height += _host.height + 1;
+      CGRectMake(_host.xMax + 5, height,
+                 self.view.width - _host.width - 5 - edgeSpace * 2, 50);
+  height += _host.height + 5;
 
   _username.frame =
       CGRectMake(edgeSpace, height, self.view.width - edgeSpace * 2, 50);
-  height += _username.height + 1;
+  height += _username.height + 5;
 
   _password.frame =
       CGRectMake(edgeSpace, height, self.view.width - edgeSpace * 2, 50);
-  height += _password.height + 1;
 }
 
 - (void)donePressed {

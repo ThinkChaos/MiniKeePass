@@ -9,6 +9,7 @@
 #import "CredentialProviderViewController.h"
 
 #import "KPViewController.h"
+#import "PasswordViewController.h"
 
 #import "Constants.h"
 #import "KPBiometrics.h"
@@ -24,6 +25,8 @@
 #import "Kdb4Node.h"
 #import "KdbLib.h"
 
+@import Firebase;
+
 #define LENGTH_PREDICATE                                                       \
   [NSPredicate predicateWithFormat:@"length > 2 && !(self == 'net' || \
 self "        \
@@ -36,6 +39,13 @@ self "        \
 @end
 
 @implementation CredentialProviderViewController
+
+- (void)viewDidLoad {
+  NSUInteger appCount = FIRApp.allApps.count;
+  if (appCount == 0)
+    [FIRApp configureWithName:@"KeePassTouch_AutoFill"
+                      options:[FIROptions defaultOptions]];
+}
 
 #pragma mark - Data Source
 
@@ -186,7 +196,9 @@ self "        \
 
   BOOL purchased = [[[NSUserDefaults standardUserDefaults]
       initWithSuiteName:@"group.keepass-touch"] boolForKey:@"adsRemoved"];
-
+#ifdef DEBUG
+  purchased = YES;
+#endif
   if (!purchased) {
     [self showAlertFromError:
               [NSError
@@ -206,19 +218,30 @@ self "        \
                   }];
     return;
   }
+  BOOL hasBiometrics = [KPBiometrics hasBiometrics];
+  if (hasBiometrics) {
+    [KPBiometrics
+        authenticateViaBiometricsWithSuccess:^{
+          [self.overlayView removeFromSuperview];
+          [self showLoadingAnimation];
+          NSArray<KdbEntry *> *allEntriesFromAllDatabases =
+              [self entriesFromAllDatabases];
+          // show error for no databases
+          if (allEntriesFromAllDatabases.count == 0) {
+            [self presentFallbackDatabasePicker:serviceIdentifiers];
+          }
 
-  [KPBiometrics
-      authenticateViaBiometricsWithSuccess:^{
-        [self.overlayView removeFromSuperview];
-        [self showLoadingAnimation];
-        NSArray<KdbEntry *> *allEntriesFromAllDatabases =
-            [self entriesFromAllDatabases];
-        // show error for no databases
-        if (allEntriesFromAllDatabases.count == 0) {
+          NSArray<NSString *> *searchStrings =
+              [self searchStringsFromServiceIdentifiers:serviceIdentifiers];
+
+          self->_source = [[CredentialDataSource alloc]
+               initWithEntries:allEntriesFromAllDatabases
+              andSearchStrings:searchStrings];
+          [self->_entriesTableView reloadData];
+        }
+        failure:^(NSError *error) {
           [self
-              showAlertWithTitle:@"No databases"
-                         message:@"No databases with TouchID / FaceID found. "
-                                 @"We currently don't support entering password"
+              showAlertFromError:error
                       completion:^{
                         [self.extensionContext
                             cancelRequestWithError:
@@ -228,29 +251,11 @@ self "        \
                                                    ASExtensionErrorCodeUserCanceled
                                            userInfo:nil]];
                       }];
-        }
-
-        NSArray<NSString *> *searchStrings =
-            [self searchStringsFromServiceIdentifiers:serviceIdentifiers];
-
-        self->_source = [[CredentialDataSource alloc]
-             initWithEntries:allEntriesFromAllDatabases
-            andSearchStrings:searchStrings];
-        [self->_entriesTableView reloadData];
-      }
-      failure:^(NSError *error) {
-        [self
-            showAlertFromError:error
-                    completion:^{
-                      [self.extensionContext
-                          cancelRequestWithError:
-                              [NSError
-                                  errorWithDomain:ASExtensionErrorDomain
-                                             code:
-                                                 ASExtensionErrorCodeUserCanceled
-                                         userInfo:nil]];
-                    }];
-      }];
+        }];
+  } else {
+    // fallback for no Touch ID / Face ID here
+    [self presentFallbackDatabasePicker:serviceIdentifiers];
+  }
 }
 
 /*
@@ -362,11 +367,108 @@ self "        \
 
 #pragma mark - Private Methods
 
+- (void)presentFallbackDatabasePicker:
+    (NSArray<ASCredentialServiceIdentifier *> *)serviceIdentifiers {
+  UIAlertController *databasePicker = [UIAlertController
+      alertControllerWithTitle:NSLocalizedString(@"Databases", nil)
+                       message:NSLocalizedString(@"Pick your database", nil)
+                preferredStyle:IS_IPAD ? UIAlertControllerStyleAlert
+                                       : UIAlertControllerStyleActionSheet];
+
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+
+  NSURL *groupURL = [fileManager
+      containerURLForSecurityApplicationGroupIdentifier:@"group.keepass-touch"];
+
+  NSArray *files = [fileManager contentsOfDirectoryAtPath:groupURL.path
+                                                    error:nil];
+
+  NSArray *databases =
+      [files filteredArrayUsingPredicate:
+                 [NSPredicate predicateWithFormat:@"SELF contains 'kdb'"]];
+  NSArray *keyFiles =
+      [files filteredArrayUsingPredicate:
+                 [NSPredicate predicateWithFormat:@"SELF contains '.key'"]];
+
+  for (NSString *database in databases) {
+    UIAlertAction *dbAction = [UIAlertAction
+        actionWithTitle:database
+                  style:UIAlertActionStyleDefault
+                handler:^(UIAlertAction *_Nonnull action) {
+                  NSString *dbPath =
+                      [groupURL.path stringByAppendingPathComponent:database];
+                  PasswordViewController *pwVC = [[PasswordViewController alloc]
+                      initWithFilename:database
+                              keyFiles:keyFiles];
+                  pwVC.donePressed = ^(FormViewController *vc) {
+                    PasswordViewController *passwordViewController =
+                        (PasswordViewController *)vc;
+                    // Get the password
+                    NSString *password =
+                        passwordViewController.masterPasswordFieldCell.textField
+                            .text;
+                    if (password.length == 0) {
+                      password = nil;
+                    }
+
+                    // Get the keyfile
+                    NSString *keyFile =
+                        [passwordViewController.keyFileCell getSelectedItem];
+                    if ([keyFile
+                            isEqualToString:NSLocalizedString(@"None", nil)]) {
+                      keyFile = nil;
+                    } else {
+                      keyFile = [groupURL.path
+                          stringByAppendingPathComponent:keyFile];
+                    }
+                    @try {
+
+                      DatabaseDocument *doc =
+                          [[DatabaseDocument alloc] initWithFilename:dbPath
+                                                            password:password
+                                                             keyFile:keyFile];
+                      NSArray<NSString *> *searchStrings =
+                          [self searchStringsFromServiceIdentifiers:
+                                    serviceIdentifiers];
+                      // create source from allEntries of database and
+                      // searchstrings
+                      self->_source = [[CredentialDataSource alloc]
+                           initWithEntries:doc.kdbTree.root.allEntries
+                          andSearchStrings:searchStrings];
+                      [self->_entriesTableView reloadData];
+                      [self.overlayView removeFromSuperview];
+                      [passwordViewController
+                          dismissViewControllerAnimated:YES
+                                             completion:nil];
+
+                    } @catch (NSException *exception) {
+                      [passwordViewController
+                          showErrorMessage:exception.reason];
+                    }
+                  };
+                  UINavigationController *navCon =
+                      [[UINavigationController alloc]
+                          initWithRootViewController:pwVC];
+                  [self presentViewController:navCon
+                                     animated:YES
+                                   completion:nil];
+                }];
+    [databasePicker addAction:dbAction];
+  }
+  [databasePicker
+      addAction:[UIAlertAction
+                    actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                              style:UIAlertActionStyleCancel
+                            handler:^(UIAlertAction *_Nonnull action) {
+                              [self cancel:action];
+                            }]];
+  [self presentViewController:databasePicker animated:YES completion:nil];
+}
+
 #pragma mark Databases opening
 
 - (NSArray<KdbEntry *> *)entriesFromAllDatabases {
 
-  // Get the files in the Documents directory
   NSFileManager *fileManager = [NSFileManager defaultManager];
 
   NSURL *groupURL = [fileManager

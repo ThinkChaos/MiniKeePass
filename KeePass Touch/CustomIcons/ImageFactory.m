@@ -163,7 +163,7 @@
 }
 
 - (UIImage *)imageForIndex:(NSInteger)index {
-    if (index >= NUM_IMAGES) {
+    if (index < 0 || index >= NUM_IMAGES) {
         return nil;
     }
 

@@ -39,10 +39,14 @@ typedef enum
 
 @property (nonatomic, assign) CGFloat xOrigin;
 @property (nonatomic, assign) CGFloat yOrigin;
+@property (nonatomic, assign) CGFloat xMax;
+@property (nonatomic, assign) CGFloat yMax;
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, assign) CGFloat height;
 @property (nonatomic, assign) CGFloat xCenter;
 @property (nonatomic, assign) CGFloat yCenter;
+
+
 
 @property (nonatomic, assign) CGPoint originPoint;
 

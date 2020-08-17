@@ -29,5 +29,6 @@
 @property(nonatomic, readonly) ChoiceCell *keyFileCell;
 
 - (id)initWithFilename:(NSString *)filename;
+- (id)initWithFilename:(NSString *)filename keyFiles:(NSArray *)keyfiles;
 
 @end

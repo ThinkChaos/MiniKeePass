@@ -48,13 +48,11 @@
         _textField = [[UITextField alloc] initWithFrame:frame];
         _textField.delegate = self;
         _textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        _textField.textColor = [UIColor colorWithRed:.285 green:.376 blue:.541 alpha:1];
         _textField.font = [UIFont systemFontOfSize:16];
         _textField.returnKeyType = UIReturnKeyNext;
         _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         _textField.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _textField.font = [UIFont boldSystemFontOfSize:15];
-        _textField.textColor = [UIColor blackColor];
         
         [self.contentView addSubview:self.textField];
 

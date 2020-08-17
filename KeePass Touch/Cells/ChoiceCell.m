@@ -47,7 +47,8 @@
 
 - (void)setSelectedIndex:(NSInteger)selectedIdx {
     selectedIndex = selectedIdx;
-    self.detailTextLabel.text = [choices objectAtIndex:selectedIndex];
+    if(selectedIndex < choices.count)
+        self.detailTextLabel.text = [choices objectAtIndex:selectedIndex];
 }
 
 - (NSString *)getSelectedItem {

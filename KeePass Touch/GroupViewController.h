@@ -16,7 +16,6 @@
  */
 
 #import "KdbLib.h"
-#import "KeePassTouchAppDelegate.h"
 #import "SelectGroupViewController.h"
 #import <UIKit/UIKit.h>
 

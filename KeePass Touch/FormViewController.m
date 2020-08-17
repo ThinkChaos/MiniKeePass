@@ -18,6 +18,8 @@
 #import "FormViewController.h"
 #import "KPViewController.h"
 
+#import "InfoBar.h"
+
 @interface FormViewController ()
 @property(nonatomic, strong) NSMutableArray *cells;
 @property(nonatomic, strong) InfoBar *infoBar;
@@ -80,8 +82,10 @@
   [coordinator
       animateAlongsideTransition:^(
           id<UIViewControllerTransitionCoordinatorContext> _Nonnull context) {
-        [self resizeControlsForOrientation:[[UIApplication sharedApplication]
-                                               statusBarOrientation]];
+        [self resizeControlsForOrientation:
+                  self.view.width > self.view.height
+                      ? UIInterfaceOrientationPortrait
+                      : UIInterfaceOrientationLandscapeLeft];
       }
                       completion:nil];
 }
@@ -121,10 +125,11 @@
                                     reuseIdentifier:nil];
       cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-      controlView.frame =
-          [self calculateNewFrameForView:controlView
-                           inOrientation:[[UIApplication sharedApplication]
-                                             statusBarOrientation]];
+      controlView.frame = [self
+          calculateNewFrameForView:controlView
+                     inOrientation:self.view.width > self.view.height
+                                       ? UIInterfaceOrientationPortrait
+                                       : UIInterfaceOrientationLandscapeLeft];
       [cell addSubview:controlView];
     }
     [self.cells addObject:cell];

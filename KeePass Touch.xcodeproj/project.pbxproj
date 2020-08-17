@@ -47,7 +47,7 @@
 		52A177BC13EB698E00CEEFCE /* createdb.html in Resources */ = {isa = PBXBuildFile; fileRef = 52A177BB13EB698E00CEEFCE /* createdb.html */; };
 		52A512B1159CE7540009F82F /* ImageSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A512B0159CE7540009F82F /* ImageSelectionView.m */; };
 		52A7E1A914EDF1CB0041F950 /* LockScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A7E1A814EDF1CB0041F950 /* LockScreenController.m */; };
-		52C7FD7D18693D9900D498A2 /* GroupSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C7FD7C18693D9900D498A2 /* GroupSearchController.m */; };
+		52C7FD7D18693D9900D498A2 /* GroupSearchDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C7FD7C18693D9900D498A2 /* GroupSearchDataSource.m */; };
 		52E3342D161E0F310049F4A1 /* stretchme.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E3342B161E0F310049F4A1 /* stretchme.png */; };
 		52E3342E161E0F310049F4A1 /* stretchme@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E3342C161E0F310049F4A1 /* stretchme@2x.png */; };
 		52E43F4C15B59C890029F979 /* ru-createdb.html in Resources */ = {isa = PBXBuildFile; fileRef = 52E43F4715B59C880029F979 /* ru-createdb.html */; };
@@ -154,6 +154,7 @@
 		894A8251222EADDB008EAC65 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 894A8250222EADDB008EAC65 /* GoogleService-Info.plist */; };
 		894AC10822C8F6570074EF49 /* KPBiometrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AC10722C8F6570074EF49 /* KPBiometrics.m */; };
 		894AC10B22C8F66A0074EF49 /* UIViewController+HUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AC10A22C8F66A0074EF49 /* UIViewController+HUD.m */; };
+		894E10AE23474E2300CA1430 /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E3A6CC1FEBA5CC0089F0F5 /* UIView+Layout.m */; };
 		8952DAB3203B4A3D00F318B9 /* HmacInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 8952DAAF203B4A3C00F318B9 /* HmacInputStream.m */; };
 		8952DAB4203B4A3D00F318B9 /* HmacOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 8952DAB2203B4A3D00F318B9 /* HmacOutputStream.m */; };
 		8952DABF203B4B5900F318B9 /* BlockCipher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8952DAB8203B4B5900F318B9 /* BlockCipher.m */; };
@@ -165,6 +166,14 @@
 		8952DAD1203B502200F318B9 /* ChaCha20RandomStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 8952DACF203B502100F318B9 /* ChaCha20RandomStream.m */; };
 		8952DAD6203B553000F318B9 /* VariantDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 8952DAD5203B553000F318B9 /* VariantDictionary.m */; };
 		8962AFC821D811290061D782 /* KPError.m in Sources */ = {isa = PBXBuildFile; fileRef = 8962AFC721D811290061D782 /* KPError.m */; };
+		896459122349326B00C8B9EE /* icon_iPad_320x320.png in Resources */ = {isa = PBXBuildFile; fileRef = 8964590E2349326B00C8B9EE /* icon_iPad_320x320.png */; };
+		896459132349326B00C8B9EE /* icon_iPhone_22x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 8964590F2349326B00C8B9EE /* icon_iPhone_22x29.png */; };
+		896459142349326B00C8B9EE /* icon_iPhone_44x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 896459102349326B00C8B9EE /* icon_iPhone_44x58.png */; };
+		896459152349326B00C8B9EE /* icon_iPad_64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 896459112349326B00C8B9EE /* icon_iPad_64x64.png */; };
+		8964591A2349346900C8B9EE /* icon_key_iPhone_22x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 896459162349346900C8B9EE /* icon_key_iPhone_22x29.png */; };
+		8964591B2349346900C8B9EE /* icon_key_iPad_64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 896459172349346900C8B9EE /* icon_key_iPad_64x64.png */; };
+		8964591C2349346900C8B9EE /* icon_key_iPad_320x320.png in Resources */ = {isa = PBXBuildFile; fileRef = 896459182349346900C8B9EE /* icon_key_iPad_320x320.png */; };
+		8964591D2349346900C8B9EE /* icon_key_iPhone_44x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 896459192349346900C8B9EE /* icon_key_iPhone_44x58.png */; };
 		896BC62822FF262A00490A37 /* autofill.html in Resources */ = {isa = PBXBuildFile; fileRef = 896BC62722FF262A00490A37 /* autofill.html */; };
 		896BC62A22FF270400490A37 /* de-autofill.html in Resources */ = {isa = PBXBuildFile; fileRef = 896BC62922FF270400490A37 /* de-autofill.html */; };
 		8973442E221D80B90016D5EE /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8973442D221D80B90016D5EE /* AuthenticationServices.framework */; };
@@ -176,6 +185,14 @@
 		897C50791FEAC15100C5EB5F /* FTPAddServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 897C50781FEAC15100C5EB5F /* FTPAddServerViewController.m */; };
 		8994184A2212FD16004D79C1 /* de-imprint.html in Resources */ = {isa = PBXBuildFile; fileRef = 899418482212FD15004D79C1 /* de-imprint.html */; };
 		8994184B2212FD16004D79C1 /* de-privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = 899418492212FD15004D79C1 /* de-privacy.html */; };
+		899D3B2923461B0A00100BDE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E0830E146F24E3001C4EDF /* Localizable.strings */; };
+		899D3B2A2346259700100BDE /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D991E513F3EAAE00F6ED1F /* PasswordViewController.m */; };
+		899D3B2B2346262400100BDE /* SelectionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D043F13A42C82005EBD36 /* SelectionListViewController.m */; };
+		899D3B2C2346262900100BDE /* ChoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D042513A42C81005EBD36 /* ChoiceCell.m */; };
+		899D3B2D2346262F00100BDE /* MasterPasswordFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68884F0F186E1C5600C222D4 /* MasterPasswordFieldCell.m */; };
+		899D3B2E2346263600100BDE /* FormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A3E1AE13A8C9D1006881CA /* FormViewController.m */; };
+		899D3B2F2346263C00100BDE /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D044713A42C82005EBD36 /* TextFieldCell.m */; };
+		899D3B302346368400100BDE /* InfoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 68915A0A13A6F6C200A408B0 /* InfoBar.m */; };
 		899E65D02133286400DF2126 /* NSData+CompressGZip.m in Sources */ = {isa = PBXBuildFile; fileRef = 899E65CF2133286400DF2126 /* NSData+CompressGZip.m */; };
 		89A42ED122D26A9A004E7DCF /* CredentialDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A42ED022D26A9A004E7DCF /* CredentialDataSource.m */; };
 		89D1CC7D222C5573009F205D /* KeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D032B13A42B63005EBD36 /* KeychainUtils.m */; };
@@ -262,8 +279,8 @@
 		89FFF2B322ECD6B6001AADB8 /* KPBiometrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AC10722C8F6570074EF49 /* KPBiometrics.m */; };
 		89FFF2B522ECD72E001AADB8 /* KPError.m in Sources */ = {isa = PBXBuildFile; fileRef = 8962AFC721D811290061D782 /* KPError.m */; };
 		89FFF2B722ECD810001AADB8 /* UIViewController+HUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 894AC10A22C8F66A0074EF49 /* UIViewController+HUD.m */; };
-		9B32AD69574397444EC992B4 /* libPods-KeePass Touch Autofill.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9450FAF031B8CB1DA79F5E46 /* libPods-KeePass Touch Autofill.a */; };
-		9F09FF1AD026A7DA09ABEBC6 /* libPods-KeePass Touch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99E15D6FCB294D849A309903 /* libPods-KeePass Touch.a */; };
+		A388F76B50B414F9FD576180 /* libPods-KeePass Touch Autofill.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A0928E66B3BB400B19E86F4D /* libPods-KeePass Touch Autofill.a */; };
+		BE5BC491A36ED6DA31FDA5B2 /* libPods-KeePass Touch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12957FE14F7AA4727D820B38 /* libPods-KeePass Touch.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -291,7 +308,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		019995CC11EC9E30C0C1BA43 /* Pods-KeePass Touch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch.debug.xcconfig"; path = "Target Support Files/Pods-KeePass Touch/Pods-KeePass Touch.debug.xcconfig"; sourceTree = "<group>"; };
+		12957FE14F7AA4727D820B38 /* libPods-KeePass Touch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KeePass Touch.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D464C9180272A3DDC2DFF63 /* Pods-KeePass Touch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch.release.xcconfig"; path = "Target Support Files/Pods-KeePass Touch/Pods-KeePass Touch.release.xcconfig"; sourceTree = "<group>"; };
 		423BA1701C09C5C800A36BD3 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		423BA1721C09C5D000A36BD3 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		423D68A61AA20D3900E525EC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -342,8 +360,8 @@
 		52A512B0159CE7540009F82F /* ImageSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageSelectionView.m; sourceTree = "<group>"; };
 		52A7E1A714EDF1CB0041F950 /* LockScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockScreenController.h; sourceTree = "<group>"; };
 		52A7E1A814EDF1CB0041F950 /* LockScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockScreenController.m; sourceTree = "<group>"; };
-		52C7FD7B18693D9900D498A2 /* GroupSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupSearchController.h; sourceTree = "<group>"; };
-		52C7FD7C18693D9900D498A2 /* GroupSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupSearchController.m; sourceTree = "<group>"; };
+		52C7FD7B18693D9900D498A2 /* GroupSearchDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupSearchDataSource.h; sourceTree = "<group>"; };
+		52C7FD7C18693D9900D498A2 /* GroupSearchDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupSearchDataSource.m; sourceTree = "<group>"; };
 		52E3342B161E0F310049F4A1 /* stretchme.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stretchme.png; path = "KeePass Touch/LockScreen/stretchme.png"; sourceTree = SOURCE_ROOT; };
 		52E3342C161E0F310049F4A1 /* stretchme@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "stretchme@2x.png"; path = "KeePass Touch/LockScreen/stretchme@2x.png"; sourceTree = SOURCE_ROOT; };
 		52E43F4715B59C880029F979 /* ru-createdb.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "ru-createdb.html"; sourceTree = "<group>"; };
@@ -529,7 +547,6 @@
 		68EBC2D51613394D00E8E799 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		68F19D1D14EB3A9C00B772CB /* CharacterSetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterSetsViewController.h; sourceTree = "<group>"; };
 		68F19D1E14EB3A9C00B772CB /* CharacterSetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterSetsViewController.m; sourceTree = "<group>"; };
-		7243D5ECFE94BA22843E12EE /* Pods-KeePass Touch Autofill.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch Autofill.debug.xcconfig"; path = "Target Support Files/Pods-KeePass Touch Autofill/Pods-KeePass Touch Autofill.debug.xcconfig"; sourceTree = "<group>"; };
 		890992A322F0AA9600924C28 /* UIViewController+Alert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Alert.m"; sourceTree = "<group>"; };
 		893D7B0B207934BB0043B39D /* TwoFishOutputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoFishOutputStream.h; sourceTree = "<group>"; };
 		893D7B0C207934BB0043B39D /* TwoFishInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoFishInputStream.h; sourceTree = "<group>"; };
@@ -562,6 +579,14 @@
 		8962324E220F664D00C66B73 /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		8962AFC621D811290061D782 /* KPError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KPError.h; sourceTree = "<group>"; };
 		8962AFC721D811290061D782 /* KPError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KPError.m; sourceTree = "<group>"; };
+		8964590E2349326B00C8B9EE /* icon_iPad_320x320.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_iPad_320x320.png; sourceTree = "<group>"; };
+		8964590F2349326B00C8B9EE /* icon_iPhone_22x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_iPhone_22x29.png; sourceTree = "<group>"; };
+		896459102349326B00C8B9EE /* icon_iPhone_44x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_iPhone_44x58.png; sourceTree = "<group>"; };
+		896459112349326B00C8B9EE /* icon_iPad_64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_iPad_64x64.png; sourceTree = "<group>"; };
+		896459162349346900C8B9EE /* icon_key_iPhone_22x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_key_iPhone_22x29.png; sourceTree = "<group>"; };
+		896459172349346900C8B9EE /* icon_key_iPad_64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_key_iPad_64x64.png; sourceTree = "<group>"; };
+		896459182349346900C8B9EE /* icon_key_iPad_320x320.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_key_iPad_320x320.png; sourceTree = "<group>"; };
+		896459192349346900C8B9EE /* icon_key_iPhone_44x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_key_iPhone_44x58.png; sourceTree = "<group>"; };
 		896BC62722FF262A00490A37 /* autofill.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = autofill.html; sourceTree = "<group>"; };
 		896BC62922FF270400490A37 /* de-autofill.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "de-autofill.html"; sourceTree = "<group>"; };
 		8973442D221D80B90016D5EE /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
@@ -613,12 +638,12 @@
 		89FC6AD720A8AF6C003D469D /* ref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ref.h; sourceTree = "<group>"; };
 		89FC6AD820A8AF6C003D469D /* blake2-impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "blake2-impl.h"; sourceTree = "<group>"; };
 		89FC6AD920A8AF6C003D469D /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
-		89FD30DFEB9D655E743DF794 /* Pods-KeePass Touch Autofill.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch Autofill.release.xcconfig"; path = "Target Support Files/Pods-KeePass Touch Autofill/Pods-KeePass Touch Autofill.release.xcconfig"; sourceTree = "<group>"; };
-		9450FAF031B8CB1DA79F5E46 /* libPods-KeePass Touch Autofill.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KeePass Touch Autofill.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		99E15D6FCB294D849A309903 /* libPods-KeePass Touch.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KeePass Touch.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EEFBB11F01B00CD5A99BBBA /* Pods-KeePass Touch Autofill.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch Autofill.debug.xcconfig"; path = "Target Support Files/Pods-KeePass Touch Autofill/Pods-KeePass Touch Autofill.debug.xcconfig"; sourceTree = "<group>"; };
+		A0928E66B3BB400B19E86F4D /* libPods-KeePass Touch Autofill.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KeePass Touch Autofill.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6A036A3FDD3AEF3D6CC2C73 /* Pods-KeePass Touch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch.debug.xcconfig"; path = "Target Support Files/Pods-KeePass Touch/Pods-KeePass Touch.debug.xcconfig"; sourceTree = "<group>"; };
+		B934E86493ED6B5F24875737 /* Pods-KeePass Touch Autofill.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch Autofill.release.xcconfig"; path = "Target Support Files/Pods-KeePass Touch Autofill/Pods-KeePass Touch Autofill.release.xcconfig"; sourceTree = "<group>"; };
 		BDB0FF5F194C7C6F00C44DEF /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EFD785BA15B3D02600B9A276 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		F92C49943434A3A41C012446 /* Pods-KeePass Touch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeePass Touch.release.xcconfig"; path = "Target Support Files/Pods-KeePass Touch/Pods-KeePass Touch.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -645,7 +670,7 @@
 				8973442E221D80B90016D5EE /* AuthenticationServices.framework in Frameworks */,
 				689D001113A4277E005EBD36 /* libxml2.dylib in Frameworks */,
 				689D001313A42784005EBD36 /* libz.dylib in Frameworks */,
-				9F09FF1AD026A7DA09ABEBC6 /* libPods-KeePass Touch.a in Frameworks */,
+				BE5BC491A36ED6DA31FDA5B2 /* libPods-KeePass Touch.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,7 +681,7 @@
 				89F42B36223EF1B30058E971 /* libz.tbd in Frameworks */,
 				89F42B35223EF1AE0058E971 /* libxml2.tbd in Frameworks */,
 				89734434221D81360016D5EE /* AuthenticationServices.framework in Frameworks */,
-				9B32AD69574397444EC992B4 /* libPods-KeePass Touch Autofill.a in Frameworks */,
+				A388F76B50B414F9FD576180 /* libPods-KeePass Touch Autofill.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -783,6 +808,7 @@
 		689D02B013A42B63005EBD36 /* KeePassLib */ = {
 			isa = PBXGroup;
 			children = (
+				89FC6AC820A8AF6C003D469D /* Argon2 */,
 				8952DAB6203B4B5900F318B9 /* Crypto */,
 				689D02B713A42B63005EBD36 /* Base64.h */,
 				689D02B813A42B63005EBD36 /* Base64.m */,
@@ -872,18 +898,19 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
-		689D032913A42B63005EBD36 /* Security */ = {
+		689D032913A42B63005EBD36 /* KeyChain */ = {
 			isa = PBXGroup;
 			children = (
 				689D032A13A42B63005EBD36 /* KeychainUtils.h */,
 				689D032B13A42B63005EBD36 /* KeychainUtils.m */,
 			);
-			path = Security;
+			path = KeyChain;
 			sourceTree = "<group>";
 		};
 		689D041413A42B85005EBD36 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8964590523491D6F00C8B9EE /* FileIcons */,
 				689D021313A42B63005EBD36 /* help */,
 				522D8F9D17E35B0E00BCA329 /* Images.xcassets */,
 				529708AD14FEEFD3003547FB /* Andale Mono.ttf */,
@@ -900,13 +927,13 @@
 				682D44F01603883900156830 /* IOStream */,
 				689D02B013A42B63005EBD36 /* KeePassLib */,
 				689D02F313A42B63005EBD36 /* KissXML */,
-				689D032913A42B63005EBD36 /* Security */,
+				689D032913A42B63005EBD36 /* KeyChain */,
 				89734435221D81360016D5EE /* KeePass Touch Autofill */,
 				689DFFD813A4273F005EBD36 /* Frameworks */,
 				689D041413A42B85005EBD36 /* Resources */,
 				689DFFE013A4273F005EBD36 /* Supporting Files */,
 				689DFFD613A4273F005EBD36 /* Products */,
-				C52D1335187E22B7C6711EAA /* Pods */,
+				A60409133A10451C109691D7 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -942,8 +969,8 @@
 				689DFFD913A4273F005EBD36 /* UIKit.framework */,
 				689D001013A4277E005EBD36 /* libxml2.dylib */,
 				689D001213A42784005EBD36 /* libz.dylib */,
-				99E15D6FCB294D849A309903 /* libPods-KeePass Touch.a */,
-				9450FAF031B8CB1DA79F5E46 /* libPods-KeePass Touch Autofill.a */,
+				12957FE14F7AA4727D820B38 /* libPods-KeePass Touch.a */,
+				A0928E66B3BB400B19E86F4D /* libPods-KeePass Touch Autofill.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -954,7 +981,6 @@
 				689D043213A42C81005EBD36 /* KeePassTouchAppDelegate.h */,
 				689D043313A42C81005EBD36 /* KeePassTouchAppDelegate.m */,
 				8962324D220F65CA00C66B73 /* Constants */,
-				89FC6AC820A8AF6C003D469D /* Argon2 */,
 				89E3A6C81FEBA52C0089F0F5 /* Design */,
 				897C50731FEAC00200C5EB5F /* Base */,
 				89D477751EEC5C7300052EC6 /* Categories */,
@@ -980,8 +1006,8 @@
 				897C50781FEAC15100C5EB5F /* FTPAddServerViewController.m */,
 				42993D211A7A479E0000D8E8 /* FTPSelectViewController.h */,
 				42993D221A7A479E0000D8E8 /* FTPSelectViewController.m */,
-				52C7FD7B18693D9900D498A2 /* GroupSearchController.h */,
-				52C7FD7C18693D9900D498A2 /* GroupSearchController.m */,
+				52C7FD7B18693D9900D498A2 /* GroupSearchDataSource.h */,
+				52C7FD7C18693D9900D498A2 /* GroupSearchDataSource.m */,
 				689D043013A42C81005EBD36 /* GroupViewController.h */,
 				689D043113A42C81005EBD36 /* GroupViewController.m */,
 				68CE37F014049BC900E4A5E1 /* HelpViewController.h */,
@@ -1117,6 +1143,21 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		8964590523491D6F00C8B9EE /* FileIcons */ = {
+			isa = PBXGroup;
+			children = (
+				896459112349326B00C8B9EE /* icon_iPad_64x64.png */,
+				8964590E2349326B00C8B9EE /* icon_iPad_320x320.png */,
+				8964590F2349326B00C8B9EE /* icon_iPhone_22x29.png */,
+				896459102349326B00C8B9EE /* icon_iPhone_44x58.png */,
+				896459172349346900C8B9EE /* icon_key_iPad_64x64.png */,
+				896459182349346900C8B9EE /* icon_key_iPad_320x320.png */,
+				896459162349346900C8B9EE /* icon_key_iPhone_22x29.png */,
+				896459192349346900C8B9EE /* icon_key_iPhone_44x58.png */,
+			);
+			path = FileIcons;
+			sourceTree = "<group>";
+		};
 		89734435221D81360016D5EE /* KeePass Touch Autofill */ = {
 			isa = PBXGroup;
 			children = (
@@ -1219,13 +1260,13 @@
 			path = Argon2;
 			sourceTree = "<group>";
 		};
-		C52D1335187E22B7C6711EAA /* Pods */ = {
+		A60409133A10451C109691D7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				019995CC11EC9E30C0C1BA43 /* Pods-KeePass Touch.debug.xcconfig */,
-				F92C49943434A3A41C012446 /* Pods-KeePass Touch.release.xcconfig */,
-				7243D5ECFE94BA22843E12EE /* Pods-KeePass Touch Autofill.debug.xcconfig */,
-				89FD30DFEB9D655E743DF794 /* Pods-KeePass Touch Autofill.release.xcconfig */,
+				B6A036A3FDD3AEF3D6CC2C73 /* Pods-KeePass Touch.debug.xcconfig */,
+				3D464C9180272A3DDC2DFF63 /* Pods-KeePass Touch.release.xcconfig */,
+				8EEFBB11F01B00CD5A99BBBA /* Pods-KeePass Touch Autofill.debug.xcconfig */,
+				B934E86493ED6B5F24875737 /* Pods-KeePass Touch Autofill.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1237,12 +1278,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 689D000613A42740005EBD36 /* Build configuration list for PBXNativeTarget "KeePass Touch" */;
 			buildPhases = (
-				C88A04B0E5589FF6A0208894 /* [CP] Check Pods Manifest.lock */,
+				78A5FF3E8D8843365F9CD8F7 /* [CP] Check Pods Manifest.lock */,
 				689DFFD113A4273F005EBD36 /* Sources */,
 				689DFFD213A4273F005EBD36 /* Frameworks */,
 				689DFFD313A4273F005EBD36 /* Resources */,
 				89734444221D81360016D5EE /* Embed App Extensions */,
-				E72E9E7E67C7A0354B533EF3 /* [CP] Copy Pods Resources */,
+				31DE7A65B5C3BDFE827A9490 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1258,7 +1299,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 89734441221D81360016D5EE /* Build configuration list for PBXNativeTarget "KeePass Touch Autofill" */;
 			buildPhases = (
-				3301B55C5DB539FB81A86391 /* [CP] Check Pods Manifest.lock */,
+				75D80BD82D65291C67F5AB6B /* [CP] Check Pods Manifest.lock */,
 				8973442F221D81350016D5EE /* Sources */,
 				89734430221D81350016D5EE /* Frameworks */,
 				89734431221D81350016D5EE /* Resources */,
@@ -1358,15 +1399,19 @@
 				522D8F9E17E35B0E00BCA329 /* Images.xcassets in Resources */,
 				689D032F13A42B63005EBD36 /* dropbox.html in Resources */,
 				896BC62A22FF270400490A37 /* de-autofill.html in Resources */,
+				896459122349326B00C8B9EE /* icon_iPad_320x320.png in Resources */,
 				42BEFB4F1A825BD40049C325 /* de-request.html in Resources */,
 				42930BE91A7551F4008AF0FF /* request.html in Resources */,
+				8964591C2349346900C8B9EE /* icon_key_iPad_320x320.png in Resources */,
 				89F89FD52212142B00A8A849 /* imprint.html in Resources */,
 				42BEFB571A825DB80049C325 /* wifi.html in Resources */,
 				689D033013A42B63005EBD36 /* itunes.html in Resources */,
 				52A177BC13EB698E00CEEFCE /* createdb.html in Resources */,
+				896459142349326B00C8B9EE /* icon_iPhone_44x58.png in Resources */,
 				68CE37F51404A86600E4A5E1 /* safariemail.html in Resources */,
 				68884F12186E414C00C222D4 /* stretchme-7@2x.png in Resources */,
 				68DDC3731405160300FC8BD8 /* keyfiles.html in Resources */,
+				8964591B2349346900C8B9EE /* icon_key_iPad_64x64.png in Resources */,
 				42BEFB661A8287B70049C325 /* de-wifi.html in Resources */,
 				689D033113A42B63005EBD36 /* style.css in Resources */,
 				68E08310146F24E3001C4EDF /* Localizable.strings in Resources */,
@@ -1381,15 +1426,19 @@
 				8994184B2212FD16004D79C1 /* de-privacy.html in Resources */,
 				52E43F4D15B59C890029F979 /* ru-dropbox.html in Resources */,
 				52E43F4E15B59C890029F979 /* ru-itunes.html in Resources */,
+				8964591A2349346900C8B9EE /* icon_key_iPhone_22x29.png in Resources */,
 				42BEFB641A8287B70049C325 /* de-ftp.html in Resources */,
 				52E43F4F15B59C890029F979 /* ru-keyfiles.html in Resources */,
 				42BEFB561A825DB80049C325 /* touchid.html in Resources */,
+				8964591D2349346900C8B9EE /* icon_key_iPhone_44x58.png in Resources */,
 				52E43F5015B59C890029F979 /* ru-safariemail.html in Resources */,
+				896459152349326B00C8B9EE /* icon_iPad_64x64.png in Resources */,
 				42B888701D7AFE1F004ED717 /* LaunchScreen.storyboard in Resources */,
 				52E3342D161E0F310049F4A1 /* stretchme.png in Resources */,
 				68884F14186E461600C222D4 /* stretchme-7.png in Resources */,
 				52E3342E161E0F310049F4A1 /* stretchme@2x.png in Resources */,
 				4E8C169316B3E871004195A1 /* fr-createdb.html in Resources */,
+				896459132349326B00C8B9EE /* icon_iPhone_22x29.png in Resources */,
 				4E8C169416B3E871004195A1 /* fr-dropbox.html in Resources */,
 				8994184A2212FD16004D79C1 /* de-imprint.html in Resources */,
 				42BEFB651A8287B70049C325 /* de-touchid.html in Resources */,
@@ -1403,6 +1452,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				899D3B2923461B0A00100BDE /* Localizable.strings in Resources */,
 				8973443B221D81360016D5EE /* MainInterface.storyboard in Resources */,
 				89D96D2922CBB0C3007CF561 /* Images.xcassets in Resources */,
 				89D96D2A22CBD676007CF561 /* GoogleService-Info.plist in Resources */,
@@ -1412,51 +1462,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3301B55C5DB539FB81A86391 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-KeePass Touch Autofill-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C88A04B0E5589FF6A0208894 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-KeePass Touch-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E72E9E7E67C7A0354B533EF3 /* [CP] Copy Pods Resources */ = {
+		31DE7A65B5C3BDFE827A9490 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1490,6 +1496,50 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KeePass Touch/Pods-KeePass Touch-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		75D80BD82D65291C67F5AB6B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KeePass Touch Autofill-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		78A5FF3E8D8843365F9CD8F7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KeePass Touch-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1501,7 +1551,7 @@
 				689DFFE713A4273F005EBD36 /* main.m in Sources */,
 				689D03CD13A42B63005EBD36 /* Base64.m in Sources */,
 				89FC6ADC20A8AF6C003D469D /* ref.c in Sources */,
-				52C7FD7D18693D9900D498A2 /* GroupSearchController.m in Sources */,
+				52C7FD7D18693D9900D498A2 /* GroupSearchDataSource.m in Sources */,
 				89FC6AE020A8AF6C003D469D /* encoding.c in Sources */,
 				8952DACB203B4CA200F318B9 /* ChaCha20OutputStream.m in Sources */,
 				689D03D513A42B63005EBD36 /* Kdb.m in Sources */,
@@ -1619,6 +1669,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89F42B28223EEA0C0058E971 /* argon2.c in Sources */,
+				899D3B2D2346262F00100BDE /* MasterPasswordFieldCell.m in Sources */,
 				89F42B29223EEA0C0058E971 /* blake2b.c in Sources */,
 				89F42B2A223EEA0C0058E971 /* core.c in Sources */,
 				89F42B2B223EEA0C0058E971 /* encoding.c in Sources */,
@@ -1638,11 +1689,13 @@
 				89F42B06223EE9020058E971 /* ChaCha20RandomStream.m in Sources */,
 				89F42B07223EE9020058E971 /* DDXMLDocument+MKPAdditions.m in Sources */,
 				89F42B08223EE9020058E971 /* Kdb.m in Sources */,
+				899D3B302346368400100BDE /* InfoBar.m in Sources */,
 				89F42B09223EE9020058E971 /* Kdb3Date.m in Sources */,
 				89F42B0A223EE9020058E971 /* Kdb3Node.m in Sources */,
 				89F42B0B223EE9020058E971 /* Kdb3Reader.m in Sources */,
 				89F42B0C223EE9020058E971 /* Kdb3Utils.m in Sources */,
 				89A42ED122D26A9A004E7DCF /* CredentialDataSource.m in Sources */,
+				899D3B2E2346263600100BDE /* FormViewController.m in Sources */,
 				89F42B0D223EE9020058E971 /* Kdb3Writer.m in Sources */,
 				89F42B0E223EE9020058E971 /* KDB4CustomIcon.m in Sources */,
 				890992A522F0AAAF00924C28 /* UIViewController+Alert.m in Sources */,
@@ -1660,10 +1713,13 @@
 				89F42B18223EE9020058E971 /* Salsa20RandomStream.m in Sources */,
 				89F42B2F223EEA5D0058E971 /* ImageFactory.m in Sources */,
 				89F42B19223EE9020058E971 /* Utils.m in Sources */,
+				899D3B2C2346262900100BDE /* ChoiceCell.m in Sources */,
+				899D3B2F2346263C00100BDE /* TextFieldCell.m in Sources */,
 				89F42B1A223EE9020058E971 /* UUID.m in Sources */,
 				89F42B1B223EE9020058E971 /* VariantDictionary.m in Sources */,
 				89F42AF0223EE8E20058E971 /* AesInputStream.m in Sources */,
 				89F42AF1223EE8E20058E971 /* AesOutputStream.m in Sources */,
+				899D3B2B2346262400100BDE /* SelectionListViewController.m in Sources */,
 				89F42AF2223EE8E20058E971 /* Arc4RandomStream.m in Sources */,
 				89F42AF3223EE8E20058E971 /* ChaCha20InputStream.m in Sources */,
 				89F42AF4223EE8E20058E971 /* ChaCha20OutputStream.m in Sources */,
@@ -1677,6 +1733,7 @@
 				89F42AFB223EE8E20058E971 /* GZipOutputStream.m in Sources */,
 				89F42AFC223EE8E20058E971 /* HashedInputStream.m in Sources */,
 				89F42AFD223EE8E20058E971 /* HashedOutputStream.m in Sources */,
+				899D3B2A2346259700100BDE /* PasswordViewController.m in Sources */,
 				89F42AFE223EE8E20058E971 /* HmacInputStream.m in Sources */,
 				89F42AFF223EE8E20058E971 /* HmacOutputStream.m in Sources */,
 				89F42B00223EE8E20058E971 /* InputStream.m in Sources */,
@@ -1685,6 +1742,7 @@
 				89FFF2B522ECD72E001AADB8 /* KPError.m in Sources */,
 				89F42B03223EE8E20058E971 /* TwoFishInputStream.m in Sources */,
 				89F42B04223EE8E20058E971 /* TwoFishOutputStream.m in Sources */,
+				894E10AE23474E2300CA1430 /* UIView+Layout.m in Sources */,
 				89734438221D81360016D5EE /* CredentialProviderViewController.m in Sources */,
 				89D1CC7D222C5573009F205D /* KeychainUtils.m in Sources */,
 			);
@@ -1742,12 +1800,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1797,12 +1857,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1835,7 +1897,7 @@
 		};
 		689D000713A42740005EBD36 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 019995CC11EC9E30C0C1BA43 /* Pods-KeePass Touch.debug.xcconfig */;
+			baseConfigurationReference = B6A036A3FDD3AEF3D6CC2C73 /* Pods-KeePass Touch.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1845,6 +1907,7 @@
 				CODE_SIGN_ENTITLEMENTS = "KeePass Touch/KeePass Touch.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = FMX3QL635V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1857,6 +1920,7 @@
 				INFOPLIST_FILE = "KeePass Touch/KeePass Touch-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MARKETING_VERSION = 1.11.1;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.pixel-paws.KeePass-Touch";
 				PRODUCT_NAME = "KeePass Touch";
@@ -1867,7 +1931,7 @@
 		};
 		689D000813A42740005EBD36 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F92C49943434A3A41C012446 /* Pods-KeePass Touch.release.xcconfig */;
+			baseConfigurationReference = 3D464C9180272A3DDC2DFF63 /* Pods-KeePass Touch.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1876,6 +1940,7 @@
 				CODE_SIGN_ENTITLEMENTS = "KeePass Touch/KeePass Touch.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = FMX3QL635V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1889,6 +1954,7 @@
 				INFOPLIST_FILE = "KeePass Touch/KeePass Touch-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MARKETING_VERSION = 1.11.1;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.pixel-paws.KeePass-Touch";
 				PRODUCT_NAME = "KeePass Touch";
@@ -1899,7 +1965,7 @@
 		};
 		89734442221D81360016D5EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7243D5ECFE94BA22843E12EE /* Pods-KeePass Touch Autofill.debug.xcconfig */;
+			baseConfigurationReference = 8EEFBB11F01B00CD5A99BBBA /* Pods-KeePass Touch Autofill.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1913,7 +1979,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = FMX3QL635V;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1921,6 +1987,7 @@
 				INFOPLIST_FILE = "KeePass Touch Autofill/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.11.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.pixel-paws.KeePass-Touch.KeePass-Touch-Autofill";
@@ -1933,7 +2000,7 @@
 		};
 		89734443221D81360016D5EE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89FD30DFEB9D655E743DF794 /* Pods-KeePass Touch Autofill.release.xcconfig */;
+			baseConfigurationReference = B934E86493ED6B5F24875737 /* Pods-KeePass Touch Autofill.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1948,7 +2015,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = FMX3QL635V;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1956,6 +2023,7 @@
 				INFOPLIST_FILE = "KeePass Touch Autofill/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.11.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.pixel-paws.KeePass-Touch.KeePass-Touch-Autofill";

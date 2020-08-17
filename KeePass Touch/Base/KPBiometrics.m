@@ -11,16 +11,9 @@
 @implementation KPBiometrics
 
 + (BOOL)hasBiometrics {
-    if (@available(iOS 8.0, *)) {
-        NSError *error = nil;
-        LAContext *context = [[LAContext alloc] init];
-        return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
-    } else {
-        // Device is running on older iOS version and OFC doesn't have FaceID
-        return NO;
-    }
-    
-    
+    NSError *error = nil;
+    LAContext *context = [[LAContext alloc] init];
+    return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];    
 }
 
 + (void)authenticateViaBiometricsWithSuccess:(void (^) (void))success
@@ -40,7 +33,7 @@
                               }
                               else if(error)
                               {
-                                  if(error.code == LAErrorTouchIDLockout) {
+                                  if(error.code == kLAErrorBiometryLockout) {
                                       [context evaluatePolicy:LAPolicyDeviceOwnerAuthentication
                                               localizedReason:NSLocalizedString(@"Biometry is currently locked out, enter passcode to unlock", nil) reply:^(BOOL successful, NSError * _Nullable error) {
                                                   if(success) {

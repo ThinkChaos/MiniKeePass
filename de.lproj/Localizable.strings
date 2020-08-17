@@ -222,3 +222,6 @@
 "Special" = "Spezielle";
 "Brackets" = "Klammern";
 "None Selected" = "Keine ausgewählt";
+
+// Auto Fill Extension
+"Pick your database" = "Wählen Sie Ihre Datenbank";

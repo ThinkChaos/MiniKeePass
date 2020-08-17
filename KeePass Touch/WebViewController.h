@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "Kdb.h"
 #import <UIKit/UIKit.h>
+
+@class KdbEntry;
 
 @interface WebViewController : UIViewController
 

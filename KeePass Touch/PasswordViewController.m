@@ -19,41 +19,67 @@
 
 #define ROW_KEY_FILE 1
 
+@interface PasswordViewController () {
+  NSArray *_keyFiles;
+}
+@end
+
 @implementation PasswordViewController
 
 @synthesize masterPasswordFieldCell;
 @synthesize keyFileCell;
 
-- (id)initWithFilename:(NSString *)filename {
+- (id)initWithFilename:(NSString *)filename keyFiles:(NSArray *)keyfiles {
   self = [super init];
   if (self) {
-    self.title = NSLocalizedString(@"Password", nil);
-    self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
+    _keyFiles = keyfiles;
+    [self initViews];
     self.footerTitle = [NSString
         stringWithFormat:NSLocalizedString(@"Enter the password and/or select "
                                            @"the keyfile for the %@ database.",
                                            nil),
                          filename];
-
-    masterPasswordFieldCell = [[MasterPasswordFieldCell alloc]
-          initWithStyle:UITableViewCellStyleDefault
-        reuseIdentifier:nil];
-    masterPasswordFieldCell.textField.delegate = self;
-
-    // Create an array to hold the possible keyfile choices
-    NSMutableArray *keyFileChoices =
-        [NSMutableArray arrayWithObject:NSLocalizedString(@"None", nil)];
-    [keyFileChoices addObjectsFromArray:[self keyFiles]];
-
-    keyFileCell =
-        [[ChoiceCell alloc] initWithLabel:NSLocalizedString(@"Key File", nil)
-                                  choices:keyFileChoices
-                            selectedIndex:0];
-
-    self.controls =
-        [NSArray arrayWithObjects:masterPasswordFieldCell, keyFileCell, nil];
   }
   return self;
+}
+
+- (id)initWithFilename:(NSString *)filename {
+  self = [super init];
+  if (self) {
+    [self initViews];
+    self.footerTitle = [NSString
+        stringWithFormat:NSLocalizedString(@"Enter the password and/or select "
+                                           @"the keyfile for the %@ database.",
+                                           nil),
+                         filename];
+  }
+  return self;
+}
+
+- (void)initViews {
+  self.title = NSLocalizedString(@"Password", nil);
+  self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
+  [self initControls];
+}
+
+- (void)initControls {
+  masterPasswordFieldCell =
+      [[MasterPasswordFieldCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                     reuseIdentifier:nil];
+  masterPasswordFieldCell.textField.delegate = self;
+
+  // Create an array to hold the possible keyfile choices
+  NSMutableArray *keyFileChoices =
+      [NSMutableArray arrayWithObject:NSLocalizedString(@"None", nil)];
+  [keyFileChoices addObjectsFromArray:[self keyFiles]];
+
+  keyFileCell =
+      [[ChoiceCell alloc] initWithLabel:NSLocalizedString(@"Key File", nil)
+                                choices:keyFileChoices
+                          selectedIndex:0];
+
+  self.controls =
+      [NSArray arrayWithObjects:masterPasswordFieldCell, keyFileCell, nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -67,6 +93,8 @@
 }
 
 - (NSArray *)keyFiles {
+  if (_keyFiles)
+    return _keyFiles;
   // Get the documents directory
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                        NSUserDomainMask, YES);

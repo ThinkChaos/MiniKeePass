@@ -39,6 +39,7 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         _pinViewController = [[PinViewController alloc] init];
+        _pinViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         _pinViewController.delegate = self;
 
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
@@ -78,6 +79,7 @@
 
 + (void)present {
     LockScreenController *lockScreenController = [[LockScreenController alloc] init];
+    lockScreenController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     NSLog(@"presenting lockscreen");
     [lockScreenController show];
 }
@@ -110,7 +112,8 @@
     KeePassTouchAppDelegate *appDelegate = [KeePassTouchAppDelegate appDelegate];
     appDelegate.locked = NO;
 
-    [self.previousViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.pinViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.previousViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)pinViewControllerDidShow:(PinViewController *)controller {

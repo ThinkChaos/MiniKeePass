@@ -318,6 +318,9 @@ static AppSettings *sharedInstance;
 }
 
 - (BOOL)purchased {
+#ifdef DEBUG
+    return NO;
+#endif
     BOOL purchased = [[NSUserDefaults standardUserDefaults] boolForKey:PURCHASED_KEY];
     BOOL groupPurchased = [[[NSUserDefaults alloc] initWithSuiteName:@"group.keepass-touch"] boolForKey:PURCHASED_KEY];
     return purchased ||  groupPurchased;

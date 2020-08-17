@@ -17,6 +17,7 @@
         [self setLeftViewMode:UITextFieldViewModeAlways];
         self.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.borderStyle = UITextBorderStyleRoundedRect;
         [self setLeftView:spacerView];
     }
     

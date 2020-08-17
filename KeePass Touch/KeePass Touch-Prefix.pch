@@ -2,6 +2,14 @@
 // Prefix header for all source files of the 'Touch KeePass' target in the 'Touch KeePass' project
 //
 
+#ifdef DEBUG
+#define DLog(...) NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSString stringWithFormat:__VA_ARGS__])
+#else
+#define DLog(...)
+#endif
+
 #ifdef __OBJC__
-    #import "KPError.h"
+    
+#import "KPError.h"
+    
 #endif

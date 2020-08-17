@@ -30,6 +30,7 @@
         label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, w, h)];
         label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"box"]];
         label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = UIColor.darkGrayColor;
         label.font = [UIFont systemFontOfSize:32.0f];
         [self addSubview:label];
     }

@@ -15,20 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "GroupSearchController.h"
-#import "KeePassTouchAppDelegate.h"
+#import "GroupSearchDataSource.h"
 
-@interface GroupSearchController ()
-@property(nonatomic, weak) KeePassTouchAppDelegate *appDelegate;
+#import "DatabaseDocument.h"
+#import "GroupViewController.h"
+#import "KdbLib.h"
+
+@interface GroupSearchDataSource ()
 @property(nonatomic, strong) NSMutableArray *results;
 @end
 
-@implementation GroupSearchController
+@implementation GroupSearchDataSource
 
 - (id)init {
   self = [super init];
   if (self) {
-    self.appDelegate = [KeePassTouchAppDelegate appDelegate];
     self.results = [[NSMutableArray alloc] init];
   }
   return self;
@@ -52,13 +53,13 @@
   [self.groupViewController pushViewControllerForEntry:entry];
 }
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller
-    shouldReloadTableForSearchString:(NSString *)searchString {
+- (void)updateSearchResultsForSearchController:
+    (UISearchController *)searchController {
   [self.results removeAllObjects];
 
   // Perform the search
   [DatabaseDocument searchGroup:self.groupViewController.group
-                     searchText:searchString
+                     searchText:searchController.searchBar.text
                         results:self.results];
 
   // Sort the results
@@ -66,7 +67,7 @@
     return [((KdbEntry *)a).title localizedCompare:((KdbEntry *)b).title];
   }];
 
-  return YES;
+  [self.groupViewController.tableView reloadData];
 }
 
 @end

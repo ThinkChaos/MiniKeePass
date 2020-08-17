@@ -16,15 +16,11 @@
  */
 
 #import "WebViewController.h"
+#import "Kdb.h"
 
-#define kUrlFieldPortHeight 30.0f
-#define kUrlFieldLandHeight 24.0f
-#define UrlFieldHeightForDevice(orientation)                                   \
-  (UIDeviceOrientationIsPortrait(orientation) ? kUrlFieldPortHeight            \
-                                              : kUrlFieldLandHeight)
-#define UrlFieldHeightForInterface(orientation)                                \
-  (UIInterfaceOrientationIsPortrait(orientation) ? kUrlFieldPortHeight         \
-                                                 : kUrlFieldLandHeight)
+#import "UIView+Layout.h"
+
+#import "KeePassTouchAppDelegate.h"
 
 @protocol MKPWebViewDelegate;
 
@@ -90,22 +86,19 @@
 
 - (void)viewDidLoad {
   // Create the URL text field
-  CGFloat height =
-      UrlFieldHeightForDevice([UIDevice currentDevice].orientation);
-  self.urlTextField = [[UITextField alloc]
-      initWithFrame:CGRectMake(0, 0,
-                               self.navigationController.navigationBar.bounds
-                                   .size.width,
-                               height)];
-  self.urlTextField.contentVerticalAlignment = UIViewContentModeCenter;
+
+  self.urlTextField = [UITextField new];
+  self.urlTextField.contentVerticalAlignment =
+      UIControlContentVerticalAlignmentCenter;
   self.urlTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
   self.urlTextField.borderStyle = UITextBorderStyleRoundedRect;
-  self.urlTextField.font = [UIFont systemFontOfSize:14.0f];
+  self.urlTextField.font = [UIFont systemFontOfSize:16.0];
   self.urlTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
   self.urlTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
   self.urlTextField.autocorrectionType = UITextAutocorrectionTypeNo;
   self.urlTextField.keyboardType = UIKeyboardTypeURL;
   self.urlTextField.returnKeyType = UIReturnKeyGo;
+
   [self.urlTextField addTarget:self
                         action:@selector(textFieldEditingDidEnd:)
               forControlEvents:UIControlEventEditingDidEndOnExit];
@@ -169,12 +162,30 @@
   NSURL *url = [NSURL URLWithString:self.entry.url];
   if (url.scheme == nil) {
     url = [NSURL
-        URLWithString:[@"http://" stringByAppendingString:self.entry.url]];
+        URLWithString:[@"https://" stringByAppendingString:self.entry.url]];
   }
 
   self.urlTextField.text = [url absoluteString];
 
   [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+}
+
+- (void)viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
+  KeePassTouchAppDelegate *appDelegate =
+      (KeePassTouchAppDelegate *)[UIApplication sharedApplication].delegate;
+  if (appDelegate.currentAd != nil) {
+    CGFloat bottom = 50.0f;
+    if (@available(iOS 11.0, *)) {
+      UIEdgeInsets insets = self.view.safeAreaInsets;
+      bottom += insets.bottom;
+    } else {
+      // Fallback on earlier versions
+    }
+    self.webView.height = self.view.height - bottom;
+    appDelegate.currentAd.yOrigin = self.view.height - bottom;
+    appDelegate.currentAd.width = self.view.width;
+  }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -190,19 +201,12 @@
   [coordinator
       animateAlongsideTransition:^(
           id<UIViewControllerTransitionCoordinatorContext> context) {
-        UIInterfaceOrientation newOrientation =
-            [[UIApplication sharedApplication] statusBarOrientation];
         // do whatever
-        CGFloat height = UrlFieldHeightForInterface(newOrientation);
         self.urlTextField.frame = CGRectMake(
             0, 0, self.navigationController.navigationBar.bounds.size.width,
-            height);
+            self.urlTextField.height);
       }
-                      completion:^(
-                          id<UIViewControllerTransitionCoordinatorContext>
-                              context){
-
-                      }];
+                      completion:nil];
 
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
@@ -213,7 +217,7 @@
   NSURL *url = [NSURL URLWithString:self.urlTextField.text];
   if (url.scheme == nil) {
     url = [NSURL
-        URLWithString:[@"http://"
+        URLWithString:[@"https://"
                           stringByAppendingString:self.urlTextField.text]];
     self.urlTextField.text = [url absoluteString];
   }
@@ -229,10 +233,9 @@
   self.originalUrlFrame = self.urlTextField.frame;
 
   // Compute a new frame size
-  CGFloat height =
-      UrlFieldHeightForDevice([UIDevice currentDevice].orientation);
   CGRect frame = CGRectMake(
-      0, 0, self.navigationController.navigationBar.bounds.size.width, height);
+      0, 0, self.navigationController.navigationBar.bounds.size.width,
+      _urlTextField.height);
 
   // Hide the buttons
   [self.navigationItem setHidesBackButton:YES animated:YES];

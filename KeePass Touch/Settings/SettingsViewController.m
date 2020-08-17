@@ -149,7 +149,10 @@ enum {
     if([SKPaymentQueue canMakePayments]){
         [[RMStore defaultStore] requestProducts:[NSSet setWithObject:kRemoveAdsProductIdentifier] success:^(NSArray *products, NSArray *invalidProductIdentifiers) {
             _product = products.firstObject;
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SECTION_PURCHASE] withRowAnimation:UITableViewRowAnimationNone];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SECTION_PURCHASE] withRowAnimation:UITableViewRowAnimationNone];
+            });
+            
         } failure:^(NSError *error) {
             [self showAlertFromError:error];
         }];
@@ -270,11 +273,16 @@ enum {
     UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, viewWidth, 30)];
     versionLabel.textAlignment = NSTextAlignmentCenter;
     versionLabel.backgroundColor = [UIColor clearColor];
-    versionLabel.font = [UIFont boldSystemFontOfSize:17];;
-    versionLabel.textColor = [UIColor colorWithRed:0.298039 green:0.337255 blue:0.423529 alpha:1.0];
+    versionLabel.font = [UIFont boldSystemFontOfSize:17];
+    versionLabel.textColor = [UIColor grayColor];
     versionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"KeePass Touch version %@", nil), appVersion];
     versionLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    versionLabel.shadowColor = [UIColor whiteColor];
+    if (@available(iOS 13.0, *)) {
+        versionLabel.shadowColor = [UIColor systemBackgroundColor];
+    } else {
+        // Fallback on earlier versions
+        versionLabel.shadowColor = [UIColor whiteColor];
+    }
     versionLabel.shadowOffset = CGSizeMake(0.0, 1.0);
 
     [tableFooterView addSubview:versionLabel];
@@ -702,6 +710,7 @@ enum {
     if([sender isEqual:pinEnabledCell.switchControl]) {
         if (pinEnabledCell.switchControl.on) {
             PinViewController *pinViewController = [[PinViewController alloc] init];
+            pinViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
             pinViewController.textLabel.text = NSLocalizedString(@"Set PIN", nil);
             pinViewController.delegate = self;
             [self presentViewController:pinViewController animated:YES completion:nil];

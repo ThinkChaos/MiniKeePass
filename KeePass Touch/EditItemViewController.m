@@ -114,7 +114,6 @@
       [[ImageSelectionViewController alloc] init];
   imageSelectionViewController.imageSelectionView.delegate = self;
   if (_selectedImageIndex == 0 && self.searchKey != nil) {
-    NSLog(@"Habe ein Custom Image");
     NSUInteger keyIndex =
         [[ImageFactory sharedInstance] indexForKey:self.searchKey];
     if (keyIndex != NSUIntegerMax) {

@@ -19,7 +19,7 @@
 #import "AppSettings.h"
 #import "EditItemViewController.h"
 #import "EntryViewController.h"
-#import "GroupSearchController.h"
+#import "GroupSearchDataSource.h"
 #import "ImageFactory.h"
 #import "Kdb3Node.h"
 #import "SelectGroupViewController.h"
@@ -27,11 +27,14 @@
 #import "KeyChainUtils.h"
 #import "constants.h"
 
+#import "KeePassTouchAppDelegate.h"
+
+#import "KPBiometrics.h"
 #import <AuthenticationServices/AuthenticationServices.h>
 
 enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
 
-@interface GroupViewController ()
+@interface GroupViewController () <UISearchControllerDelegate>
 
 @property(nonatomic, strong) NSMutableArray *groupsArray;
 @property(nonatomic, strong) NSMutableArray *entriesArray;
@@ -51,9 +54,8 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
 @property(nonatomic, strong) UIBarButtonItem *moveButton;
 @property(nonatomic, strong) UIBarButtonItem *renameButton;
 
-@property(nonatomic, strong) GroupSearchController *searchController;
-@property(nonatomic, strong)
-    UISearchDisplayController *mySearchDisplayController;
+@property(nonatomic, strong) GroupSearchDataSource *searchDataSource;
+@property(nonatomic, strong) UISearchController *searchController;
 
 @property(nonatomic, strong)
     UIDocumentInteractionController *documentInteractionController;
@@ -87,21 +89,29 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
     self.title = self.group.name;
     self.tableView.allowsSelectionDuringEditing = YES;
 
-    // Configure the search bar
-    UISearchBar *searchBar =
-        [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    self.tableView.tableHeaderView = searchBar;
-    self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
+    self.searchDataSource = [[GroupSearchDataSource alloc] init];
+    self.searchDataSource.groupViewController = self;
+    self.searchController =
+        [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.delegate = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.autocapitalizationType =
+        UITextAutocapitalizationTypeNone;
 
-    self.searchController = [[GroupSearchController alloc] init];
-    self.searchController.groupViewController = self;
-    self.mySearchDisplayController =
-        [[UISearchDisplayController alloc] initWithSearchBar:searchBar
-                                          contentsController:self];
-    self.searchDisplayController.searchResultsDataSource =
-        self.searchController;
-    self.searchDisplayController.searchResultsDelegate = self.searchController;
-    self.searchDisplayController.delegate = self.searchController;
+    if (@available(iOS 11.0, *)) {
+      // For iOS 11 and later, place the search bar in the navigation bar.
+      self.navigationItem.searchController = self.searchController;
+
+      // Make the search bar always visible.
+      self.navigationItem.hidesSearchBarWhenScrolling = NO;
+    } else {
+      // For iOS 10 and earlier, place the search controller's search bar in the
+      // table view's header.
+      self.tableView.tableHeaderView = self.searchController.searchBar;
+    }
+
+    self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
+    self.searchController.searchResultsUpdater = self.searchDataSource;
 
     // Get sort settings, and create the sort comparators
     self.sortingEnabled = [[AppSettings sharedInstance] sortAlphabetically];
@@ -126,7 +136,7 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
 
 - (void)viewWillAppear:(BOOL)animated {
   // Update the search bar's placeholder
-  self.searchDisplayController.searchBar.placeholder = [NSString
+  self.searchController.searchBar.placeholder = [NSString
       stringWithFormat:@"%@ %@", NSLocalizedString(@"Search", nil), self.title];
 
   NSArray *selectedIndexPaths = [self.tableView indexPathsForSelectedRows];
@@ -191,6 +201,17 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
   [super viewWillAppear:animated];
 }
 
+- (void)willPresentSearchController:(UISearchController *)searchController {
+  self.tableView.dataSource = self.searchDataSource;
+  self.tableView.delegate = self.searchDataSource;
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController {
+  self.tableView.dataSource = self;
+  self.tableView.delegate = self;
+  [self.tableView reloadData];
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
 
@@ -242,11 +263,7 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
 
 - (NSArray *)editingToolbarItems {
   if (_editingToolbarItems == nil) {
-    //        self.deleteButton = [[UIBarButtonItem alloc]
-    //        initWithTitle:NSLocalizedString(@"Delete", nil)
-    //                                                             style:UIBarButtonItemStyleBordered
-    //                                                            target:self
-    //                                                            action:@selector(deleteSelectedItems)];
+
     self.deleteButton = [[UIBarButtonItem alloc]
         initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
                              target:self
@@ -257,11 +274,6 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
                                                   alpha:1];
     self.deleteButton.enabled = NO;
 
-    //        self.moveButton = [[UIBarButtonItem alloc]
-    //        initWithTitle:NSLocalizedString(@"Move", nil)
-    //                                                           style:UIBarButtonItemStyleBordered
-    //                                                          target:self
-    //                                                          action:@selector(moveSelectedItems)];
     self.moveButton =
         [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"move"]
                                          style:UIBarButtonItemStylePlain
@@ -269,11 +281,6 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
                                         action:@selector(moveSelectedItems)];
     self.moveButton.enabled = NO;
 
-    //        self.renameButton = [[UIBarButtonItem alloc]
-    //        initWithTitle:NSLocalizedString(@"Rename", nil)
-    //                                                             style:UIBarButtonItemStyleBordered
-    //                                                            target:self
-    //                                                            action:@selector(renameSelectedItem)];
     self.renameButton =
         [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"rename"]
                                          style:UIBarButtonItemStylePlain
@@ -351,13 +358,30 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
 }
 
 - (void)pushViewControllerForEntry:(KdbEntry *)entry {
+
+  if (@available(iOS 11.0, *)) {
+    // For iOS 11 and later, place the search bar in the navigation bar.
+
+  } else {
+    // For iOS 10 and earlier, place the search controller's search bar in the
+    // table view's header.
+    if (self.searchController.active)
+      [self.searchController setActive:NO];
+  }
+
   EntryViewController *entryViewController =
       [[EntryViewController alloc] initWithStyle:UITableViewStyleGrouped];
   entryViewController.entry = entry;
   entryViewController.title = entry.title;
 
+  [CATransaction begin];
+  [CATransaction setCompletionBlock:^{
+    if (self.searchController.active)
+      [self.searchController setActive:NO];
+  }];
   [self.navigationController pushViewController:entryViewController
                                        animated:YES];
+  [CATransaction commit];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -377,13 +401,13 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
 
   if (editing) {
     [self.navigationItem setHidesBackButton:YES animated:YES];
-    [self setSeachBar:self.searchDisplayController.searchBar enabled:NO];
+    [self setSeachBar:self.searchController.searchBar enabled:NO];
 
     self.toolbarItems = self.editingToolbarItems;
     [self updateEditingButtons];
   } else {
     [self.navigationItem setHidesBackButton:NO animated:YES];
-    [self setSeachBar:self.searchDisplayController.searchBar enabled:YES];
+    [self setSeachBar:self.searchController.searchBar enabled:YES];
 
     self.toolbarItems = self.standardToolbarItems;
   }
@@ -601,7 +625,7 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
     UIAlertController *actionSheetCon = [UIAlertController
         alertControllerWithTitle:prompt
                          message:nil
-                  preferredStyle:UIAlertControllerStyleActionSheet];
+                  preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelOKAction =
         [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
                                  style:UIAlertActionStyleCancel
@@ -1102,6 +1126,10 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
 
 - (void)updateCredentialStore {
   if (@available(iOS 12.0, *)) {
+    // check first if quick unlock via biometrics is available, if not, don't
+    // use ASCredentialIdentityStore
+    if (![KPBiometrics hasBiometrics])
+      return;
     ASCredentialIdentityStore *store = [ASCredentialIdentityStore sharedStore];
     [store getCredentialIdentityStoreStateWithCompletion:^(
                ASCredentialIdentityStoreState *_Nonnull state) {
@@ -1112,7 +1140,7 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
               if (success) {
                 NSArray<ASPasswordCredentialIdentity *> *credentials =
                     [NSArray array];
-                NSArray<KdbEntry *> *arr = _group.allEntries;
+                NSArray<KdbEntry *> *arr = self->_group.allEntries;
                 for (KdbEntry *entry in arr) {
                   if (entry.url.length > 0) {
                     ASCredentialServiceIdentifier *identifier =
@@ -1132,9 +1160,7 @@ enum { SECTION_GROUPS, SECTION_ENTRIES, NUM_SECTIONS };
                                      completion:^(BOOL success,
                                                   NSError *_Nullable error) {
                                        if (success) {
-#ifdef DEBUG
-                                         NSLog(@"saved credentials");
-#endif
+                                         DLog(@"saved credentials");
                                        }
                                      }];
               }

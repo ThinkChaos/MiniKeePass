@@ -254,7 +254,7 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 // Local, FTP Dropbox Syncing
 - (void)syncPressed {
   UIAlertController *alertCon = [UIAlertController
-      alertControllerWithTitle:@"Synchronisation"
+      alertControllerWithTitle:NSLocalizedString(@"Synchronisation", nil)
                        message:NSLocalizedString(
                                    @"Choose one of the following options", nil)
                 preferredStyle:UIAlertControllerStyleActionSheet];
@@ -506,11 +506,18 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
 
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSArray *allFiles = [_databaseFiles arrayByAddingObjectsFromArray:keyFiles];
+  NSURL *groupURL = [fileManager
+      containerURLForSecurityApplicationGroupIdentifier:@"group.keepass-touch"];
+  for (NSString *file in [fileManager contentsOfDirectoryAtPath:groupURL.path
+                                                          error:nil]) {
+    // clear databases only
+    if ([file containsString:@".kdb"] || [file containsString:@".key"]) {
+      [fileManager removeItemAtURL:[groupURL URLByAppendingPathComponent:file]
+                             error:nil];
+    }
+  }
 
   for (NSString *fileName in allFiles) {
-    NSURL *groupURL =
-        [fileManager containerURLForSecurityApplicationGroupIdentifier:
-                         @"group.keepass-touch"];
     NSString *groupdocPath = groupURL.path;
     NSString *dbPath = [groupdocPath stringByAppendingPathComponent:fileName];
     BOOL exists = [fileManager fileExistsAtPath:dbPath];
@@ -629,7 +636,7 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
                     [[UIDocumentMenuViewController alloc]
                         initWithDocumentTypes:@[
                           @"com.kptouch.kdbx", @"com.kptouch.kdb",
-                          @"com.kptouch.key"
+                          @"com.kptouch.key", @"com.apple.keynote.key"
                         ]
                                        inMode:UIDocumentPickerModeImport];
                 documentMenuSelectCon.modalPresentationStyle =
@@ -914,7 +921,11 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
   case SECTION_DATABASE:
     filename = [_databaseFiles objectAtIndex:indexPath.row];
     cell.textLabel.text = filename;
-    cell.textLabel.textColor = [UIColor blackColor];
+    if (@available(iOS 13.0, *)) {
+      cell.textLabel.textColor = UIColor.labelColor;
+    } else {
+      cell.textLabel.textColor = UIColor.blackColor;
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     break;
   case SECTION_KEYFILE:
@@ -971,7 +982,7 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
   }
 
   switch (indexPath.section) {
-  // Database file section
+    // Database file section
   case SECTION_DATABASE:
     if (self.editing == NO) {
       // Load the database
@@ -1022,7 +1033,7 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
   default:
     break;
   }
-  if (!self.editing && indexPath.section != SECTION_DATABASE)
+  if (!self.editing)
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -1151,12 +1162,14 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
     dropboxPath = @"/";
   DBFILESWriteMode *overwriteMode =
       [[DBFILESWriteMode alloc] initWithOverwrite];
-  [[[self.userClient.filesRoutes
+  [[self.userClient.filesRoutes
            uploadUrl:[dropboxPath stringByAppendingString:localFileName]
                 mode:overwriteMode
           autorename:@(YES)
       clientModified:nil
                 mute:@(NO)
+      propertyGroups:nil
+      strictConflict:nil
             inputUrl:[[KeePassTouchAppDelegate documentsDirectory]
                          stringByAppendingPathComponent:localFileName]]
       setResponseBlock:^(DBFILESFileMetadata *_Nullable result,
@@ -1172,18 +1185,19 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
                ofItemAtPath:[[KeePassTouchAppDelegate documentsDirectory]
                                 stringByAppendingPathComponent:localFileName]
                       error:&errorFile];
-          if (_localUniques.count > 0)
-            _localUniques = [_localUniques
-                arrayByRemovingObject:[_localUniques objectAtIndex:0]];
-          currentFile++;
+          if (self->_localUniques.count > 0)
+            self->_localUniques = [self->_localUniques
+                arrayByRemovingObject:[self->_localUniques objectAtIndex:0]];
+          self->currentFile++;
 
           MBProgressHUD *currentHUD = [MBProgressHUD HUDForView:self.view];
-          currentHUD.label.text = [NSString
-              stringWithFormat:@"Sync %ld / %ld", currentFile, allFiles];
+          currentHUD.label.text =
+              [NSString stringWithFormat:@"Sync %ld / %ld", self->currentFile,
+                                         self->allFiles];
           currentHUD.progress = 0.0f;
 
           // Check if process is done
-          if (_localUniques.count == 0)
+          if (self->_localUniques.count == 0)
             [self downloadFilesFromDropbox];
           else
             [self uploadFilesToDropbox];
@@ -1193,12 +1207,7 @@ enum { SECTION_DATABASE, SECTION_KEYFILE, SECTION_NUMBER };
           else if (routeError)
             [self showErrorMessageOnHud:[routeError description]];
         }
-      }] setProgressBlock:^(int64_t bytesUploaded, int64_t totalBytesUploaded,
-                            int64_t totalBytesExpectedToUpload) {
-    float uploadPercentage =
-        (float)totalBytesUploaded / (float)totalBytesExpectedToUpload;
-    [MBProgressHUD HUDForView:self.view].progress = uploadPercentage;
-  }];
+      }];
 }
 
 - (void)downloadFilesFromDropbox {

@@ -17,28 +17,39 @@
 
 #import "ImageSelectionViewController.h"
 
+@interface ImageSelectionViewController ()
+{
+    UIScrollView *_scrollView;
+}
+@end
+
 @implementation ImageSelectionViewController
 
 @synthesize imageSelectionView = _imageSelectionView;
 
-- (id)init {
-    self = [super init];
-    if (self) {
-        self.title = NSLocalizedString(@"Images", nil);
-
-        _imageSelectionView = [[ImageSelectionView alloc] init];
-        _imageSelectionView.layoutDelegate = self;
-        _imageSelectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-
-        UIScrollView *scrollView = [[UIScrollView alloc] init];
-        scrollView.backgroundColor = [UIColor whiteColor];
-        scrollView.alwaysBounceHorizontal = NO;
-        [scrollView addSubview:_imageSelectionView];
-        self.view = scrollView;
-        self.customIndex = 0;
-    }
+- (void)viewDidLoad {
     
-    return self;
+    _scrollView = [[UIScrollView alloc] init];
+    if (@available(iOS 13.0, *)) {
+        _scrollView.backgroundColor = UIColor.systemBackgroundColor;
+    } else {
+        // Fallback on earlier versions
+        _scrollView.backgroundColor = UIColor.whiteColor;
+    }
+    _scrollView.alwaysBounceHorizontal = NO;
+    _imageSelectionView = [[ImageSelectionView alloc] init];
+    _imageSelectionView.layoutDelegate = self;
+    _imageSelectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [_scrollView addSubview:_imageSelectionView];
+    [self.view addSubview:_scrollView];
+    
+    self.title = NSLocalizedString(@"Images", nil);
+    self.customIndex = 0;
+}
+
+- (void)viewDidLayoutSubviews {
+    _scrollView.frame = self.view.bounds;
+    _imageSelectionView.frame = _scrollView.frame;
 }
 
 - (ImageSelectionView *)imageSelectionView {
