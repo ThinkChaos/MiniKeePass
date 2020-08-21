@@ -1,3 +1,8 @@
+This a fork of KeePass Touch (available on the AppStore) with goal to remove ads and features I personally don't use.  
+The original KeePass Touch, is a fork of MiniKeePass. Its source code is available on request to the developer, or in the `keepass-touch-app-store` branch.
+
+---
+
 KeePass Touch
 ===========
 
